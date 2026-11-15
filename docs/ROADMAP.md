@@ -108,8 +108,10 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 - **Rollout:** user play-tests the pilot; then audit and expand to other games one at a time. The earlier parent-only free-text help idea is deferred.
 - **Status:** mapping, spec and approval ✅ · pilot build and verification ✅ · user play-test ⏳ · other games ⬜.
 
-## Stage 8b – Coding island: grades 3 – 6 ⬜
-After the Oli help pilot and the user's play-test of 8a: turns and facing, conditions, functions, variables, binary numbers, sorting and searching algorithms.
+## Stage 8b – Coding island: grades 3 – 6 🟡 draft
+Discussion draft `docs/specs/coding-grade3-6.md`; user ideas, detailed design and approval ⏳. No games built.
+After the Oli help pilot and the user's play-test of 8a: proposed turns and facing, conditions, functions,
+variables, binary numbers, sorting and searching algorithms. Scope and grade placement remain open.
 
 ## Future – Light/dark theme toggle ⬜
 

@@ -400,6 +400,19 @@ Sources: `https://meyda.education.gov.il/files/Mazkirut_Pedagogit/English/curric
   - Bee-Bot, Cubetto and CodeMonkey Jr: absolute arrow cards on a grid → run → watch → fix → repeat.
   - Research on Bee-Bot with 5–6 year olds reports gains in computational thinking.
 
+### Computer science, elementary (Stage 8b source check, 2026-11-15)
+
+- Correction to the 3–6 shorthand above: the ministry's [elementary page](https://pop.education.gov.il/tchumey_daat/computer-science-software-engineering-cyber/elementary/pedagogy-of/software-cyber-engineering-elementary/)
+  explicitly labels its program **grades 4–6**, not 3–6. It links the [June 2021 curriculum PDF](https://meyda.education.gov.il/files/CSIT/Elemetray-June2021-Ver2.pdf).
+  The PDF was read with PDFKit. Page references below are **PDF pages**; printed page numbers are one lower.
+- PDF p.2 maps grade 4 to algorithms, movement, events, loops and conditionals; grade 5 to variables and
+  more conditions; grade 6 to extended loops and modular, reusable blocks. See also pp.19, 29, 42–51,
+  59–68 and 121–128. It presents different progression levels, not a single mandatory sequence for every child.
+- A grade 3 bridge from the existing island is a proposed app choice, not a claim about a grade 3 ministry
+  computer-science requirement. Binary numbers, comparison sorting, binary search and shortest paths are
+  proposed enrichment: this source check did not establish them as named elementary requirements.
+  Re-check their separate curriculum basis before claiming alignment or making them required.
+
 ## Products we learn from (patterns only, never assets — CLAUDE.md)
 
 | Product | Pattern we take |

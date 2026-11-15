@@ -12,6 +12,7 @@ async function openGame(page: Page, game: RegExp) {
 
 test('column: adding and subtracting to 10,000 by keyboard, ones first', async ({ page }) => {
   await openGame(page, /בִּמְאֻנָּךְ/)
+  await expect(page.locator('.g3-col')).toBeVisible()
   for (let i = 0; i < 4; i++) {
     await atQuestion(page, i)
     const label = (await page.locator('.g3-col').getAttribute('aria-label'))!
@@ -19,7 +20,9 @@ test('column: adding and subtracting to 10,000 by keyboard, ones first', async (
     const answer = op === '+' ? Number(a) + Number(b) : Number(a) - Number(b)
     // The child writes the result from the ones column leftward.
     await page.keyboard.type([...String(answer)].reverse().join(''))
+    await expect.poll(async () => (await page.locator('.g3-res').allTextContents()).join('')).toBe(String(answer))
     await page.keyboard.press('Enter')
+    await expect(page.locator('.g3-col')).toHaveClass(/ ok/)
   }
   await expect(page.getByText('אלופים! שלושה כוכבים!')).toBeVisible()
 })

@@ -98,3 +98,8 @@ Why: native-quality English TTS exists on every device and saves ~250 recordings
 **D24 · 2026-11-11 · user** — Math grades 4–6 back to back (refines D23): the three specs (`docs/specs/math-grade4.md`,
 `math-grade5.md`, `math-grade6.md`) are written and approved together, then built one grade after another (5b → 5c → 5d)
 without waiting for a play-test between them. The user plays them after. Each grade still gets its own branch and merge.
+
+**D25 · 2026-11-15 · user** — Oli's game-help FAQ is offline and text-only, a limited exception to spoken
+child-facing instructions. The existing game instruction remains replayable in the same owl's menu. FAQ questions
+retain nikud; answers omit it. Replay and a yellow square close button share a row. Each island keeps its games'
+help in one content file. The clock-setting pilot is play-tested before expanding.

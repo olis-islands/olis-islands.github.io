@@ -9,6 +9,7 @@ import { easierStep, isChallenge } from '../../core/progress/path'
 import { skillLeitner } from '../../core/progress/progress'
 import { useStore } from '../../core/storage/store'
 import { Mascot, type Mood } from '../../ui/Mascot'
+import { OliHelp } from '../../ui/OliHelp'
 import { StickerProgress, goodRounds } from '../../ui/StickerProgress'
 import { findIsland, findSkill } from '../islands'
 import { TopBar } from '../TopBar'
@@ -108,7 +109,10 @@ function Round({ island, skill, game }: { island: IslandDef; skill: SkillDef; ga
         <div className="fb" aria-live="polite">{feedback && phrases[feedback.id]}</div>
       </div>
       <div style={{ marginTop: 16 }}>
-        <Mascot mood={feedback?.mood ?? 'idle'} speak={s.question.say} size={80} text={feedback ? undefined : phrases['app.replay']} />
+        {game.help
+          ? <OliHelp key={`${s.index}:${s.question.itemKey}`} mood={feedback?.mood ?? 'idle'}
+              instruction={s.question.say} entries={game.help(s.question)} />
+          : <Mascot mood={feedback?.mood ?? 'idle'} speak={s.question.say} size={80} text={feedback ? undefined : phrases['app.replay']} />}
       </div>
     </>
   )

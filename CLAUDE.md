@@ -35,6 +35,7 @@ computer-first with touch support.
 | Tooling | ✅ | Vite 8, React 19, TS strict, ESLint, Vitest, Playwright, PWA. `npm run check` and `npm run e2e` green |
 | Core | ✅ | Contracts, session, adaptive + Leitner, progress, IndexedDB store, audio with TTS fallback |
 | UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map, island path, play screen, sticker book |
+| Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games; `docs/specs/oli-help.md` (D25) |
 | Clock island | ✅ built, ⏳ awaiting user play-test | 7 skills, 5 games; spec `docs/specs/clock.md` |
 | Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves via the dev server straight into `src/audio/he/` (D12); user has started recording |
 | Hebrew letters island | ✅ built, ⏳ awaiting user play-test | 13 skills, 3 game components, 190 words; spec `docs/specs/hebrew-letters.md`; 0 of 324 phrases recorded |
@@ -47,17 +48,16 @@ computer-first with touch support.
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
-| Git | ✅ | Stages 0–8a merged to `main` (PR #1–#14). Current work: `stage5d/math-grade6` |
+| Git | ✅ | Math grades 4–6 merged to `main` (PR #16–#18). Current work: Oli help |
 
-Current stage: **Stage 5 built** (math, grades 3–6): PRs #16 (grade 4), #17 (grade 5) and grade 6, stacked. Next: Stage 8b (coding, grades 3–6), then the "ask the app" spec.
+Current stage: **Oli help pilot**; Stage 5 (math, grades 3–6) is built and merged, awaiting user play-test.
 
 ## Next steps
 
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
-1. **User:** merge PR #16 (grade 4), then #17 (grade 5), then the grade 6 PR, in that order (each is stacked on the one before).
-2. **Planner, in the order the user set:** Stage 8b (coding, grades 3–6), then the
-   "ask the app" help spec (a parent types a question, the app finds an answer from a fixed local set).
+1. **User + planner:** play-test and review the clock-setting help pilot in `docs/specs/oli-help.md`. Expand game by game afterwards.
+2. **Planner:** Stage 8b (coding, grades 3–6), after the user plays 8a.
 3. **User:**
    - play-test all islands;
    - record the phrases listed in BACKLOG;

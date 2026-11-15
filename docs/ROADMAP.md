@@ -81,8 +81,8 @@ drawings** suited to the age (SVG illustrations; emoji only where unambiguous). 
 ## Stage 5 – Math: 3rd – 6th grade 🟡 (D23: 5a grade 3 → 5b → 5c → 5d)
 - **5a, grade 3 ✅ built:** spec approved 2026-11-10, `docs/specs/math-grade3.md`. T0 core (sprint rounds, records, numbers to 10,000) ✅ ·
   T1 generators ✅ · T2 games ✅ · T3 art and extensions ✅ · T4 wiring, E2E, screenshots ✅ · user play-test ⏳.
-- **5b grade 4 ✅ built** (`stage5b/math-grade4`): T0 ✅ · T1–T3 ✅ · T4 wiring, E2E, screenshots ✅ · user play-test ⏳.
-- **5c grade 5 ✅ built** (`stage5c/math-grade5`, PR #17) and **5d grade 6 ✅ built** (`stage5d/math-grade6`): T0–T4 ✅ · user play-test ⏳.
+- **5b grade 4 ✅ built and merged** (PR #16): T0 ✅ · T1–T3 ✅ · T4 wiring, E2E, screenshots ✅ · user play-test ⏳.
+- **5c grade 5 ✅ built and merged** (PR #17) and **5d grade 6 ✅ built and merged** (PR #18): T0–T4 ✅ · user play-test ⏳.
 - **Specs (D24):** specs drafted 2026-11-11 (`math-grade4/5/6.md`), one spec each, from the new curriculum summary in `docs/RESEARCH.md` (fractions start
   in grade 4; decimals in 5; percent, decimal ×/÷ and the mean in 6; ratio is no longer taught).
 
@@ -98,7 +98,21 @@ Spec approved 2026-11-10: `docs/specs/parents.md`. T0 ✅ · T1 ✅ · T2/T3 pra
 Spec approved 2026-11-10: `docs/specs/coding.md`. T0 ✅ · T1 content ✅ (full review, 33 findings) · T2 ✅ · T3 ProgramGame ✅ · T4 wiring + E2E + screenshots ✅ · user play-test ⏳. Story algorithms and finding the bug (unplugged style, kindergarten);
 arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 
+## Next priority – Oli's game help 🟡 pilot built
+
+- **Goal:** help children and parents understand what the current game asks and how to use it. Offer a gentle clue for the current exercise without revealing its answer.
+- **Experience:** the existing Oli opens one menu with instruction replay and a short, prepared, game-specific FAQ. Questions retain nikud; text-only Hebrew answers omit it. Replay and a simple × close button share a row. No second owl, typing, chat, AI, server, or network calls.
+- **Content organization:** each island has one Oli help content file containing entries for its games; do not create a separate help file for each game. The menu shows only the entries relevant to the current game and question.
+- **Pilot:** clock-setting games, including hour-only mode. The user approved `docs/specs/oli-help.md`; other clock games, including Oli's day, are outside the pilot.
+- **Fairness:** opening or using help does not penalize stars or mastery. Preserve existing automatic aids.
+- **Rollout:** user play-tests the pilot; then audit and expand to other games one at a time. The earlier parent-only free-text help idea is deferred.
+- **Status:** mapping, spec and approval ✅ · pilot build and verification ✅ · user play-test ⏳ · other games ⬜.
+
 ## Stage 8b – Coding island: grades 3 – 6 ⬜
-After the user plays 8a: turns and facing, conditions, functions, variables, binary numbers, sorting and searching algorithms.
+After the Oli help pilot and the user's play-test of 8a: turns and facing, conditions, functions, variables, binary numbers, sorting and searching algorithms.
+
+## Future – Light/dark theme toggle ⬜
+
+Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.
 
 From Stage 2 onward the planner writes the spec, the user approves it, and up to three builders work in parallel.

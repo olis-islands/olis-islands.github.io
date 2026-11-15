@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type Ref } from 'react'
 import { phrases, say } from '../core/audio/audio'
 import type { PhraseRef } from '../core/engine/types'
 import './mascot.css'
@@ -14,14 +14,17 @@ interface Props {
   /** What to speak on click, when not `line`. */
   speak?: PhraseRef
   size?: number
+  action?: { onClick: () => void; expanded: boolean; controls: string }
+  owlRef?: Ref<HTMLButtonElement>
 }
 
-/** Oli the owl. Clicking replays what it said. */
-export function Mascot({ mood = 'idle', line, text = line && phrases[line], speak = line, size = 120 }: Props) {
+/** Oli the owl. By default, clicking replays what it said. */
+export function Mascot({ mood = 'idle', line, text = line && phrases[line], speak = line, size = 120, action, owlRef }: Props) {
   const [talking, setTalking] = useState(false)
   const shown: Mood = talking ? 'talking' : mood
 
   const onClick = async () => {
+    if (action) return action.onClick()
     if (!speak) return
     setTalking(true)
     await say(speak)
@@ -29,12 +32,13 @@ export function Mascot({ mood = 'idle', line, text = line && phrases[line], spea
   }
 
   return (
-    <div className={`mascot mood-${shown}${speak ? ' can-speak' : ''}`}>
-      <button className="mascot-owl" onClick={onClick} aria-label={text ?? 'ינשוף'} disabled={!speak} style={{ width: size }}>
+    <div className={`mascot mood-${shown}${speak || action ? ' can-speak' : ''}`}>
+      <button ref={owlRef} className="mascot-owl" onClick={onClick} aria-label={text ?? 'ינשוף'} disabled={!speak && !action}
+        aria-expanded={action?.expanded} aria-controls={action?.controls} style={{ width: size }}>
         <Owl mood={shown} />
       </button>
       {/* Clicking the bubble replays too (a mouse convenience; the owl is the keyboard-reachable button). */}
-      {text && <p className="bubble" aria-live="polite" onClick={speak ? onClick : undefined}>{text}</p>}
+      {text && <p className="bubble" aria-live="polite" onClick={speak || action ? onClick : undefined}>{text}</p>}
     </div>
   )
 }

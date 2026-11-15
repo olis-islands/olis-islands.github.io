@@ -41,6 +41,11 @@ export interface GameProps<Q extends Question> {
   onAttempt: (correct: boolean) => void
 }
 
+export interface HelpEntry {
+  question: string
+  answer: string
+}
+
 export interface GameDef<Q extends Question = Question> {
   id: string
   /** Child-facing title. */
@@ -48,6 +53,8 @@ export interface GameDef<Q extends Question = Question> {
   icon: string
   generate: QuestionGenerator<Q>
   component: ComponentType<GameProps<Q>>
+  /** Prepared, text-only help for the current question. */
+  help?: (question: Q) => readonly HelpEntry[]
   /** Optional: is this item key valid for this game (used to accept review items). */
   accepts?: (itemKey: string) => boolean
   /** Questions per round, when different from the default. */

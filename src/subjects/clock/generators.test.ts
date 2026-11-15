@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { seeded } from '../../core/engine/random'
+import { setHelp } from './content/help'
+import { island } from './index'
 import { phrases } from './phrases'
 import { dayQuestion, handQuestion, matchQuestion, readQuestion, setQuestion } from './generators'
 import { LEVELS, hourAngle, minuteAngle, sameTime, timeKey } from './time'
@@ -29,6 +31,24 @@ describe('clock generators', () => {
       const gap = Math.abs(hourAngle(q.start) - minuteAngle(q.start)) % 360
       expect(Math.min(gap, 360 - gap)).toBeGreaterThanOrEqual(45)
       for (const id of q.say) expect(phrases[id]).toBeDefined()
+    }
+  })
+
+  it('set help matches the movable hands and does not depend on the target time', () => {
+    for (const hourOnly of [true, false]) {
+      const expected = setHelp(setQuestion(ctx(1), LEVELS.hours, hourOnly))
+      for (let seed = 2; seed < 100; seed++) {
+        expect(setHelp(setQuestion(ctx(seed), LEVELS.hours, hourOnly))).toEqual(expected)
+      }
+      expect(expected[0]!.answer.includes('המחוגים')).toBe(!hourOnly)
+      expect(expected[1]!.answer.includes('רק את המחוג הקצר')).toBe(hourOnly)
+      for (const entry of expected) {
+        expect(entry.question).toMatch(/[\u0591-\u05bd\u05bf-\u05c7]/)
+        expect(entry.answer).not.toMatch(/[\u0591-\u05bd\u05bf-\u05c7]/)
+      }
+    }
+    for (const skill of island.skills) {
+      for (const game of skill.games) expect(!!game.help).toBe(game.id === 'set')
     }
   })
 

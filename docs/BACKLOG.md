@@ -5,7 +5,7 @@ Open work that is not a roadmap stage, so any agent (or the user, another day) c
 
 ## Waiting for the user
 
-- **Push and merge** these branches in order: `stage8/coding` (coding island, spoken island names, the "אב" icon), then `stage7/parents` when it is built.
+- **Play-test Oli's clock-setting help pilot** before expanding help to other games (`docs/specs/oli-help.md`).
 - **Play-test and approve** the clock, letters, reading, numbers, thinking, English and coding islands. After the clock is approved, delete `legacy/`.
 - **Record in the studio** (`npm run dev` → `#/studio`):
   - **The mascot is now אוֹלִי (D21).** Re-record the 25 phrases that say his name: `app.hello`, `clock.day.wake`, and the read-along books (titles, pages and questions of butterfly, elephant, winter, kindergarten and key). They show as missing in the studio.
@@ -33,4 +33,4 @@ When content changes, check new words the same way: WebSearch with `allowed_doma
 - **Link preview image:** `public/og.png` is rendered from `scripts/og.html` with `node scripts/make-og.mjs`. Re-render after changing the owl or the title.
 - `src/subjects/coding/board.tsx` `RoboOli`: the eye colors `#fff` and `#1f2a5c` are hard-coded, the same as in `Mascot.tsx`. Move both to theme tokens.
 - **Coding island, Stage 8b (grades 3–6):** conditions, functions, variables, binary numbers, sorting and searching. Plan it after the user plays 8a.
-- **Later stages:** Stage 5b–5d (math grades 4–6, one per spec, D23), Stage 2b (letter tracing, print first).
+- **Later stage:** Stage 2b (letter tracing, print first).

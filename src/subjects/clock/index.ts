@@ -1,4 +1,5 @@
 import { defineGame, type GameDef, type IslandDef, type SkillDef } from '../../core/engine/types'
+import { setHelp } from './content/help'
 import { HandGame, MatchGame, ReadGame, SetGame } from './games'
 import { accepts, dayQuestion, handQuestion, matchQuestion, readQuestion, setQuestion } from './generators'
 import { phrases } from './phrases'
@@ -41,7 +42,7 @@ const read = (level: Level): GameDef => defineGame({
 
 const set = (level: Level, hourOnly = false): GameDef => defineGame({
   id: 'set', title: 'כַּוְּנוּ אֶת הַשָּׁעוֹן', icon: '✋', component: SetGame, accepts: accepts(level),
-  generate: ctx => setQuestion(ctx, level, hourOnly),
+  generate: ctx => setQuestion(ctx, level, hourOnly), help: setHelp,
 })
 
 const match = (level: Level): GameDef => defineGame({

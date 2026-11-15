@@ -12,18 +12,26 @@ async function openGame(page: Page, game: RegExp) {
 
 const placeParts = (n: number) => [...String(n)].flatMap((d, i, s) => (d === '0' ? [] : [Number(d) * 10 ** (s.length - 1 - i)]))
 
+async function enterSlot(page: Page, value: number, last: boolean) {
+  await page.keyboard.type(String(value))
+  await expect.poll(async () => Number((await page.locator('.g4-slot.cur').innerText()).replaceAll(',', ''))).toBe(value)
+  await page.keyboard.press('Enter')
+  if (last) await expect(page.locator('.g4-slot').first()).toBeDisabled()
+  else await expect(page.locator('.g4-slot.cur')).toBeFocused()
+}
+
 test('area model: each part, then the total, by keyboard', async ({ page }) => {
   await openGame(page, /מוֹדֶל הַשֶּׁטַח/)
+  await expect(page.locator('.g4-area')).toBeVisible()
   for (let i = 0; i < 4; i++) {
     await atQuestion(page, i)
     const [, a, b] = /(\d+) × (\d+)/.exec((await page.locator('.g4-area').getAttribute('aria-label'))!)!
     // Cells are filled row by row (b's parts), each row across a's parts; Enter moves on, and on the total it checks.
-    for (const r of placeParts(Number(b))) for (const c of placeParts(Number(a))) {
-      await page.keyboard.type(String(r * c))
-      await page.keyboard.press('Enter')
+    const products = placeParts(Number(b)).flatMap(r => placeParts(Number(a)).map(c => r * c))
+    for (let slot = 0; slot < products.length; slot++) {
+      await enterSlot(page, products[slot]!, false)
     }
-    await page.keyboard.type(String(Number(a) * Number(b)))
-    await page.keyboard.press('Enter')
+    await enterSlot(page, Number(a) * Number(b), true)
   }
   await expect(page.getByText('אלופים! שלושה כוכבים!')).toBeVisible()
 })
@@ -59,14 +67,24 @@ test('shade: tapping parts of a shape to show a fraction', async ({ page }) => {
 
 test('quadrilaterals: a full round, trying again after a miss', async ({ page }) => {
   await openGame(page, /אֵיךְ קוֹרְאִים לוֹ/)
+  let missed = false
   for (let i = 0; i < 6; i++) {
     await atQuestion(page, i)
-    for (const name of ['רִבּוּעַ', 'מַלְבֵּן', 'מְעֻיָּן', 'מַקְבִּילִית', 'טְרַפֵּז']) {
-      if ((await page.locator('.dot.done').count()) > i) break
-      const option = page.getByRole('button', { name, exact: true })
-      if ((await option.count()) && await option.isEnabled()) await option.click()
-      await page.waitForTimeout(150)
+    await expect(page.locator('.pk-opt').first()).toBeVisible()
+    let answered = false
+    for (const option of await page.locator('.pk-opt').all()) {
+      if (await option.isDisabled()) continue
+      await option.click()
+      await expect(option).toHaveClass(/(?:^|\s)(?:bad|ok)(?:\s|$)/)
+      const classes = (await option.getAttribute('class'))!.split(/\s+/)
+      if (classes.includes('ok')) {
+        answered = true
+        break
+      }
+      if (classes.includes('bad')) missed = true
     }
+    expect(answered).toBe(true)
   }
+  expect(missed).toBe(true)
   await expect(page.locator('.pop').first()).toBeVisible()
 })

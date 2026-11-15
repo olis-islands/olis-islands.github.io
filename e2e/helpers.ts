@@ -31,7 +31,10 @@ export async function master(page: Page, skillIds: readonly string[]) {
 }
 
 /** Wait until the round has reached question `i` (fixed sleeps were flaky under load). */
-export const atQuestion = (page: Page, i: number) => expect(page.locator('.dot.done')).toHaveCount(i)
+export async function atQuestion(page: Page, i: number) {
+  await expect(page.locator('.dot.now')).toHaveCount(1, { timeout: 10_000 })
+  await expect(page.locator('.dot.done')).toHaveCount(i, { timeout: 10_000 })
+}
 
 /** Reads the number written in words and types it, as a parent would. */
 export async function passGate(page: Page) {

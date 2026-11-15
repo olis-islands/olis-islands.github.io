@@ -36,7 +36,7 @@ legacy/                     original prototype, reference only, never imported
 ```
 IslandDef  { id, order, title, icon, color, skills: SkillDef[], phrases, comingSoon? }
 SkillDef   { id, title, grade, requires: skillId[], sticker, games: GameDef[] }
-GameDef<Q> { id, title, icon, generate: (ctx) => Q, component: (GameProps<Q>) => JSX, accepts?, roundLength? }
+GameDef<Q> { id, title, icon, generate: (ctx) => Q, component: (GameProps<Q>) => JSX, accepts?, roundLength?, help? }
 Question<A>{ itemKey, answer: A, say: PhraseRef }
 GameProps<Q>{ question: Q, aid: boolean, onAttempt(correct: boolean) }
 ```
@@ -53,6 +53,9 @@ GameProps<Q>{ question: Q, aid: boolean, onAttempt(correct: boolean) }
   question. It calls `onAttempt(false)` for each wrong try and `onAttempt(true)` once when solved, then
   ignores further input. It never decides when the round ends, never awards stars, never stores anything.
 - **`defineGame({...})`** type-checks the game against its own question type. Always wrap games with it.
+- **`help(question)`**, when provided, selects prepared text-only FAQ entries for that question. The play screen
+  integrates them into the existing owl with instruction replay; games without help retain direct replay. Each
+  island keeps help for its games in one content file (D25). Help does not submit attempts.
 
 ## A round, end to end
 

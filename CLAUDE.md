@@ -35,7 +35,7 @@ computer-first with touch support.
 | Tooling | ✅ | Vite 8, React 19, TS strict, ESLint, Vitest, Playwright, PWA. `npm run check` and `npm run e2e` green |
 | Core | ✅ | Contracts, session, adaptive + Leitner, progress, IndexedDB store, audio with TTS fallback |
 | UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map, island path, play screen, sticker book |
-| Oli help | 🟡 approved spec | Offline, text-only clock-setting pilot planned; `docs/specs/oli-help.md` (D25) |
+| Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games; `docs/specs/oli-help.md` (D25) |
 | Clock island | ✅ built, ⏳ awaiting user play-test | 7 skills, 5 games; spec `docs/specs/clock.md` |
 | Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves via the dev server straight into `src/audio/he/` (D12); user has started recording |
 | Hebrew letters island | ✅ built, ⏳ awaiting user play-test | 13 skills, 3 game components, 190 words; spec `docs/specs/hebrew-letters.md`; 0 of 324 phrases recorded |
@@ -50,13 +50,13 @@ computer-first with touch support.
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
 | Git | ✅ | Math grades 4–6 merged to `main` (PR #16–#18). Current work: Oli help |
 
-Current stage: **Oli help planning**; Stage 5 (math, grades 3–6) is built and merged, awaiting user play-test.
+Current stage: **Oli help pilot**; Stage 5 (math, grades 3–6) is built and merged, awaiting user play-test.
 
 ## Next steps
 
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
-1. **Planner + user:** build and verify the approved clock-setting help pilot in `docs/specs/oli-help.md`, then play-test it before expanding game by game.
+1. **User + planner:** play-test and review the clock-setting help pilot in `docs/specs/oli-help.md`. Expand game by game afterwards.
 2. **Planner:** Stage 8b (coding, grades 3–6), after the user plays 8a.
 3. **User:**
    - play-test all islands;

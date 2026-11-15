@@ -1,6 +1,6 @@
 # Spec: Oli's game help
 
-- **Status:** Approved by user on 2026-11-15; pilot implementation and user play-test pending.
+- **Status:** Approved by user on 2026-11-15; pilot built and verified, awaiting user play-test.
 - **Stage:** Next priority, `docs/ROADMAP.md`.
 - **Relies on:** D2, D3, D5, D7, D9, D19, D21, D23 and `docs/specs/clock.md`.
 

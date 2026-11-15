@@ -98,7 +98,7 @@ Spec approved 2026-11-10: `docs/specs/parents.md`. T0 ✅ · T1 ✅ · T2/T3 pra
 Spec approved 2026-11-10: `docs/specs/coding.md`. T0 ✅ · T1 content ✅ (full review, 33 findings) · T2 ✅ · T3 ProgramGame ✅ · T4 wiring + E2E + screenshots ✅ · user play-test ⏳. Story algorithms and finding the bug (unplugged style, kindergarten);
 arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 
-## Next priority – Oli's game help 🟡 approved spec
+## Next priority – Oli's game help 🟡 pilot built
 
 - **Goal:** help children and parents understand what the current game asks and how to use it. Offer a gentle clue for the current exercise without revealing its answer.
 - **Experience:** the existing Oli opens one menu with instruction replay and a short, prepared, game-specific FAQ. Questions retain nikud; text-only Hebrew answers omit it. Replay and a simple × close button share a row. No second owl, typing, chat, AI, server, or network calls.
@@ -106,7 +106,7 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 - **Pilot:** clock-setting games, including hour-only mode. The user approved `docs/specs/oli-help.md`; other clock games, including Oli's day, are outside the pilot.
 - **Fairness:** opening or using help does not penalize stars or mastery. Preserve existing automatic aids.
 - **Rollout:** user play-tests the pilot; then audit and expand to other games one at a time. The earlier parent-only free-text help idea is deferred.
-- **Status:** mapping, spec and approval ✅ · pilot build and verification ⬜ · user play-test ⏳ · other games ⬜.
+- **Status:** mapping, spec and approval ✅ · pilot build and verification ✅ · user play-test ⏳ · other games ⬜.
 
 ## Stage 8b – Coding island: grades 3 – 6 ⬜
 After the Oli help pilot and the user's play-test of 8a: turns and facing, conditions, functions, variables, binary numbers, sorting and searching algorithms.

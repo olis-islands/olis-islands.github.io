@@ -308,11 +308,15 @@ export function SearchGame({ question, aid, onAttempt }: GameProps<SearchQ>) {
     <div className="av-stage">
       <p className="pk-q">{phrases[question.instruction]}</p>
       <p className="av-target">{advancedPhrases['code.ui.target']}: <strong>{scenario.target}</strong></p>
+      <p className="av-caption">{advancedPhrases['code.ui.searchBoxes']}</p>
       <div className="av-boxes" dir="ltr" role="group" aria-label={advancedPhrases['code.ui.searchBoxes'] ?? ''}>
         {scenario.values.map((value, index) => {
           const revealed = scenario.revealed.includes(index)
+          const isCandidate = candidates.includes(index)
+          const ruledOut = !revealed && !isCandidate
           return (
-            <button key={index} className={`av-box${wrong.includes(index) ? ' av-wrong' : ''}${candidates.includes(index) ? ' av-candidate' : ''}`}
+            <button key={index}
+              className={`av-box${wrong.includes(index) ? ' av-wrong' : ''}${isCandidate ? ' av-candidate' : ''}${ruledOut ? ' av-ruled-out' : ''}`}
               type="button" disabled={solved || wrong.includes(index)} onClick={() => choose(index)}
               aria-label={`${advancedPhrases['code.ui.box']} ${index + 1}: ${revealed ? value : advancedPhrases['code.ui.hidden']}`}>
               <span>{index + 1}</span><strong>{revealed ? value : '?'}</strong>

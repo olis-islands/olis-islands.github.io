@@ -9,6 +9,7 @@
 .av-choice:disabled, .av-button:disabled, .av-bit:disabled, .av-box:disabled { opacity: .6; cursor: default; }
 .av-selected, .av-candidate { border-color: var(--code); box-shadow: 0 0 0 3px color-mix(in srgb, var(--code) 32%, transparent); }
 .av-wrong { border-color: var(--bad); background: var(--sand); }
+.av-ruled-out { opacity: .55; }
 .av-branch { display: grid; gap: 8px; padding-block: 8px; border-block-start: 2px dashed var(--line); }
 .av-branch p { margin: 0; font-weight: 800; }
 .av-button { min-width: var(--tap); min-height: var(--tap); padding-inline: 16px; }

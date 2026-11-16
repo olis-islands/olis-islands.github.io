@@ -1,15 +1,19 @@
 .map-group { display: grid; gap: 12px; }
 .map-group h2 { margin: 0 8px; font-size: 20px; color: var(--mute); text-align: center; }
 .map {
-  margin-top: 20px; padding: 44px 32px 56px; display: grid; gap: 56px; align-content: center; min-height: 420px;
+  margin-top: 20px; padding: 44px 32px 56px; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 24px;
+  align-content: center; justify-items: center; min-height: 420px;
   background: radial-gradient(ellipse at 50% 40%, var(--bg-sea), var(--bg) 85%);
   border-radius: 36px; border: 3px solid var(--line); overflow: hidden;
 }
-/* Even spacing that never overlaps; every other island sits a little lower, like islands on a sea. */
-.map-row { display: flex; flex-wrap: wrap; justify-content: space-evenly; align-items: flex-start; gap: 40px 32px; }
-.map-row .island:nth-child(even) { margin-top: 34px; }
+.map--3, .map--4 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 8px; }
+.map--3 .island:first-child, .map--4 .island:first-child { grid-column: 2; grid-row: 1; }
+.map--3 .island:nth-child(2), .map--4 .island:nth-child(2) { grid-column: 1; grid-row: 2; }
+.map--3 .island:nth-child(3), .map--4 .island:nth-child(3) { grid-column: 3; grid-row: 2; }
+.map--4 .island:nth-child(4) { grid-column: 2; grid-row: 3; }
 .island {
-  display: grid; justify-items: center; gap: 2px; width: 190px;
+  display: grid; justify-items: center; gap: 2px; width: 190px; max-width: 100%; min-height: var(--tap);
   background: var(--sand); border: 4px solid var(--c); border-radius: 48% 52% 46% 54% / 55% 45% 55% 45%;
   padding: 14px 20px 12px; cursor: pointer; box-shadow: 0 8px 0 var(--c);
   transition: transform .15s;
@@ -23,7 +27,9 @@
 .island.soon { filter: grayscale(.7); opacity: .8; }
 @media (max-width: 700px) {
   .map { padding: 22px; gap: 22px; }
-  .map-row { flex-direction: column; align-items: center; gap: 22px; }
-  .map-row .island:nth-child(even) { margin-top: 0; }
-  .island { width: 100%; }
+  .map--3, .map--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px 8px; }
+  .map--3 .island:first-child, .map--4 .island:first-child { grid-column: 2 / 4; }
+  .map--3 .island:nth-child(2), .map--4 .island:nth-child(2) { grid-column: 1 / 3; }
+  .map--3 .island:nth-child(3), .map--4 .island:nth-child(3) { grid-column: 3 / 5; }
+  .map--4 .island:nth-child(4) { grid-column: 2 / 4; }
 }

@@ -8,12 +8,6 @@ import { islandPhrase, islands } from '../islands'
 import { TopBar } from '../TopBar'
 import './map.css'
 
-// Islands sit in rows on the sea (4 over 3 for seven, 3 over 3 for six), evenly spaced; every other island is set
-// a little lower so the rows read as an archipelago, not a table. Rows wrap on narrow screens (map.css).
-const rowsOf = <T,>(items: readonly T[]): T[][] => {
-  const top = items.length <= 6 ? Math.min(3, items.length) : Math.ceil(items.length / 2)
-  return [items.slice(0, top), items.slice(top)].filter(r => r.length)
-}
 /** A mouse resting on an island says its name (pre-readers); a passing pointer says nothing. */
 const HOVER_SAY_MS = 400
 
@@ -54,19 +48,15 @@ export function MapScreen() {
       <Mascot line="app.pickIsland" size={96} />
       <section className="map-group">
         <h2>אִיֵּי הַיְּסוֹד</h2>
-        <div className="map">
-          {rowsOf(base).map((row, r) => (
-            <div key={r} className="map-row">{row.map(renderIsland)}</div>
-          ))}
+        <div className={`map map--${base.length}`}>
+          {base.map(renderIsland)}
         </div>
       </section>
       {advanced.length > 0 && (
         <section className="map-group">
           <h2>אִיֵּי הֶמְשֵׁךְ</h2>
-          <div className="map">
-            {rowsOf(advanced).map((row, r) => (
-              <div key={r} className="map-row">{row.map(renderIsland)}</div>
-            ))}
+          <div className={`map map--${advanced.length}`}>
+            {advanced.map(renderIsland)}
           </div>
         </section>
       )}

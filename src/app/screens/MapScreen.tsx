@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { IslandDef } from '../../core/engine/types'
 import { say } from '../../core/audio/audio'
 import { useStore } from '../../core/storage/store'
 import { Mascot } from '../../ui/Mascot'
@@ -23,36 +24,52 @@ export function MapScreen() {
   const hoverEnd = () => { if (hover.current) clearTimeout(hover.current) }
   useEffect(() => hoverEnd, [])
 
+  const renderIsland = (island: IslandDef) => {
+    const mastered = island.skills.filter(s => progress.skills[s.id]?.mastered).length
+    return (
+      <button key={island.id} className={`island${island.comingSoon ? ' soon' : ''}`}
+        style={{ ['--c' as string]: `var(${island.color})` }}
+        onPointerEnter={e => {
+          if (e.pointerType !== 'mouse') return
+          hoverEnd()
+          hover.current = setTimeout(() => void say(islandPhrase(island.id)), HOVER_SAY_MS)
+        }}
+        onPointerLeave={hoverEnd}
+        onClick={() => { hoverEnd(); if (island.comingSoon) void say('app.soon'); else navigate(`/island/${island.id}`) }}>
+        <span className={`island-icon${/[א-ת]/.test(island.icon) ? ' island-letters' : ''}`}>{island.icon}</span>
+        <b>{island.title}</b>
+        {island.comingSoon
+          ? <small>🚧 בקרוב</small>
+          : <small>{mastered}/{island.skills.length} 🏅</small>}
+      </button>
+    )
+  }
+
+  const base = islands.filter(i => i.tier === 'base')
+  const advanced = islands.filter(i => i.tier === 'advanced')
+
   return (
     <>
       <TopBar title="הָאִיִּים שֶׁל אוֹלִי" back={null} />
       <Mascot line="app.pickIsland" size={96} />
-      <div className="map">
-        {rowsOf(islands).map((row, r) => (
-        <div key={r} className="map-row">
-        {row.map(island => {
-          const mastered = island.skills.filter(s => progress.skills[s.id]?.mastered).length
-          return (
-            <button key={island.id} className={`island${island.comingSoon ? ' soon' : ''}`}
-              style={{ ['--c' as string]: `var(${island.color})` }}
-              onPointerEnter={e => {
-                if (e.pointerType !== 'mouse') return
-                hoverEnd()
-                hover.current = setTimeout(() => void say(islandPhrase(island.id)), HOVER_SAY_MS)
-              }}
-              onPointerLeave={hoverEnd}
-              onClick={() => { hoverEnd(); if (island.comingSoon) void say('app.soon'); else navigate(`/island/${island.id}`) }}>
-              <span className={`island-icon${/[א-ת]/.test(island.icon) ? ' island-letters' : ''}`}>{island.icon}</span>
-              <b>{island.title}</b>
-              {island.comingSoon
-                ? <small>🚧 בקרוב</small>
-                : <small>{mastered}/{island.skills.length} 🏅</small>}
-            </button>
-          )
-        })}
+      <section className="map-group">
+        <h2>אִיֵּי הַיְּסוֹד</h2>
+        <div className="map">
+          {rowsOf(base).map((row, r) => (
+            <div key={r} className="map-row">{row.map(renderIsland)}</div>
+          ))}
         </div>
-        ))}
-      </div>
+      </section>
+      {advanced.length > 0 && (
+        <section className="map-group">
+          <h2>אִיֵּי הֶמְשֵׁךְ</h2>
+          <div className="map">
+            {rowsOf(advanced).map((row, r) => (
+              <div key={r} className="map-row">{row.map(renderIsland)}</div>
+            ))}
+          </div>
+        </section>
+      )}
     </>
   )
 }

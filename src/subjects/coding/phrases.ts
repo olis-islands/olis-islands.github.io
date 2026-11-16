@@ -2,6 +2,7 @@ import type { PhraseMap } from '../../core/engine/types'
 import { MOVE_NAMES, MOVES } from './content/patterns'
 import { STORIES } from './content/stories'
 import { C, movePhrase, otherPhrase, stepPhrase, storyPhrase, wrongPhrase } from './ids'
+import { advancedPhrases } from './advanced-phrases'
 
 const INSTRUCTIONS: Record<string, string> = {
   [C.steps]: 'מָה עוֹשִׂים קֹדֶם, וּמָה אַחַר כָּךְ? סַדְּרוּ מִמִּסְפָּר אַחַת.',
@@ -40,4 +41,5 @@ export const phrases: PhraseMap = {
     [otherPhrase(s.id, 1), s.notMissing[1].text] as const,
   ])),
   ...Object.fromEntries(Object.values(MOVES).map(key => [movePhrase(key), MOVE_NAMES[key] ?? ''])),
+  ...advancedPhrases,
 }

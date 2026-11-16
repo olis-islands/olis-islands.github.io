@@ -10,6 +10,11 @@ describe('island names on the map', () => {
       if (island.id !== 'english') expect(said, island.id).toBe(island.title)
     }
   })
+  it('groups the map into a base tier (clock, numbers, letters, thinking) and an advanced tier for the rest', () => {
+    const byId = (id: string) => islands.find(i => i.id === id)?.tier
+    for (const id of ['clock', 'math', 'hebrew', 'thinking']) expect(byId(id), id).toBe('base')
+    for (const id of ['reading', 'english', 'coding']) expect(byId(id), id).toBe('advanced')
+  })
 })
 
 describe('names inside an island', () => {

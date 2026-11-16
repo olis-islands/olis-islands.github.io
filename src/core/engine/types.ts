@@ -99,6 +99,8 @@ export interface IslandDef {
   color: string
   skills: readonly SkillDef[]
   phrases: PhraseMap
+  /** Map grouping: "base" (clock, numbers, letters, thinking) shows first, "advanced" shows after. */
+  tier: 'base' | 'advanced'
   /** Optional: one plain-Hebrew sentence for parents on practising this island at home (parents' page, D18). */
   homeTip?: string
   /** Shown on the map but not playable yet. */

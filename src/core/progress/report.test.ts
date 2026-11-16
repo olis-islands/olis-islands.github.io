@@ -5,7 +5,7 @@ import { practiceItems, skillStatus, summary } from './report'
 
 const DAY = 24 * 60 * 60 * 1000
 const skill = (id: string, requires: string[] = []): SkillDef => ({ id, title: id, grade: 1, requires, sticker: '⭐', games: [] })
-const island: IslandDef = { id: 'i', order: 1, title: 'i', icon: 'i', color: '--c', phrases: {}, skills: [skill('a'), skill('b', ['a']), skill('c')] }
+const island: IslandDef = { id: 'i', order: 1, tier: 'base', title: 'i', icon: 'i', color: '--c', phrases: {}, skills: [skill('a'), skill('b', ['a']), skill('c')] }
 
 const progress = (): Progress => ({
   ...emptyProgress(),

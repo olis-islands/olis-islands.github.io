@@ -68,6 +68,7 @@ const game = <Q extends Question>(def: GameDef<Q>) => defineGame(def)
 export const island: IslandDef = {
   id: 'thinking',
   order: 5,
+  tier: 'base',
   title: 'אִי הַחֲשִׁיבָה',
   icon: '🧩',
   color: '--think',

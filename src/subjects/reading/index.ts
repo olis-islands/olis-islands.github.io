@@ -72,6 +72,7 @@ const vowelSkill = (vowel: Vowel, title: string, sticker: string) => ({
 export const island: IslandDef = {
   id: 'reading',
   order: 3,
+  tier: 'advanced',
   title: 'אִי הַקְּרִיאָה',
   icon: '📖',
   color: '--read',

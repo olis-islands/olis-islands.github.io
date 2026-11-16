@@ -1,11 +1,16 @@
 # Spec: Coding island expansion, grades 3–6
 
-- **Status: DRAFT — discussion only.** The user has not supplied their ideas or approved this design.
+- **Status: Approved by user on 2026-11-16; implementation in progress.**
 - **Stage:** 8b, extending `docs/specs/coding.md` and the existing `coding` island, not a new island.
-- **Gate:** discuss and revise this draft with the user; obtain explicit approval before T0 or any game
-  implementation. The roadmap also calls for the Oli-help pilot and Stage 8a user play-test first.
+- **Gate:** the user explicitly authorized starting immediately, without waiting for the Oli-help pilot
+  or Stage 8a play-test. Both play-tests remain follow-ups; implementation and verification must meet
+  the acceptance criteria before the PR is marked ready.
 - **Relies on:** D2, D3, D6, D7, D19 and D23; `docs/RESEARCH.md` § Computer science, elementary.
-  Everything below is a proposal, including grades, names, mechanics, scope and tasks.
+  The eight mechanics, listed grade progression and visual blocks are approved working scope.
+  Final child-facing wording and technical details remain subject to review.
+- **Local progress:** T0 has an initial bounded movement simulator and tests, including the minimum
+  two calls for shortcut programs. Its shared contracts still need completing and committing before
+  builder work can start. T1–T4 and all playable Stage 8b games remain unimplemented.
 
 ## Goal
 
@@ -31,7 +36,8 @@ uses only finite runs even though the source also discusses forever loops.
 
 Binary, sorting, searching and shortest-path challenges were named as future ideas in the original spec
 or roadmap; the checked curriculum does **not establish them as named requirements**. Treat them as
-optional enrichment until separately sourced and approved. Do not copy curriculum exercises or product assets.
+approved app enrichment, not verified ministry requirements. Shortest paths are out of scope.
+Do not copy curriculum exercises or product assets.
 
 ## Proposed skills
 
@@ -49,20 +55,19 @@ are placeholders for discussion. Soft locks apply (D19): prerequisites guide rec
 | `code.sort` | Order by comparison | 6 | — | ⚖️ | Balance shelf | Optional enrichment; source not established |
 | `code.search` | Narrow a search | 6 | `code.sort` | 🔎 | Mystery shelf | Optional enrichment; source not established |
 
-Possible shortest-path exploration is a separate open choice, not an additional committed skill.
-These skills need not all ship; user ideas may replace or change any of them.
+All eight skills are in the approved implementation scope. Shortest-path exploration is out of scope.
 
-### Suggested learning progression (not an approved scope)
+### Approved working learning progression
 
 | Grade | First experience | Next challenge | Bridge and boundary |
 |---|---|---|---|
 | 3 | Predict facing after one quarter-turn and a forward move; show Oli's direction throughout. | Build a short route and repair one turn; reuse the 8a run–watch–edit rhythm. | New relative turns are explicitly distinguished from the 8a absolute arrows. No new reading of code. |
 | 4 | Match one event to its action, then trace one true/false condition. | Construct or repair both branches and test the same rule in both states. | Reinforce existing fixed repeats; the draft does not require the curriculum's forever loops. |
 | 5 | Trace a visible count from a starting value through one change. | Two to four changes, then a condition based on the count as a later proposed variant. | Explain old and new values in a worked example or after success; use small nonnegative integers. |
-| 6 | Define a short named sequence, then call it twice in different positions. | Compare an expanded trace to the reusable version; optional binary, comparison sorting and search puzzles. | These are bounded introductions; parameters, recursion and nesting are not proposed. Enrichment is not a ministry requirement claim. |
+| 6 | Define a short named sequence, then call it twice in different positions. | Compare an expanded trace to the reusable version; binary, comparison sorting and search puzzles. | These are bounded introductions; parameters, recursion and nesting are not proposed. Enrichment is not a ministry requirement claim. |
 
 Within each grade, start with a worked example that is demonstrative rather than scored, followed by
-predict → build or repair → test and retry. Examples and lesson order are proposals; skills stay
+predict → build or repair → test and retry. Skills stay
 playable under D19 rather than locked by mastery. Do not silently mix new and old arrow conventions.
 
 ## Proposed games and acceptance rules
@@ -90,7 +95,7 @@ All item keys identify stable content, not answer positions; generators must hon
 An accepted review key regenerates the same underlying fact or scenario. Distractors must be distinct,
 plausible and never also correct. Do not reward just tapping through without applying the skill.
 
-### Mechanics, examples and attempt boundaries (proposals)
+### Mechanics, examples and attempt boundaries
 
 The examples are original designer examples, not final child-facing text. Each question offers the
 stated choices, a replayable instruction and a clear way to submit or revise. An incomplete selection
@@ -132,12 +137,12 @@ scored, so a child can learn the mechanic before making a submission.
    Definition alone executes nothing. Any valid definition and strip meeting these visible constraints
    is accepted. A failed run is one miss; both definition and strip stay editable. Prove each board
    has an answer expressible by the editor and that the repeated block is useful to the task.
-6. **Signal lights (optional enrichment).** Four independently toggled cards show place values
+6. **Signal lights (approved enrichment).** Four independently toggled cards show place values
    left-to-right as 8, 4, 2, 1, plus both on/off labels and shapes. Set a target 0–15, then submit.
    Example: 10 = 8 + 2. Compare the sum with the target; a bad submission is one miss and leaves
    all toggles editable. The all-off representation of zero is valid. The aid explains that each
    lit card contributes its shown value; it does not select cards.
-7. **Balance shelf (optional enrichment).** Give 3–5 visually distinct, equal-size objects with
+7. **Balance shelf (approved enrichment).** Give 3–5 visually distinct, equal-size objects with
    distinct hidden weights and a two-pan balance. Select two objects to compare; the balance shows
    lighter/heavier with text and a non-color indicator. Comparisons are free exploration. Then place
    all objects in a lightest-to-heaviest row and submit. To prevent a lucky guess from replacing
@@ -145,7 +150,7 @@ scored, so a child can learn the mechanic before making a submission.
    complete order; otherwise offer a general prompt to compare more. Example: compare A/B and B/C;
    if A < B < C, A,B,C is provable. A submitted incorrect order is one miss and remains editable.
    The aid explains how to interpret the pans, never the objects' unobserved weights.
-8. **Mystery shelf (optional enrichment).** Seven boxes contain distinct ascending values, hidden
+8. **Mystery shelf (approved enrichment).** Seven boxes contain distinct ascending values, hidden
    except for authored clues. The target is guaranteed present. Ask for the next *middle* box among
    the remaining possible candidates, not merely a lucky guess of the target. For the initial
    version author only odd candidate counts of 3, 5 or 7, giving one midpoint and allowing `PickGame`
@@ -179,7 +184,7 @@ scored, so a child can learn the mechanic before making a submission.
 - Reuse `PickGame`, `OrderGame`, existing audio and board artwork where suitable. `ProgramGame` and
   `program.ts` currently support absolute arrow moves and fixed repeat cards, not facing, branches,
   state, events or callable blocks. Any new interpreter and editor are **proposals**, not existing APIs.
-- If approved, keep the old `run` semantics and saved item keys compatible. A separate bounded interpreter
+- Keep the old `run` semantics and saved item keys compatible. A separate bounded interpreter
   can model position, facing, counter, condition and calls. Clearly define stopping, collision and goal
   semantics, cap steps/call depth, and test that the displayed trace and verdict agree. No unbounded loops.
 - Suggested advanced execution contract: a pure interpreter takes a board, initial facing and validated
@@ -187,7 +192,7 @@ scored, so a child can learn the mechanic before making a submission.
   cards, one 2–3-command definition, 4 calls and 40 primitive operations per run; count turns as
   operations. Reject invalid or over-limit programs before running, without recording an attempt.
   Event and counter puzzles can use small separate pure evaluators rather than forcing all mechanics
-  into the board interpreter. Exact types and bounds remain draft choices.
+  into the board interpreter. Final types must be fixed in T0 before parallel work.
 - Avoid revealing a target through accessibility labels, art, hints or sounds. Use original artwork and
   full Hebrew nikud. Events and scenarios are local and deterministic; no network, accounts or sharing.
 - A single successful example is insufficient to validate a condition: test both stated states. For
@@ -235,7 +240,7 @@ domain. Explicitly document any smaller domain and why. Every board must be solv
   no new code assumes unfinished-round persistence. Verify that new namespaced keys cannot be claimed
   by another game's `accepts`, and review the same stable item after a saved missed round.
 
-## Proposed task split — not authorization to build
+## Implementation task split
 
 File ownership is tentative and must be reconfirmed after scope and contracts are approved. Parallel
 tasks never share files. Shared core/UI needs, if any, are planner-owned and must be defined and tested
@@ -243,14 +248,14 @@ in T0 before builders begin; no dependencies on unmerged wiring.
 
 | Task | Owner | Exact files | Inputs / dependencies |
 |---|---|---|---|
-| T0 | Planner | `src/subjects/coding/advanced-types.ts`, `src/subjects/coding/advanced-ids.ts`, `src/subjects/coding/advanced-program.ts`, `src/subjects/coding/advanced-program.test.ts` | Approved spec, 8a play-test; define contracts and bounded simulator first |
+| T0 | Planner | `src/subjects/coding/advanced-types.ts`, `src/subjects/coding/advanced-ids.ts`, `src/subjects/coding/advanced-program.ts`, `src/subjects/coding/advanced-program.test.ts` | Approved spec; define contracts and bounded simulator first |
 | T1 | Content | `src/subjects/coding/content/advanced-boards.ts`, `src/subjects/coding/content/advanced-scenarios.ts`, `src/subjects/coding/content/advanced-puzzles.ts`, `src/subjects/coding/advanced-phrases.ts`, `src/subjects/coding/advanced-content.test.ts` | T0 contracts; original reviewed content and phrase map |
 | T2 | Builder | `src/subjects/coding/advanced-generators.ts`, `src/subjects/coding/advanced-generators.test.ts`, `src/subjects/coding/advanced-art.tsx` | T0 contracts; consume T1 data through fixed interfaces |
 | T3 | Builder | `src/subjects/coding/games-advanced.tsx`, `src/subjects/coding/games-advanced.test.tsx`, `src/subjects/coding/advanced.css` | T0 contracts and simulator; no imports from unmerged T1/T2 |
 | T4 | Planner + reviewer | `src/subjects/coding/index.ts`, `src/subjects/coding/phrases.ts`, `e2e/coding-advanced.spec.ts`, `CLAUDE.md`, `docs/ROADMAP.md`, `docs/specs/coding-grade3-6.md` | T1–T3 merged and checked; integration, full review, E2E and screenshots |
 
 If shared contracts need `src/core/**` or `src/ui/**`, specify the exact files and tests in a revised
-T0 before approval; update architecture when changed. T1–T3 run at most three at once in isolated
+T0 before builders begin; update architecture when changed. T1–T3 run at most three at once in isolated
 worktrees, from the T0 base. Their briefs must use `docs/FEATURE-GUIDE.md`.
 
 **Task-specific handoff and checks, still provisional:**
@@ -275,21 +280,15 @@ worktrees, from the T0 base. Their briefs must use `docs/FEATURE-GUIDE.md`.
   Builder briefs must name exact files, base commit, references, tests, inputs and required verification
   report; changes to core/UI remain planner-owned.
 
-## Out of scope in this proposal
+## Out of scope
 
-Text programming languages, online sharing, network calls and user-generated uploads. Timers, external
+Shortest paths, text programming languages, online sharing, network calls and user-generated uploads. Timers, external
 services, complex robot hardware and changes to existing 8a content are not proposed. No extension of
 Oli help is assumed; the existing clock pilot remains separate.
 
-## Open decisions for the user
+## User decisions (2026-11-16)
 
-1. What are your game ideas, themes or learning goals? Which proposed games should change or disappear?
-2. One grade at a time or a combined 3–6 release? Is grade 3 a gentle bridge or should it start later?
-3. Mostly Oli on grids, varied worlds, or a mixture? Should children create freely or solve short puzzles?
-4. Include binary, sorting, searching or shortest paths as optional enrichment, or defer them?
-5. Are visual blocks without typed code right for all grades? What instruction/recording burden is acceptable?
-6. Should functions stay in grade 6 as the ministry's modular-block sequence suggests, or appear earlier as
-   an app-specific introduction?
-
-No answer is presumed. Revise this draft, verify curriculum claims and request explicit approval before
-implementation; a draft PR is not spec approval.
+- Implement all eight listed mechanics, including binary, sorting and searching; shortest paths stay out.
+- Use the listed grade progression and visual blocks. Begin now; the 8a play-test is a follow-up.
+- Keep the PR in draft until implementation and all verification are complete; the user still play-tests
+  the finished feature. Final phrase wording and recording count are determined by content review.

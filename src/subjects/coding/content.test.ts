@@ -123,7 +123,13 @@ describe('stories: bugs and decoys', () => {
         forms.set(bare, (forms.get(bare) ?? new Set()).add(word.replace(/"/g, '')))
       }
     }
-    const homographs = new Set(['למטה']) // לְמַטָּה (down) and לַמִּטָּה (to the bed)
+    const homographs = new Set([
+      'למטה', // לְמַטָּה (down) and לַמִּטָּה (to the bed)
+      'פעמים', // פְּעָמִים (times, plural) and פַּעֲמַיִם (twice, dual)
+      'שבע', // שֶׁבַע (seven) and שָׂבֵעַ (full, satiated)
+      'צמא', // צָמָא (thirst, noun) and צָמֵא (thirsty, adjective)
+      'רעב', // רָעָב (hunger, noun) and רָעֵב (hungry, adjective)
+    ])
     for (const [bare, set] of forms) if (!homographs.has(bare)) expect([...set], bare).toHaveLength(1)
   })
 })

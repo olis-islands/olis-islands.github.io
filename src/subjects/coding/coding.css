@@ -6,6 +6,9 @@
 /* Action buttons read like the page (RTL): the sign first, then the word. */
 .cd-actions { direction: rtl; }
 .cd-label { margin: 4px 0 -8px; font-size: 18px; font-weight: 700; color: var(--mute); }
+.cd-facing { margin: 0; min-height: 28px; font-size: 18px; font-weight: 800; color: var(--code); }
+.cd-facing span { display: inline-block; font-size: 26px; }
+.cd-feedback { min-height: 1.5em; margin: 0; font-size: 18px; font-weight: 700; color: var(--mute); text-align: center; }
 .cd-pal {
   min-width: var(--tap); min-height: var(--tap); padding: 0 14px; border-radius: 18px; cursor: pointer;
   border: 3px solid var(--code); background: var(--code); color: var(--on-accent);

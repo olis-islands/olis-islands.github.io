@@ -15,8 +15,9 @@ the "Current state" and "Next steps" sections must be updated in the same change
 **Oli's Islands** ("Learn & Play") is a free, playful learning web app for Israeli kids from
 kindergarten (gan chova) to 6th grade. Subjects: telling time (clock), Hebrew (letters, sounds, nikud,
 reading, writing), math (counting to percent), and English (ABC, phonics, vocabulary). Content follows
-the Israeli Ministry of Education curriculum. The UI is Hebrew and RTL; Oli the owl guides the child
-across a world map of subject "islands". Runs fully client-side (no server), installable as a PWA,
+the Israeli Ministry of Education curriculum, with the networks-island source exception in D26. The UI
+is Hebrew and RTL; Oli the owl guides the child across a world map of subject "islands". Runs fully
+client-side (no server), installable as a PWA,
 computer-first with touch support.
 
 ## Language rule
@@ -45,20 +46,21 @@ computer-first with touch support.
 | Thinking island | ✅ built, ⏳ awaiting user play-test | 12 skills, 53 original SVG drawings (`art/`), 4 new games; pre-kindergarten level (Grade −1); ~190 phrases to record |
 | Parents' page | ✅ built, ⏳ awaiting user play-test | `#/parents` behind a number-in-words gate (D18): summary, what to practise, settings, backup; soft locks with "start here" by grade and a parent's "already knows this" (D19); spec `docs/specs/parents.md` |
 | Coding island (K–2) | ✅ built, ⏳ awaiting user play-test | 7 skills (story algorithms, follow, arrow programs, debug, loops), `ProgramGame` + `program.ts` simulator; spec `docs/specs/coding.md`; ~90 phrases to record |
-| Coding expansion (3–6) | 🟡 in progress | First facing/turn game and 12 boards implemented locally; seven other mechanics, review and release verification remain; 8a play-test is a follow-up |
+| Coding expansion (3–6) | ✅ merged, ⏳ awaiting user play-test | Eight skills; spec `docs/specs/coding-grade3-6.md`; PR #20 |
+| Networks island | 📝 draft, ⏳ awaiting spec approval | Proposed offline simulations, grades 1–6; spec `docs/specs/networks.md`; no implementation |
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
-| Git | ✅ | Math grades 4–6 merged to `main` (PR #16–#18). Current work: Oli help |
+| Git | ✅ | Coding expansion and map layout merged to `main` (PR #20, #22); networks spec in progress |
 
-Current stage: **Stage 8b coding expansion**; Oli-help pilot and Stage 5 await user play-test.
+Current work: **Networks island draft spec**; Stage 8b, the Oli-help pilot and Stage 5 await user play-test.
 
 ## Next steps
 
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
-1. **Planner:** implement approved Stage 8b coding expansion.
-2. **User + planner:** play-test the clock-setting help pilot and Stage 8a; these do not block Stage 8b.
+1. **User:** review the networks-island spec; no implementation before approval.
+2. **User + planner:** play-test the clock-setting help pilot and Stages 8a and 8b.
 3. **User:**
    - play-test all islands;
    - record the phrases listed in BACKLOG;
@@ -133,7 +135,7 @@ See D8 in `docs/DECISIONS.md`.
 - ⛔ No network calls, analytics, ads, external links, chat, or personal data beyond a local name and avatar.
 - ⛔ No negative messages ("wrong!", "you failed"), no lives, no penalty timers for kindergarten to 2nd grade. A mistake leads to a hint and another try.
 - ✅ Every instruction has a phrase ID and can be replayed (click the owl). Touch targets ≥ 64px. Everything works by keyboard. Respect `prefers-reduced-motion`. Works in RTL and dark mode.
-- ✅ Educational content matches the ministry curriculum, with the source cited in the spec. Hebrew read by children carries correct nikud.
+- ✅ Educational content matches the ministry curriculum, with the source cited in the spec; the networks-island source exception is D26. Hebrew read by children carries correct nikud.
 - ⛔ Do not copy images, sounds or content from commercial products — only patterns and mechanics. Assets must be openly licensed and listed in `docs/CREDITS.md`.
 
 ### Decisions

@@ -103,3 +103,8 @@ without waiting for a play-test between them. The user plays them after. Each gr
 child-facing instructions. The existing game instruction remains replayable in the same owl's menu. FAQ questions
 retain nikud; answers omit it. Replay and a yellow square close button share a row. Each island keeps its games'
 help in one content file. The clock-setting pilot is play-tested before expanding.
+
+**D26 · 2026-11-16 · user** — International educational programmes may inform the proposed networks
+island even when a topic is not an established Israeli elementary requirement. This is a subject-specific
+exception to D6, not a change to the curriculum basis of existing islands. Cite sources and distinguish
+proposed enrichment from verified Israeli requirements. The island spec still needs user approval.

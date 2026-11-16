@@ -77,6 +77,7 @@ const advancedSearch = (id: string, title: string, generate: (ctx: GenContext) =
 export const island: IslandDef = {
   id: 'coding',
   order: 7,
+  tier: 'advanced',
   title: 'אִי הַתִּכְנוּת',
   icon: '🤖',
   color: '--code',

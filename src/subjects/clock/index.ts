@@ -53,6 +53,7 @@ const match = (level: Level): GameDef => defineGame({
 export const island: IslandDef = {
   id: 'clock',
   order: 1,
+  tier: 'base',
   title: 'אִי הַשָּׁעוֹן',
   icon: '⏰',
   color: '--clock',

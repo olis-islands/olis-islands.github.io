@@ -1,3 +1,5 @@
+.map-group { display: grid; gap: 12px; }
+.map-group h2 { margin: 0 8px; font-size: 20px; color: var(--mute); text-align: center; }
 .map {
   margin-top: 20px; padding: 44px 32px 56px; display: grid; gap: 56px; align-content: center; min-height: 420px;
   background: radial-gradient(ellipse at 50% 40%, var(--bg-sea), var(--bg) 85%);

@@ -62,6 +62,7 @@ const buildWord = (pattern: Pattern) => defineGame({
 export const island: IslandDef = {
   id: 'english',
   order: 6,
+  tier: 'advanced',
   title: 'English Island',
   icon: '🔠',
   color: '--eng',

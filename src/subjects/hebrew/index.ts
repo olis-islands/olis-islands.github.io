@@ -88,6 +88,7 @@ const letterSkill = (group: g.LetterGroup, title: string, sticker: string, requi
 export const island: IslandDef = {
   id: 'hebrew',
   order: 2,
+  tier: 'base',
   title: 'אִי הָאוֹתִיּוֹת',
   // Real Hebrew letters: no emoji shows Hebrew, and 🔤 is Latin (the map styles letter icons in the island color).
   icon: 'אב',

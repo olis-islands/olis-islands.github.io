@@ -5,7 +5,7 @@ import { easierStep, isChallenge, recommendedSkill } from './path'
 
 const skill = (id: string, grade: Grade, requires: string[] = []): SkillDef => ({ id, title: id, grade, requires, sticker: '⭐', games: [] })
 const island: IslandDef = {
-  id: 'clock', order: 1, title: 'c', icon: 'c', color: '--c', phrases: {},
+  id: 'clock', order: 1, tier: 'base', title: 'c', icon: 'c', color: '--c', phrases: {},
   skills: [skill('hands', 0), skill('hours', 1, ['hands']), skill('half', 1, ['hours']), skill('quarter', 2, ['half']), skill('minute', 3, ['quarter'])],
 }
 const mastered = (...ids: string[]): Progress => ids.reduce((p, id) => markKnown(p, id, true), emptyProgress())

@@ -34,7 +34,7 @@ computer-first with touch support.
 | Docs & process | ✅ | This file, `docs/FEATURE-GUIDE.md`, `docs/PLAYBOOK.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `DECISIONS.md`, `RESEARCH.md`, `specs/`, `.claude/agents/` |
 | Tooling | ✅ | Vite 8, React 19, TS strict, ESLint, Vitest, Playwright, PWA. `npm run check` and `npm run e2e` green |
 | Core | ✅ | Contracts, session, adaptive + Leitner, progress, IndexedDB store, audio with TTS fallback |
-| UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map, island path, play screen, sticker book |
+| UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map (grouped into base and advanced island tiers), island path, play screen, sticker book |
 | Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games; `docs/specs/oli-help.md` (D25) |
 | Clock island | ✅ built, ⏳ awaiting user play-test | 7 skills, 5 games; spec `docs/specs/clock.md` |
 | Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves via the dev server straight into `src/audio/he/` (D12); user has started recording |

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { englishIds, hasHebrewVoice, phrases, recordingId, recordings, say } from '../../core/audio/audio'
 import './studio.css'
@@ -35,7 +35,18 @@ export default function Studio() {
   const [error, setError] = useState('')
   // Takes saved during this visit, played from memory: the file keeps its name, so the browser would replay the old one.
   const [fresh, setFresh] = useState<Record<string, string>>({})
+  const freshUrls = useRef<Record<string, string>>({})
+  const mounted = useRef(false)
   const rec = useRef<MediaRecorder | null>(null)
+
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+      Object.values(freshUrls.current).forEach(url => URL.revokeObjectURL(url))
+      freshUrls.current = {}
+    }
+  }, [])
 
   const has = (id: string) => recordings.has(id) || !!fresh[id]
   const ids = all.filter(id => !ENGLISH_SOUND.test(id))
@@ -49,7 +60,12 @@ export default function Studio() {
         method: 'POST', headers: { 'Content-Type': blob.type }, body: blob,
       })
       if (!res.ok) throw new Error(await res.text())
-      setFresh(f => ({ ...f, [id]: URL.createObjectURL(blob) }))
+      if (!mounted.current) return
+      const url = URL.createObjectURL(blob)
+      const previous = freshUrls.current[id]
+      freshUrls.current = { ...freshUrls.current, [id]: url }
+      if (previous) URL.revokeObjectURL(previous)
+      setFresh(freshUrls.current)
     } catch (e) {
       setError(`Not saved: ${(e as Error).message}`)
     } finally {

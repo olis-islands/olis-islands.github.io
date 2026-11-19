@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { englishIds, hasHebrewVoice, phrases, recordingId, recordings, say } from '../../core/audio/audio'
 import './studio.css'
@@ -18,6 +18,24 @@ const ENGLISH_SOUND = /^eng\.(sound|blend)\./
 /** What to say for an English sound or blend: the blend's target word, so the respelling ("kuh … app") isn't read aloud. */
 const engHint = (id: string) => (id.startsWith('eng.blend.') ? `→ ${phrases[`eng.w.${id.slice('eng.blend.'.length)}`] ?? ''}` : '')
 
+// A take quieter than this (or one that doesn't decode) is not saved: a disconnected or Bluetooth mic yields silence.
+const MIN_PEAK = 0.02
+
+/** Loudest sample in a take, 0 when it holds no audio. */
+async function peakOf(blob: Blob) {
+  const ctx = new AudioContext()
+  try {
+    const buf = await ctx.decodeAudioData(await blob.arrayBuffer())
+    let peak = 0
+    for (let c = 0; c < buf.numberOfChannels; c++) for (const s of buf.getChannelData(c)) peak = Math.max(peak, Math.abs(s))
+    return peak
+  } catch {
+    return 0
+  } finally {
+    void ctx.close()
+  }
+}
+
 export default function Studio() {
   // English is spoken by the browser voice (D17), so only Hebrew phrases are listed, plus the optional English sounds tab.
   // Phrases with the same text share one recording, so each text is listed once, under the ID that owns it.
@@ -35,21 +53,41 @@ export default function Studio() {
   const [error, setError] = useState('')
   // Takes saved during this visit, played from memory: the file keeps its name, so the browser would replay the old one.
   const [fresh, setFresh] = useState<Record<string, string>>({})
+  const freshUrls = useRef<Record<string, string>>({})
+  const mounted = useRef(false)
   const rec = useRef<MediaRecorder | null>(null)
+
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+      Object.values(freshUrls.current).forEach(url => URL.revokeObjectURL(url))
+      freshUrls.current = {}
+    }
+  }, [])
 
   const has = (id: string) => recordings.has(id) || !!fresh[id]
   const ids = all.filter(id => !ENGLISH_SOUND.test(id))
   const shown = filter === 'english' ? all.filter(id => ENGLISH_SOUND.test(id)) : ids.filter(id => filter === 'all' || !has(id))
   const done = ids.filter(has).length
 
-  const save = async (id: string, blob: Blob) => {
+  const save = async (id: string, blob: Blob, mic: string) => {
     setSaving(id)
     try {
+      if (await peakOf(blob) < MIN_PEAK) {
+        throw new Error(`the take is silent, nothing was saved. Microphone used: ${mic || 'unknown'}. ` +
+          'Pick a working input in System Settings → Sound → Input and record again.')
+      }
       const res = await fetch(`/__studio/save?id=${encodeURIComponent(id)}`, {
         method: 'POST', headers: { 'Content-Type': blob.type }, body: blob,
       })
       if (!res.ok) throw new Error(await res.text())
-      setFresh(f => ({ ...f, [id]: URL.createObjectURL(blob) }))
+      if (!mounted.current) return
+      const url = URL.createObjectURL(blob)
+      const previous = freshUrls.current[id]
+      freshUrls.current = { ...freshUrls.current, [id]: url }
+      if (previous) URL.revokeObjectURL(previous)
+      setFresh(freshUrls.current)
     } catch (e) {
       setError(`Not saved: ${(e as Error).message}`)
     } finally {
@@ -64,6 +102,7 @@ export default function Studio() {
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } })
+      const mic = stream.getTracks()[0]?.label ?? ''
       const r = new MediaRecorder(stream)
       const chunks: Blob[] = []
       r.ondataavailable = e => chunks.push(e.data)
@@ -71,7 +110,7 @@ export default function Studio() {
         stream.getTracks().forEach(t => t.stop())
         rec.current = null
         setRecording(null)
-        await save(id, new Blob(chunks, { type: r.mimeType.split(';')[0] }))
+        await save(id, new Blob(chunks, { type: r.mimeType.split(';')[0] }), mic)
       }
       rec.current = r
       setRecording(id)

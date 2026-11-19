@@ -1,24 +1,15 @@
 import type { PhraseMap, PhraseRef } from '../engine/types'
-import { phraseOfFile } from './filename'
+import { recordingRevision, recordings } from './recordings'
 
 // All playback goes through this module (docs/DECISIONS.md D3).
 // A recording at src/audio/he/<phraseId>.<ext> wins (shared by phrases with the same text); otherwise Web Speech reads it.
-
-const recordingFiles = import.meta.glob('/src/audio/he/*.{mp3,m4a,ogg,webm,wav}', {
-  eager: true, query: '?url', import: 'default',
-}) as Record<string, string>
 
 const phraseFiles = import.meta.glob(['/src/subjects/*/phrases.ts', '/src/app/phrases.ts'], {
   eager: true, import: 'phrases',
 }) as Record<string, PhraseMap>
 
-// In dev a re-recorded take keeps its file name, so the browser would replay a cached copy: bust it per page load.
-const devBust = import.meta.env.DEV ? `?t=${Date.now()}` : ''
-
 /** Phrase ID → recording URL. */
-export const recordings: ReadonlyMap<string, string> = new Map(
-  Object.entries(recordingFiles).map(([path, url]) => [phraseOfFile(path.replace(/^.*\/([^/]+)\.\w+$/, '$1')), url + devBust]),
-)
+export { recordings }
 
 // English phrases are declared separately (`englishPhrases`) and always spoken by an en-US voice (DECISIONS D17).
 // Whole modules, not `import: 'englishPhrases'`: most islands don't export it, and a named glob import fails the build.
@@ -45,10 +36,18 @@ export function sharedRecordingIds(map: PhraseMap, recorded: ReadonlySet<string>
   return new Map(Object.keys(map).map(id => [id, english.has(id) ? id : owner.get(map[id]!)!]))
 }
 
-const shared = sharedRecordingIds(phrases, new Set(recordings.keys()), englishIds)
+let shared = sharedRecordingIds(phrases, new Set(recordings.keys()), englishIds)
+let sharedRevision = recordingRevision()
 
 /** The phrase ID whose recording plays for `id` (itself, or the phrase with the same text that owns the recording). */
-export const recordingId = (id: string) => shared.get(id) ?? id
+export const recordingId = (id: string) => {
+  const revision = recordingRevision()
+  if (revision !== sharedRevision) {
+    shared = sharedRecordingIds(phrases, new Set(recordings.keys()), englishIds)
+    sharedRevision = revision
+  }
+  return shared.get(id) ?? id
+}
 
 const recordingOf = (id: string) => recordings.get(recordingId(id))
 

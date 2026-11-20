@@ -13,6 +13,7 @@
   --read: #2d9cdb;
   --think: #e0559b;
   --code: #4f6bed;
+  --net: #0f97ad;
   /* Text on a solid island-color button (same in both themes: the accents don't change in dark mode). */
   --on-accent: #fff;
   /* Coins look like metal in both themes, so these have no dark-mode override. */

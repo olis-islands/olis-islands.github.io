@@ -55,7 +55,7 @@ network skill is proposed in this first island.
 |---|---|---:|---|---|---|
 | `networks.delivery` | Deliver a message | 1 | — | ✉️ | delivery |
 | `networks.route` | The crossroads | 3 | `networks.delivery` | 🧭 | route |
-| `networks.packets` | Put the pieces together | 3 | `networks.delivery` | 🐚 | packets |
+| `networks.packets` | Put the pieces together | 3 | `networks.delivery` | 📦 | packets |
 | `networks.retry` | Find a missing piece | 4 | `networks.packets` | 🔁 | retry |
 | `networks.firewall` | The gate's rules | 4 | `networks.delivery` | 🚪 | firewall |
 | `networks.dns` | The name lighthouse | 5 | `networks.delivery` | 🔎 | dns |
@@ -139,6 +139,11 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Key/review:** `networks.packets:<scenario-id>`; yes. Reuse `OrderGame` only if its tile identity,
   accessible labels and optional speech represent shells without leaking the solution; otherwise use
   the island board component. Do not assume its current question type already supports this content.
+- **As built (T2):** the child-facing word is "packet" (חֲבִילָה), not shell: a real, everyday word that is
+  introduced here. `OrderGame` (D28) with numbered slots stacked from the top; each tile reads "חֲבִילָה 3"
+  and the tray keeps the arrival order. 3 or 4 packets, all 30 arrival orders, about one in six already in
+  order. Key `networks.packets:<arrival digits>`. No picture is assembled after completion: `OrderGame`
+  has no such step and Q5 kept the shared component.
 
 ### 4. Missing shell (`retry`)
 
@@ -149,6 +154,10 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Explain comparing expected and received labels; do not point to the missing
   number. Retransmission is a model of *some* reliable protocols, not a guarantee of all traffic.
 - **Key/review:** `networks.retry:<scenario-id>`; yes; prefer `PickGame`.
+- **As built (T2):** `PickGame`. The drawing shows two LTR rows: the numbers that should arrive (1…3 or 1…4)
+  and the packets that arrived, in arrival order, without a gap that would mark the missing place. Options are
+  three numbers in ascending order: the missing one and two that did arrive. All 30 items; key
+  `networks.retry:<total>:<missing>:<arrival digits>`. The arriving-packet animation is not built.
 
 ### 5. Gate rules (`firewall`)
 
@@ -288,13 +297,13 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | Task | Owner | Exact files | Depends on | Status |
 |---|---|---|---|---|
 | T0 | Planner | `src/subjects/networks/{types,ids,phrases,index}.ts`, `src/app/phrases.ts` (`app.island.networks`), `src/ui/theme.css` (`--net`), `src/ui/pick/PickGame.tsx` + `PickGame.test.tsx` (a drawing option said in parts is named by all its parts), `src/app/islands.test.ts`, `e2e/map.spec.ts` (four advanced islands) | — | ✅ |
-| T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0, Q4 | ✅ built, awaiting play-test |
-| T2 | Builder | `content/packets.ts`, `generators-packets.ts` + test (packets and retry) | T0, Q1, Q5 | ⬜ blocked |
-| T3 | Builder | `content/gates.ts`, `generators-gates.ts` + test (firewall) | T0, Q1 | ⬜ blocked |
-| T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0, Q1 | ⬜ blocked |
-| T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0, Q1 | ⬜ blocked |
-| T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0, Q1, Q7 | ⬜ blocked |
-| T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0, Q1, Q6 | ⬜ blocked |
+| T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0 | ✅ built, awaiting content review and play-test |
+| T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
+| T3 | Builder | `content/gates.ts`, `generators-gates.ts` + test (firewall) | T0 | ⬜ |
+| T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ⬜ |
+| T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
+| T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
+| T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |
 | Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |
 
 Builders request new phrase IDs or types in `docs/requests/`; the planner adds them to the shared files.

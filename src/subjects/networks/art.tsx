@@ -15,7 +15,7 @@ const asAddress = (p: ArtProps): Address | undefined => {
 const fill = (shape: Shape) => `var(${SHAPES.find(s => s.id === shape)!.color})`
 
 /** A shape centred on (cx, cy) with radius r, outlined so a light fill still shows on any background. */
-function ShapeMark({ shape, cx, cy, r }: { shape: Shape; cx: number; cy: number; r: number }) {
+export function ShapeMark({ shape, cx, cy, r }: { shape: Shape; cx: number; cy: number; r: number }) {
   const common = { fill: fill(shape), stroke: 'var(--ink)', strokeWidth: 2.5, strokeLinejoin: 'round' as const }
   switch (shape) {
     case 'circle': return <circle cx={cx} cy={cy} r={r} {...common} />

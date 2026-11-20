@@ -1,4 +1,4 @@
-import type { Address, Shape } from './types'
+import type { Address, RuleKind, Shape } from './types'
 
 // Phrase-ID contract of the networks island (docs/specs/networks.md). Reserved prefixes:
 // networks.q.* (instructions), networks.hint.*, networks.ui.*, networks.example.*, networks.explain.*.
@@ -7,6 +7,7 @@ import type { Address, Shape } from './types'
 //   T0 (planner)   types.ts, ids.ts, phrases.ts, index.ts
 //   delivery slice content/addresses.ts SHAPES, NUMBERS · generators.ts deliveryQuestion, deliveryAccepts · art.tsx
 //   T2 packets     generators-packets.ts packetsQuestion, retryQuestion (+ accepts, describe) · art-packets.tsx
+//   T3 firewall    generators-gates.ts firewallQuestion, firewallAccepts, describeFirewall · art-gates.tsx
 // Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
 export const N = {
@@ -18,6 +19,12 @@ export const N = {
   retry3: 'networks.q.retry3', //        "הַמַּחְשֵׁב חִכָּה לְשָׁלוֹשׁ חֲבִילוֹת …"
   retry4: 'networks.q.retry4', //        "… לְאַרְבַּע חֲבִילוֹת …"
   hintRetry: 'networks.hint.retry', //   "… אֵיזֶה מִסְפָּר חָסֵר …"
+  firewall: 'networks.q.firewall', //    "הַחֲבִילָה הַזֹּאת נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?"
+  hintFirewall: 'networks.hint.firewall',
+  allow: 'networks.ui.allow', //         "נִכְנֶסֶת"
+  block: 'networks.ui.block', //         "נֶעֱצֶרֶת"
+  sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
+  receiver: 'networks.ui.receiver', //   "מְקַבֵּל"
 } as const
 
 /** A shape's name ("עִגּוּל"); the same text as the thinking island's shapes, so one recording serves both. */
@@ -28,3 +35,5 @@ export const numberPhrase = (n: number) => `networks.n.${n}`
 export const addressPhrase = (a: Address) => [shapePhrase(a.shape), numberPhrase(a.n)] as const
 /** Stable id of an address, used as option id and inside item keys: "circle-3". */
 export const addressId = (a: Address) => `${a.shape}-${a.n}`
+/** A gate rule's opening words, completed by a shape: "הַשַּׁעַר עוֹצֵר חֲבִילוֹת שֶׁהַשּׁוֹלֵחַ שֶׁלָּהֶן הוּא" + "כּוֹכָב". */
+export const rulePhrase = (kind: RuleKind) => `networks.rule.${kind}`

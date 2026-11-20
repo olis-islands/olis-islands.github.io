@@ -1,6 +1,6 @@
 import type { PhraseMap } from '../../core/engine/types'
 import { NUMBER_NAMES, SHAPES } from './content/addresses'
-import { N, numberPhrase, shapePhrase } from './ids'
+import { N, numberPhrase, rulePhrase, shapePhrase } from './ids'
 
 export const phrases: PhraseMap = {
   [N.delivery]: 'לְאֵיזֶה מַחְשֵׁב הַהוֹדָעָה צְרִיכָה לְהַגִּיעַ?',
@@ -11,6 +11,16 @@ export const phrases: PhraseMap = {
   [N.retry3]: 'הַמַּחְשֵׁב חִכָּה לְשָׁלוֹשׁ חֲבִילוֹת. אֵיזוֹ חֲבִילָה לֹא הִגִּיעָה? בַּקְּשׁוּ אוֹתָהּ שׁוּב.',
   [N.retry4]: 'הַמַּחְשֵׁב חִכָּה לְאַרְבַּע חֲבִילוֹת. אֵיזוֹ חֲבִילָה לֹא הִגִּיעָה? בַּקְּשׁוּ אוֹתָהּ שׁוּב.',
   [N.hintRetry]: 'בִּדְקוּ אֶת הַמִּסְפָּרִים אֶחָד אַחֲרֵי הַשֵּׁנִי: אֵיזֶה מִסְפָּר חָסֵר בֵּין הַחֲבִילוֹת שֶׁהִגִּיעוּ?',
+  [N.firewall]: 'הַחֲבִילָה הַזֹּאת נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?',
+  [N.hintFirewall]: 'הַכְּלָל בּוֹדֵק רַק דָּבָר אֶחָד: אֶת הַשּׁוֹלֵחַ אוֹ אֶת הַמְּקַבֵּל. מִצְאוּ אוֹתוֹ עַל הַחֲבִילָה וְהַשְׁווּ.',
+  [N.allow]: 'נִכְנֶסֶת',
+  [N.block]: 'נֶעֱצֶרֶת',
+  [N.sender]: 'שׁוֹלֵחַ',
+  [N.receiver]: 'מְקַבֵּל',
+  [rulePhrase('allowTo')]: 'הַשַּׁעַר מַכְנִיס רַק חֲבִילוֹת שֶׁהַמְּקַבֵּל שֶׁלָּהֶן הוּא',
+  [rulePhrase('allowFrom')]: 'הַשַּׁעַר מַכְנִיס רַק חֲבִילוֹת שֶׁהַשּׁוֹלֵחַ שֶׁלָּהֶן הוּא',
+  [rulePhrase('blockTo')]: 'הַשַּׁעַר עוֹצֵר חֲבִילוֹת שֶׁהַמְּקַבֵּל שֶׁלָּהֶן הוּא',
+  [rulePhrase('blockFrom')]: 'הַשַּׁעַר עוֹצֵר חֲבִילוֹת שֶׁהַשּׁוֹלֵחַ שֶׁלָּהֶן הוּא',
   ...Object.fromEntries(SHAPES.map(s => [shapePhrase(s.id), s.name])),
   ...Object.fromEntries(NUMBER_NAMES.map((name, i) => [numberPhrase(i + 1), name])),
 }

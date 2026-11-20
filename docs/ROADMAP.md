@@ -116,6 +116,9 @@ searching, were merged in PR #20; shortest paths are out. User play-test remains
 `docs/specs/networks.md` proposes nine offline games for grades 1–6, using international references
 as permitted by D26. The user has not approved the spec; implementation has not started.
 
+## Stage 9 – Accounts, sync and usage data 📝 spec drafted
+Spec `docs/specs/accounts-sync.md` (D27) written after a design debate; awaiting user approval. Build order: event log and fold (offline, tests) → backend schema, access rules and RLS tests → sign-in, sync, consent screen → daily summary email and feedback links (later). The tap-to-hear audio unlock (PR #25) is separate and does not wait for it.
+
 ## Future – Light/dark theme toggle ⬜
 
 Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.

@@ -103,3 +103,13 @@ without waiting for a play-test between them. The user plays them after. Each gr
 child-facing instructions. The existing game instruction remains replayable in the same owl's menu. FAQ questions
 retain nikud; answers omit it. Replay and a yellow square close button share a row. Each island keeps its games'
 help in one content file. The clock-setting pilot is play-tested before expanding.
+
+**D27 · 2026-11-20 · user** — Parent accounts, sync and usage data. This replaces D2's "no server, accounts, analytics or network calls" and the matching lines in CLAUDE.md and D18; offline play stays.
+- **Accounts:** a parent signs in with a verified email code (not a password, not a link). Child profiles belong to that account and progress follows the child across devices. Ownership is the authenticated account ID, never the email text.
+- **Guest first:** a new device plays as a guest with nothing uploaded. Signing in is offered from the parents' area; guest children are added to the account only after the parent says yes.
+- **Local first:** the device never needs a network to play. Play is stored on the device first and synced later. The server holds the shared copy; no round is promised to survive clearing browser data before it uploads.
+- **Backend:** a managed service (Supabase: login, database, row-level security). Only its public key is in the app; no secret key anywhere in the repo or browser. Adding its client library is a new dependency and needs the user's approval.
+- **Network calls allowed:** sign-in and sync with that backend, nothing else. Still no third-party analytics, ads, chat or external links.
+- **Data kept:** parent email, and per child a nickname, avatar, grade and play events. Usage statistics (active profiles, return rate, games played) are computed on the server from those events. A profile is active if it played at least one round or sprint in the last 7 days, counted once.
+- **Before public launch:** consent screen with a stored consent record, a privacy policy, parent export and account deletion, and a legal check for minors' data (Israel's privacy law, and GDPR-style rules for users abroad).
+- **Spec:** `docs/specs/accounts-sync.md`.

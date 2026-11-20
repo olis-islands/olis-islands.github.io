@@ -115,6 +115,9 @@ game vertical slice and 12 boards are implemented and tested, but the other mech
 E2E, screenshots and commit gate remain incomplete) · T4 ⬜. The user authorized starting immediately;
 the Oli-help and Stage 8a play-tests remain follow-ups, not implementation blockers.
 
+## Stage 9 – Accounts, sync and usage data 📝 spec drafted
+Spec `docs/specs/accounts-sync.md` (D27) written after a design debate; awaiting user approval. Build order: event log and fold (offline, tests) → backend schema, access rules and RLS tests → sign-in, sync, consent screen → daily summary email and feedback links (later). The tap-to-hear audio unlock (PR #25) is separate and does not wait for it.
+
 ## Future – Light/dark theme toggle ⬜
 
 Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.

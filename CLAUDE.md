@@ -48,19 +48,20 @@ computer-first with touch support.
 | Parents' page | ✅ built, ⏳ awaiting user play-test | `#/parents` behind a number-in-words gate (D18): summary, what to practise, settings, backup; soft locks with "start here" by grade and a parent's "already knows this" (D19); spec `docs/specs/parents.md` |
 | Coding island (K–2) | ✅ built, ⏳ awaiting user play-test | 7 skills (story algorithms, follow, arrow programs, debug, loops), `ProgramGame` + `program.ts` simulator; spec `docs/specs/coding.md`; ~90 phrases to record |
 | Coding expansion (3–6) | ✅ merged, ⏳ awaiting user play-test | Eight skills; spec `docs/specs/coding-grade3-6.md`; PR #20 |
-| Networks island | 📝 draft, ⏳ awaiting spec approval | Proposed offline simulations, grades 1–6; spec `docs/specs/networks.md`; no implementation |
+| Networks island | 🟡 first slice built, ⏳ open decisions | Spec `docs/specs/networks.md` (draft, D26), building while decisions are answered (`docs/requests/2026-11-20-networks-open-decisions.md`). On the map (advanced group, 📡); 1 of 9 games: grade 1 delivery (`PickGame`, original SVG art). 4 new texts to record |
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
-| Git | ✅ | Coding expansion and map layout merged to `main` (PR #20, #22); networks spec in progress |
+| Git | ✅ | Coding expansion, map layout, studio and audio gate merged to `main` (PR #20–#22, #24, #25); networks spec and first slice on PR #23 |
 
-Current work: **Networks island draft spec**; Stage 8b, the Oli-help pilot and Stage 5 await user play-test.
+Current work: **Networks island**, built game by game while the owner answers its open decisions; Stage 8b, the Oli-help pilot and Stage 5 await user play-test.
 
 ## Next steps
 
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
-1. **User:** review the networks-island spec; no implementation before approval.
+1. **User:** answer the networks open decisions (`docs/requests/2026-11-20-networks-open-decisions.md`) and play-test the delivery game.
+   **Planner:** then build the next networks slice in the order of question 1.
 2. **User + planner:** play-test the clock-setting help pilot and Stages 8a and 8b.
 3. **User:**
    - play-test all islands;

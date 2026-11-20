@@ -112,9 +112,12 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 Spec `docs/specs/coding-grade3-6.md` approved 2026-11-16. Eight skills, including binary, sorting and
 searching, were merged in PR #20; shortest paths are out. User play-test remains a follow-up.
 
-## Networks island – draft ⬜
+## Networks island – building in slices 🟡
 `docs/specs/networks.md` proposes nine offline games for grades 1–6, using international references
-as permitted by D26. The user has not approved the spec; implementation has not started.
+as permitted by D26. On 2026-11-20 the owner asked to merge the spec and build while decisions are taken;
+open questions with recommendations: `docs/requests/2026-11-20-networks-open-decisions.md`.
+T0 (contracts, map entry, `--net` token) ✅ · T1d delivery game (grade 1) ✅ built, user play-test ⏳ ·
+T2–T7 (the other eight games) ⬜ blocked on open question 1 · 4 new texts to record.
 
 ## Future – Light/dark theme toggle ⬜
 

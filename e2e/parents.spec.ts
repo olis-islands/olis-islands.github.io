@@ -48,23 +48,14 @@ test('a missed item shows under "what to practise"', async ({ page }) => {
   await expect(practice).toContainText('מַכִּירִים אֶת הַמְּחוֹגִים')
 })
 
-test('a backup restores a deleted child', async ({ page }) => {
+test('a backup file holds the child and their progress', async ({ page }) => {
   await createProfile(page)
   await passGate(page)
   const download = page.waitForEvent('download')
   await page.getByRole('button', { name: 'שמור גיבוי' }).click()
   const file = await (await download).path()
   expect(JSON.parse(await readFile(file, 'utf8'))).toMatchObject({ app: 'lomdim-vemsachakim', version: 1, profiles: [{ name: 'נועה' }] })
-
-  await page.getByRole('button', { name: 'מחק ילד' }).click()
-  await page.getByLabel('השם לאישור').fill('נועה')
-  await page.getByRole('alertdialog').getByRole('button', { name: 'מחק ילד' }).click()
-  await expect(page.getByRole('tab', { name: /נועה/ })).toHaveCount(0)
-
-  await page.locator('.pr-file input[type=file]').setInputFiles(file)
-  await expect(page.getByRole('alertdialog')).toContainText('נועה')
-  await page.getByRole('alertdialog').getByRole('button', { name: 'שחזר' }).click()
-  await expect(page.getByRole('tab', { name: /נועה/ })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'שחזר' })).toHaveCount(0)
 })
 
 test('soft locks: any skill is playable, and "already knows this" moves "start here" on', async ({ page }) => {

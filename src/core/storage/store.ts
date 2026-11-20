@@ -1,13 +1,15 @@
 import { create } from 'zustand'
-import { del, get, set } from 'idb-keyval'
+import { del, delMany, get, keys, set, update } from 'idb-keyval'
 import type { Grade } from '../engine/types'
+import { fold, type Folded, type ProgressEvent } from '../progress/events'
 import {
-  applyRound, applySprint, emptyProgress, markKnown,
+  applyRound, applySprint, emptyProgress,
   type Progress, type RoundOutcome, type RoundSummary, type SprintOutcome, type SprintSummary,
 } from '../progress/progress'
 import { makeBackup, type Backup } from './backup'
 
-// The only module that touches persistent storage (docs/DECISIONS.md D2: local only).
+// The only module that touches persistent storage (docs/DECISIONS.md D2, D27).
+// Progress is the replay of an append-only event log kept per child (docs/specs/accounts-sync.md).
 
 export interface Profile {
   id: string
@@ -36,14 +38,23 @@ interface State {
   markKnown: (childId: string, skillId: string, known: boolean) => Promise<void>
   /** Every profile and its progress, for the parent's backup file. */
   exportAll: () => Promise<Backup>
-  /** Replaces all profiles and progress with a validated backup (see parseBackup). */
-  importAll: (b: Backup) => Promise<void>
 }
 
-const PROFILES = 'profiles'
-const progressKey = (id: string) => `progress:${id}`
+/** Bumped when the stored shape changes. Older data is dropped (the beta reset agreed in D27). */
+const SCHEMA = 'schema'
+const SCHEMA_VERSION = 2
+/** A device starts as a guest: nothing leaves it. Signed-in accounts get their own prefix with sync. */
+const NS = 'guest'
+const PROFILES = `${NS}:profiles`
+const logKey = (id: string) => `${NS}:log:${id}`
 /** The child who played last, so a reload with several profiles doesn't go back to the picker. */
-const LAST = 'lastProfile'
+const LAST = `${NS}:last`
+
+/** One child's events and the progress computed from them, saved together in one write. */
+interface Log {
+  events: ProgressEvent[]
+  folded: Folded
+}
 
 async function safeGet<T>(key: string): Promise<T | undefined> {
   try { return await get<T>(key) } catch { return undefined }
@@ -52,6 +63,50 @@ async function safeSet(key: string, value: unknown) {
   try { await set(key, value) } catch { /* storage unavailable (private mode): play without saving */ }
 }
 
+/** Drops data from before the event log: the first start of this version begins empty. */
+async function migrate() {
+  if ((await safeGet<number>(SCHEMA)) === SCHEMA_VERSION) return
+  try {
+    const old = (await keys()).filter(k => typeof k === 'string' && (k === 'profiles' || k === 'lastProfile' || k.startsWith('progress:')))
+    await delMany(old)
+  } catch { /* storage unavailable */ }
+  await safeSet(SCHEMA, SCHEMA_VERSION)
+}
+
+const loadLog = async (id: string): Promise<Log> => {
+  const log = await safeGet<Log>(logKey(id))
+  return log ? { events: log.events, folded: log.folded ?? fold(log.events) } : { events: [], folded: fold([]) }
+}
+
+/** Events kept in memory when storage is unavailable, so a round still counts until the page closes. */
+const memoryLogs = new Map<string, ProgressEvent[]>()
+
+/**
+ * Adds one event to a child's log. The event and the progress computed with it are written in a single transaction,
+ * so a crash can never leave one without the other. A reset is stamped after the newest event, so it always wins a tie.
+ */
+async function appendEvent(id: string, event: ProgressEvent): Promise<Folded> {
+  const stamp = (events: readonly ProgressEvent[]): ProgressEvent =>
+    event.kind === 'reset' ? { ...event, at: Math.max(event.at, ...events.map(e => e.at + 1)) } : event
+  let result: Folded = fold([event])
+  try {
+    await update<Log | undefined>(logKey(id), old => {
+      const prior = old?.events ?? []
+      const events = [...prior, stamp(prior)]
+      result = fold(events, old?.folded)
+      return { events, folded: result }
+    })
+  } catch {
+    const prior = memoryLogs.get(id) ?? []
+    const events = [...prior, stamp(prior)]
+    memoryLogs.set(id, events)
+    result = fold(events)
+  }
+  return result
+}
+
+const newId = () => crypto.randomUUID()
+
 export const useStore = create<State>((setState, getState) => ({
   loaded: false,
   profiles: [],
@@ -59,6 +114,7 @@ export const useStore = create<State>((setState, getState) => ({
   progress: emptyProgress(),
 
   async load() {
+    await migrate()
     const profiles = (await safeGet<Profile[]>(PROFILES)) ?? []
     setState({ profiles })
     // Select before marking loaded, or routes redirect to the profile picker on reload.
@@ -69,7 +125,7 @@ export const useStore = create<State>((setState, getState) => ({
   },
 
   async createProfile(p) {
-    const profile: Profile = { ...p, id: crypto.randomUUID() }
+    const profile: Profile = { ...p, id: newId() }
     const profiles = [...getState().profiles, profile]
     setState({ profiles })
     await safeSet(PROFILES, profiles)
@@ -78,7 +134,7 @@ export const useStore = create<State>((setState, getState) => ({
 
   async selectProfile(id) {
     const current = getState().profiles.find(p => p.id === id) ?? null
-    const progress = current ? ((await safeGet<Progress>(progressKey(current.id))) ?? emptyProgress()) : emptyProgress()
+    const progress = current ? (await loadLog(current.id)).folded.progress : emptyProgress()
     setState({ current, progress })
     if (current) await safeSet(LAST, current.id)
   },
@@ -86,16 +142,24 @@ export const useStore = create<State>((setState, getState) => ({
   async recordRound(r) {
     const { current, progress } = getState()
     const outcome = applyRound(progress, r)
+    if (current) {
+      const folded = await appendEvent(current.id, { id: newId(), kind: 'play', at: r.at, payload: { round: r } })
+      setState({ progress: folded.progress })
+      return { ...outcome, progress: folded.progress }
+    }
     setState({ progress: outcome.progress })
-    if (current) await safeSet(progressKey(current.id), outcome.progress)
     return outcome
   },
 
   async recordSprint(r) {
     const { current, progress } = getState()
     const outcome = applySprint(progress, r)
+    if (current) {
+      const folded = await appendEvent(current.id, { id: newId(), kind: 'play', at: r.at, payload: { sprint: r } })
+      setState({ progress: folded.progress })
+      return { ...outcome, progress: folded.progress }
+    }
     setState({ progress: outcome.progress })
-    if (current) await safeSet(progressKey(current.id), outcome.progress)
     return outcome
   },
 
@@ -110,7 +174,8 @@ export const useStore = create<State>((setState, getState) => ({
     const profiles = getState().profiles.filter(p => p.id !== id)
     setState({ profiles })
     await safeSet(PROFILES, profiles)
-    try { await del(progressKey(id)) } catch { /* storage unavailable */ }
+    memoryLogs.delete(id)
+    try { await del(logKey(id)) } catch { /* storage unavailable */ }
     if (getState().current?.id === id) {
       setState({ current: null, progress: emptyProgress() })
       try { await del(LAST) } catch { /* storage unavailable */ }
@@ -118,33 +183,19 @@ export const useStore = create<State>((setState, getState) => ({
   },
 
   async resetProgress(id) {
-    await safeSet(progressKey(id), emptyProgress())
-    if (getState().current?.id === id) setState({ progress: emptyProgress() })
+    const folded = await appendEvent(id, { id: newId(), kind: 'reset', at: Date.now() })
+    if (getState().current?.id === id) setState({ progress: folded.progress })
   },
 
   async markKnown(childId, skillId, known) {
-    const isCurrent = getState().current?.id === childId
-    const before = isCurrent ? getState().progress : ((await safeGet<Progress>(progressKey(childId))) ?? emptyProgress())
-    const after = markKnown(before, skillId, known)
-    if (isCurrent) setState({ progress: after })
-    await safeSet(progressKey(childId), after)
+    const folded = await appendEvent(childId, { id: newId(), kind: 'known', at: Date.now(), payload: { skillId, known } })
+    if (getState().current?.id === childId) setState({ progress: folded.progress })
   },
 
   async exportAll() {
     const { profiles } = getState()
     const progress: Record<string, Progress> = {}
-    for (const p of profiles) progress[p.id] = (await safeGet<Progress>(progressKey(p.id))) ?? emptyProgress()
+    for (const p of profiles) progress[p.id] = (await loadLog(p.id)).folded.progress
     return makeBackup(profiles, progress, Date.now())
-  },
-
-  async importAll(b) {
-    for (const p of getState().profiles) if (!b.profiles.some(x => x.id === p.id)) {
-      try { await del(progressKey(p.id)) } catch { /* storage unavailable */ }
-    }
-    for (const p of b.profiles) await safeSet(progressKey(p.id), b.progress[p.id] ?? emptyProgress())
-    setState({ profiles: b.profiles })
-    await safeSet(PROFILES, b.profiles)
-    const keep = b.profiles.find(p => p.id === getState().current?.id)
-    await getState().selectProfile(keep?.id ?? (b.profiles.length === 1 ? b.profiles[0]!.id : null))
   },
 }))

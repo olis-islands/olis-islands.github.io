@@ -1,0 +1,17 @@
+.audio-gate {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+  border: 0; cursor: pointer;
+  background: var(--bg-sea); color: var(--ink);
+}
+.audio-gate-owl { font-size: min(34vmin, 220px); line-height: 1; }
+.audio-gate-speaker {
+  display: grid; place-items: center;
+  min-width: var(--tap); min-height: var(--tap); padding: 20px 36px;
+  border-radius: var(--radius); background: var(--abc); color: var(--on-accent);
+  font-size: min(14vmin, 96px); line-height: 1;
+  animation: audio-gate-pulse 1.4s ease-in-out infinite;
+}
+.audio-gate:focus-visible .audio-gate-speaker { outline: 4px solid var(--sun); outline-offset: 4px; }
+@keyframes audio-gate-pulse { 50% { transform: scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .audio-gate-speaker { animation: none; } }

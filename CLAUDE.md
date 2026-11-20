@@ -38,9 +38,10 @@ computer-first with touch support.
 | UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map (base and advanced islands arranged in circles), island path, play screen, sticker book |
 | Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games; `docs/specs/oli-help.md` (D25) |
 | Clock island | ✅ built, ⏳ awaiting user play-test | 7 skills, 5 games; spec `docs/specs/clock.md` |
-| Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves via the dev server straight into `src/audio/he/` (D12); user has started recording |
+| Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves into `src/audio/he/` (D12) without refreshing the studio when a take changes |
 | Hebrew letters island | ✅ built, ⏳ awaiting user play-test | 13 skills, 3 game components, 190 words; spec `docs/specs/hebrew-letters.md`; 0 of 324 phrases recorded |
 | Reading island | ✅ built, ⏳ awaiting user play-test | 11 skills (5 nikud signs, build, word/sentence reading, cloze, story order, 5 read-along books); spec `docs/specs/reading.md`; ~273 phrases to record |
+| Audio unlock | ✅ built, ⏳ awaiting phone/tablet test | Full-screen "tap to hear Oli" while the browser blocks sound (`src/app/AudioGate.tsx`, `unlockAudio` in `audio.ts`); an automatic instruction asked for before the tap is said after it. E2E runs with autoplay allowed except `e2e/audio-gate.spec.ts` |
 | Shared pick UI | ✅ | `src/ui/pick/` — `PickGame`, `SayButton`, `Objects`, `PickQ` (D14) |
 | Numbers island (K–6) | ✅ built, ⏳ awaiting user play-test | 63 skills, one spec per stage (`docs/specs/math-k2.md`, `math-grade2.md` … `math-grade6.md`), ~25 game components and art kits per grade (`art-g3` … `art-g6`); stacked fractions (`src/ui/pick/MathText.tsx`); numbers recorded to 10,000, spoken by the browser voice beyond it, decimals and fractions said as schools read them; timed arenas for the times table and percent (D23); ~400 phrases to record |
 | Thinking island | ✅ built, ⏳ awaiting user play-test | 12 skills, 53 original SVG drawings (`art/`), 4 new games; pre-kindergarten level (Grade −1); ~190 phrases to record |

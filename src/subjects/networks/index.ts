@@ -26,7 +26,7 @@ export const island: IslandDef = {
       games: [defineGame({ id: 'delivery', title: 'לְאָן הַהוֹדָעָה?', icon: '✉️', component: PickGame, generate: deliveryQuestion, accepts: deliveryAccepts })],
     },
     {
-      id: 'networks.packets', title: 'מְחַבְּרִים חֲבִילוֹת', grade: 3, requires: ['networks.delivery'], sticker: '📦', describeItem: describePackets,
+      id: 'networks.packets', title: 'מְסַדְּרִים חֲבִילוֹת', grade: 3, requires: ['networks.delivery'], sticker: '📦', describeItem: describePackets,
       games: [defineGame({ id: 'packets', title: 'סַדְּרוּ אֶת הַחֲבִילוֹת', icon: '📦', component: OrderGame, generate: packetsQuestion, accepts: packetsAccepts })],
     },
     {

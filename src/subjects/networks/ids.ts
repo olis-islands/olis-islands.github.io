@@ -17,7 +17,7 @@ export const N = {
   packet: 'networks.ui.packet', //       "חֲבִילָה", followed by a number
   retry3: 'networks.q.retry3', //        "הַמַּחְשֵׁב חִכָּה לְשָׁלוֹשׁ חֲבִילוֹת …"
   retry4: 'networks.q.retry4', //        "… לְאַרְבַּע חֲבִילוֹת …"
-  hintRetry: 'networks.hint.retry', //   "… אֵיזֶה מִסְפָּר חָסֵר …"
+  hintRetry: 'networks.hint.retry', //   "הַשְׁווּ אֶת הַשּׁוּרָה הָעֶלְיוֹנָה …"
 } as const
 
 /** A shape's name ("עִגּוּל"); the same text as the thinking island's shapes, so one recording serves both. */

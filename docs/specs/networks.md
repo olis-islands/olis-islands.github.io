@@ -69,10 +69,11 @@ Final titles, terms, icons and phrasing require full Hebrew-language and educati
 
 ## Shared experience and scoring
 
-- Each skill has one game, with **six questions per round** using the existing default. Before the
-  first scored question of each game, provide an optional, replayable **unscored** worked example
-  explaining the mechanic without revealing the next question. T0 must specify how this fits the
-  current game lifecycle; do not silently count the example as a question or an attempt.
+- Each skill has one game, with **six questions per round** using the existing default.
+- **Worked example: deferred** (owner's answer to question 3). No game has an unscored worked example,
+  and none is promised. Children rely on the instruction, the hint and the engine's aid. If the
+  play-test shows that a mechanic is not understood, a core "intro" step is planned then, with its own
+  phrase IDs (`networks.example.*` stays reserved).
 - Every question has one replayable Hebrew instruction and an optional general hint, both phrase IDs.
   A pick submits immediately. For boards with an explicit submit button, incomplete work cannot be
   submitted or count as a miss. Packet ordering instead scores each attempted placement as described
@@ -143,7 +144,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   introduced here. `OrderGame` (D28) with numbered slots stacked from the top; each tile reads "חֲבִילָה 3"
   and the tray keeps the arrival order. 3 or 4 packets, all 30 arrival orders, about one in six already in
   order. Key `networks.packets:<arrival digits>`. No picture is assembled after completion: `OrderGame`
-  has no such step and Q5 kept the shared component.
+  has no such step and Q5 kept the shared component. **No hint, on purpose:** `OrderGame` has none, and the
+  numbered slots already show where each packet goes; a wrong packet only shakes and stays in the tray.
 
 ### 4. Missing shell (`retry`)
 
@@ -154,7 +156,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Explain comparing expected and received labels; do not point to the missing
   number. Retransmission is a model of *some* reliable protocols, not a guarantee of all traffic.
 - **Key/review:** `networks.retry:<scenario-id>`; yes; prefer `PickGame`.
-- **As built (T2):** `PickGame`. The drawing shows two LTR rows: the numbers that should arrive (1…3 or 1…4)
+- **As built (T2):** `PickGame`. The drawing shows two LTR rows, "should have arrived" above "arrived"; the
+  hint compares the top row with the bottom row, which is true wherever the missing number is. The rows: the numbers that should arrive (1…3 or 1…4)
   and the packets that arrived, in arrival order, without a gap that would mark the missing place. Options are
   three numbers in ascending order: the missing one and two that did arrive. All 30 items; key
   `networks.retry:<total>:<missing>:<arrival digits>`. The arriving-packet animation is not built.
@@ -224,8 +227,7 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 
 ## Technical and accessibility constraints
 
-- T0 defines question/content types, ID helpers, stable exports and the unscored introduction's
-  lifecycle. `Question`, `GameProps`, `defineGame`, `PickGame`, audio and the round engine remain the
+- T0 defines question/content types, ID helpers and stable exports (the worked example is deferred). `Question`, `GameProps`, `defineGame`, `PickGame`, audio and the round engine remain the
   source of truth. No new dependency and no changes to shared contracts without planner review.
 - Planner T0 creates the `comingSoon` skeleton with `id: 'networks'`, `tier: 'advanced'`, an unused
   order, a light/dark theme token and `app.island.networks` matching its final Hebrew title. The new
@@ -271,7 +273,7 @@ No actual personal data, real service names, real passwords or copyrighted exerc
   unavailable web replies, privacy boundaries, and all four detective faults. Exercise ≥200 seeds per
   generator or exhaust the complete domain. Verify 12 unique keys per game, `avoid`, stable accepted
   review, unique options, reachable answers and all referenced phrase IDs.
-- Component tests cover all attempt boundaries, unscored examples and investigation, retry after
+- Component tests cover all attempt boundaries, unscored investigation, retry after
   errors, keyboard-only and touch-equivalent actions, focus and announcements, no answer leakage,
   and reduced motion. Prove incomplete explicit-submit boards and unchecked investigations cannot score,
   while each wrong packet placement counts exactly once.
@@ -325,7 +327,7 @@ The owner answered all ten questions in `docs/requests/2026-11-20-networks-open-
 |---|---|---|
 | 1 | Nine games, grades, advanced placement | Yes: nine games, grades 1, 3, 3, 4, 4, 5, 5, 6, 6, advanced group; build order delivery, packets + retry, firewall, DNS + web, route, privacy, detective (D28) |
 | 2 | Island name and icon | "אִי הָרְשָׁתוֹת" with 📡 |
-| 3 | Unscored worked example | No worked example for now; add a core intro step only if the play-test shows a need |
+| 3 | Unscored worked example | Deferred: no worked example for now; add a core intro step only if the play-test shows a need |
 | 4 | Delivery addresses (shape + number) | Yes: shape + number, three computers, generated from all 36 addresses |
 | 5 | Packets: reuse `OrderGame` | Reuse `OrderGame`; a new board only if a picture is needed |
 | 6 | Detective: all four checks first | Yes: all four checks before answering |

@@ -1,8 +1,9 @@
 # Spec: Networks island
 
-- **Status:** Draft; awaiting user approval. No implementation is authorized by this draft.
+- **Status:** Approved by user on 2026-11-20 ("all yes" to the ten open decisions, D28). Built game by game;
+  see the task table.
 - **Stage:** New advanced island, not an expansion of the coding island.
-- **Relies on:** D2, D3, D7, D14, D19, D26; `docs/RESEARCH.md` § Networks education.
+- **Relies on:** D2, D3, D7, D14, D19, D26, D28; `docs/RESEARCH.md` § Networks education.
 - **Working name:** Networks Island, also described as the Island of Messengers. Final Hebrew names and
   nikud need content review; English labels below are design labels, not child-facing text.
 
@@ -54,7 +55,7 @@ network skill is proposed in this first island.
 |---|---|---:|---|---|---|
 | `networks.delivery` | Deliver a message | 1 | — | ✉️ | delivery |
 | `networks.route` | The crossroads | 3 | `networks.delivery` | 🧭 | route |
-| `networks.packets` | Put the pieces together | 3 | `networks.delivery` | 🐚 | packets |
+| `networks.packets` | Put the pieces together | 3 | `networks.delivery` | 📦 | packets |
 | `networks.retry` | Find a missing piece | 4 | `networks.packets` | 🔁 | retry |
 | `networks.firewall` | The gate's rules | 4 | `networks.delivery` | 🚪 | firewall |
 | `networks.dns` | The name lighthouse | 5 | `networks.delivery` | 🔎 | dns |
@@ -103,6 +104,14 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   destination. Avoid implying every real device has one permanent, globally unique address.
 - **Key/review:** `networks.delivery:<scenario-id>`; yes. Use `PickGame` if the prompt can show the sender,
   destination and options accessibly; otherwise use the island's board component.
+- **As built (slice T1d, pending open question 4):** the address is a shape (circle, triangle, square or star,
+  each always in its own color) and a number 1–9, generated from all 36 addresses rather than 12 written
+  scenarios; key `networks.delivery:<shape>-<n>`. `PickGame` shows the envelope as a named drawing and three
+  computers, named by their address. The two wrong computers share the shape, the number, or nothing with the
+  address, but never one the shape and the other the number: then the right computer would be the only one
+  sharing a part with both others, and a child could pick it without reading the envelope (tested). The spoken
+  instruction ends with the address, so a child who cannot yet read the digits still hears it. No sender
+  drawing: it added nothing to the decision.
 
 ### 2. Crossroads (`route`)
 
@@ -130,6 +139,11 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Key/review:** `networks.packets:<scenario-id>`; yes. Reuse `OrderGame` only if its tile identity,
   accessible labels and optional speech represent shells without leaking the solution; otherwise use
   the island board component. Do not assume its current question type already supports this content.
+- **As built (T2):** the child-facing word is "packet" (חֲבִילָה), not shell: a real, everyday word that is
+  introduced here. `OrderGame` (D28) with numbered slots stacked from the top; each tile reads "חֲבִילָה 3"
+  and the tray keeps the arrival order. 3 or 4 packets, all 30 arrival orders, about one in six already in
+  order. Key `networks.packets:<arrival digits>`. No picture is assembled after completion: `OrderGame`
+  has no such step and Q5 kept the shared component.
 
 ### 4. Missing shell (`retry`)
 
@@ -140,6 +154,10 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Explain comparing expected and received labels; do not point to the missing
   number. Retransmission is a model of *some* reliable protocols, not a guarantee of all traffic.
 - **Key/review:** `networks.retry:<scenario-id>`; yes; prefer `PickGame`.
+- **As built (T2):** `PickGame`. The drawing shows two LTR rows: the numbers that should arrive (1…3 or 1…4)
+  and the packets that arrived, in arrival order, without a gap that would mark the missing place. Options are
+  three numbers in ascending order: the missing one and two that did arrive. All 30 items; key
+  `networks.retry:<total>:<missing>:<arrival digits>`. The arriving-packet animation is not built.
 
 ### 5. Gate rules (`firewall`)
 
@@ -151,6 +169,17 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Re-read the rule and the packet's relevant label without saying the outcome.
   A firewall is not perfect protection, and this one-rule model does not describe every firewall.
 - **Key/review:** `networks.firewall:<scenario-id>`; yes; prefer `PickGame`.
+- **As built (T3):** `PickGame`. The places are the four colored shapes. A packet card shows its sender (שׁוֹלֵחַ)
+  and receiver (מְקַבֵּל), never the same. The rule is one readable, spoken sentence ending in a shape, with a
+  small card showing the field it checks and that shape: let in only packets to/from a shape, or stop packets
+  to/from a shape. Options are always "נִכְנֶסֶת" ✅ then "נֶעֱצֶרֶת" ⛔. The generator picks the rule kind first and
+  then the outcome, so every kind lets the packet in half of the time and the wording never predicts the
+  answer. In about half of the possible cases the rule's shape sits in the field the rule does not check, which
+  catches a child who only looks for the shape. All 192 items; key
+  `networks.firewall:<kind>-<shape>:<from>-<to>`.
+  **Open:** the engine turns the aid on after two misses in a row, and a correct answer resets the count, so with
+  two options the hint is never heard. Fixing it needs a small engine change (for example, the hint after one miss
+  in a two-option game); this needs the owner's decision.
 
 ### 6. Name lighthouse (`dns`)
 
@@ -269,23 +298,27 @@ No actual personal data, real service names, real passwords or copyrighted exerc
 - Run `npm run check` and `npm run e2e` twice, review the complete diff and content, then obtain the
   user's play-test approval. No claim of completion until those gates pass.
 
-## Proposed implementation tasks
+## Implementation tasks
 
-These are future tasks, not authorization to build. T0 must commit the shared contracts and skeleton
-before parallel tasks start. T1–T3 use T0 interfaces and local test fixtures, not unmerged sibling files.
-Reconfirm exact files and dependencies after approval; parallel ownership must not overlap.
+T0 is committed; every later task builds on its contracts (`types.ts`, `ids.ts`) and never imports a sibling
+task's unmerged files. Each game is one vertical slice: content, generator, tests, art and wiring together,
+because a game's files are its own. Tasks in the same row group can run in parallel; their files never overlap.
+Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by the planner, when a slice is merged.
 
-| Task | Owner | Exact files | Depends on |
-|---|---|---|---|
-| T0 | Planner | `src/subjects/networks/types.ts`, `src/subjects/networks/ids.ts`, `src/subjects/networks/index.ts`, `src/subjects/networks/phrases.ts`, `src/app/phrases.ts`, `src/ui/theme.css`, their affected existing tests | Approved spec; contracts, intro approach, skeleton, map phrase and theme token; check + build |
-| T1 | Content | `src/subjects/networks/content/scenarios.ts`, `src/subjects/networks/content.test.ts`, `src/subjects/networks/content-phrases.ts` | T0; original scenarios and reviewed phrase map |
-| T2 | Builder | `src/subjects/networks/generators.ts`, `src/subjects/networks/generators.test.ts`, `src/subjects/networks/art.tsx` | T0; generators accept T0-typed scenario inputs and use local fixtures |
-| T3 | Builder | `src/subjects/networks/games.tsx`, `src/subjects/networks/games.test.tsx`, `src/subjects/networks/networks.css` | T0; board components and accessible interactions, using local fixtures |
-| T4 | Planner + reviewer | `src/subjects/networks/index.ts`, `src/subjects/networks/phrases.ts`, `e2e/networks.spec.ts`, `e2e/map.spec.ts`, `CLAUDE.md`, `docs/ROADMAP.md`, `docs/specs/networks.md` | T1–T3 reviewed and merged one by one; wiring, phrase export, E2E, screenshots and full review |
+| Task | Owner | Exact files | Depends on | Status |
+|---|---|---|---|---|
+| T0 | Planner | `src/subjects/networks/{types,ids,phrases,index}.ts`, `src/app/phrases.ts` (`app.island.networks`), `src/ui/theme.css` (`--net`), `src/ui/pick/PickGame.tsx` + `PickGame.test.tsx` (a drawing option said in parts is named by all its parts), `src/app/islands.test.ts`, `e2e/map.spec.ts` (four advanced islands) | — | ✅ |
+| T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0 | ✅ built, awaiting content review and play-test |
+| T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
+| T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx` (firewall) | T0 | ✅ built, awaiting content review and play-test |
+| T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ⬜ |
+| T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
+| T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
+| T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |
+| Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |
 
-If T0 finds that the intro or a shared component needs a core/UI change beyond these files, revise this
-table with the exact planner-owned files and tests before work starts; update architecture when a shared
-contract changes. Never wire unmerged sibling work into the live island.
+Builders request new phrase IDs or types in `docs/requests/`; the planner adds them to the shared files.
+Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
 
 ## Out of scope
 
@@ -296,7 +329,18 @@ comparison is a possible future extension, not part of this draft. No new Oli-he
 
 ## Decisions awaiting approval
 
-Approve or change the nine games, the proposed grades and the advanced-island placement. In particular,
-the locked-message game and optional early-grade delivery use simplified analogies; their final Hebrew
-wording and all safety explanations require review. The user has accepted international sources for
-this subject, but has **not** approved this draft or authorized implementation.
+The owner answered all ten questions in `docs/requests/2026-11-20-networks-open-decisions.md` on 2026-11-20:
+"all yes", taking every recommendation.
+
+| # | Topic | Answer |
+|---|---|---|
+| 1 | Nine games, grades, advanced placement | Yes: nine games, grades 1, 3, 3, 4, 4, 5, 5, 6, 6, advanced group; build order delivery, packets + retry, firewall, DNS + web, route, privacy, detective (D28) |
+| 2 | Island name and icon | "אִי הָרְשָׁתוֹת" with 📡 |
+| 3 | Unscored worked example | No worked example for now; add a core intro step only if the play-test shows a need |
+| 4 | Delivery addresses (shape + number) | Yes: shape + number, three computers, generated from all 36 addresses |
+| 5 | Packets: reuse `OrderGame` | Reuse `OrderGame`; a new board only if a picture is needed |
+| 6 | Detective: all four checks first | Yes: all four checks before answering |
+| 7 | Privacy: password reminder | Yes: a separate line after success, flagged for content review |
+| 8 | Who does the release content review | Opus content-review agent reads every item, then the owner play-tests |
+| 9 | Offline E2E test | Test "no request outside the app" plus one manual offline check before release |
+| 10 | Recorded voice (D3) | Record as usual (D3) |

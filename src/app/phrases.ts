@@ -44,4 +44,5 @@ export const phrases: PhraseMap = {
   'app.island.thinking': 'אִי הַחֲשִׁיבָה',
   'app.island.english': 'אִי הָאַנְגְּלִית',
   'app.island.coding': 'אִי הַתִּכְנוּת',
+  'app.island.networks': 'אִי הָרְשָׁתוֹת',
 }

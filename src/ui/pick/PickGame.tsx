@@ -84,8 +84,10 @@ function optionLabel(o: PickOption): string {
     case 'art': {
       // A silhouette must not announce what it is: that is the answer.
       if (o.art.props?.silhouette) return '?'
+      // A name said in parts (a shape, then a number) is read as one name.
       const ref = o.say ?? o.art.say
-      return typeof ref === 'string' ? (phrases[ref] ?? o.art.name) : o.art.name
+      const text = typeof ref === 'string' ? phrases[ref] : ref?.map(id => phrases[id] ?? '').join(' ').trim()
+      return text || o.art.name
     }
     case 'number': return mathLabel(o.label)
     default: return o.label

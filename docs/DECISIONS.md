@@ -118,3 +118,9 @@ proposed enrichment from verified Israeli requirements. The island spec still ne
 - **Data kept:** parent email, and per child a nickname, avatar, grade and play events. Usage statistics (active profiles, return rate, games played) are computed on the server from those events. A profile is active if it played at least one round or sprint in the last 7 days, counted once.
 - **Before public launch:** consent screen with a stored consent record, a privacy policy, parent export and account deletion, and a legal check for minors' data (Israel's privacy law, and GDPR-style rules for users abroad).
 - **Spec:** `docs/specs/accounts-sync.md`.
+
+**D28 · 2026-11-20 · user** — The networks island is approved as specified in `docs/specs/networks.md`: nine offline
+simulation games for grades 1, 3, 3, 4, 4, 5, 5, 6, 6 in the advanced map group, named "אִי הָרְשָׁתוֹת". No unscored worked
+example for now. Packets reuse the reading island's order mechanic unless a picture is needed. The detective game needs
+all four checks before an answer counts. The privacy game ends with a separate "ask a trusted adult" line. Release needs
+a full Opus content review, the owner's play-test and one manual offline check.

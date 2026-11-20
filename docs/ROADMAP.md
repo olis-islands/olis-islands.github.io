@@ -112,12 +112,11 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 Spec `docs/specs/coding-grade3-6.md` approved 2026-11-16. Eight skills, including binary, sorting and
 searching, were merged in PR #20; shortest paths are out. User play-test remains a follow-up.
 
-## Networks island – draft ⬜
-`docs/specs/networks.md` proposes nine offline games for grades 1–6, using international references
-as permitted by D26. The user has not approved the spec; implementation has not started.
-
-## Stage 9 – Accounts, sync and usage data 📝 spec drafted
-Spec `docs/specs/accounts-sync.md` (D27) written after a design debate; awaiting user approval. Build order: event log and fold (offline, tests) → backend schema, access rules and RLS tests → sign-in, sync, consent screen → daily summary email and feedback links (later). The tap-to-hear audio unlock (PR #25) is separate and does not wait for it.
+## Networks island – building in slices 🟡
+`docs/specs/networks.md`, approved 2026-11-20 (D28): nine offline games for grades 1–6, using international
+references as permitted by D26. One PR per game or per two related games.
+T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ built · T3 firewall ⬜ ·
+T4 name lookup + web ⬜ · T5 route ⬜ · T6 privacy ⬜ · T7 detective ⬜ · content review ⏳ · user play-test ⏳.
 
 ## Future – Light/dark theme toggle ⬜
 

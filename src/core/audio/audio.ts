@@ -111,6 +111,45 @@ function playUrl(url: string): Promise<void> {
 let ctx: AudioContext | null = null
 const audioCtx = () => (ctx ??= new AudioContext())
 
+/* ---------- autoplay unlock: phones and tablets stay silent until the first tap ---------- */
+
+/** True while the browser still blocks sound (no tap yet, or the system suspended audio again in the background). */
+export function audioLocked(): boolean {
+  try { return audioCtx().state !== 'running' } catch { return false }
+}
+
+/** Calls `cb` whenever the audio engine starts or stops running. Returns an unsubscribe function. */
+export function onAudioLockChange(cb: () => void): () => void {
+  try {
+    const c = audioCtx()
+    c.addEventListener('statechange', cb)
+    return () => c.removeEventListener('statechange', cb)
+  } catch { return () => {} }
+}
+
+/** The last instruction asked for while sound was blocked: said after the child's first tap, so it is not lost. */
+let deferred: PhraseRef | null = null
+
+/** Must run inside a tap or click: resumes Web Audio, primes <audio> and speech, then says what was waiting. */
+export async function unlockAudio(): Promise<void> {
+  try {
+    const c = audioCtx()
+    await c.resume()
+    const s = c.createBufferSource()
+    s.buffer = c.createBuffer(1, 1, 22050)
+    s.connect(c.destination)
+    s.start(0)
+  } catch { /* audio unavailable */ }
+  try {
+    const u = new SpeechSynthesisUtterance(' ')
+    u.volume = 0
+    speechSynthesis.speak(u)
+  } catch { /* no speech support */ }
+  const waiting = deferred
+  deferred = null
+  if (waiting) void say(waiting)
+}
+
 const BLOCK_S = 0.01
 /** Blocks in a row that must be loud: a single click of the record button is not speech. */
 const SUSTAIN = 3
@@ -175,6 +214,8 @@ async function playRecording(url: string): Promise<void> {
 
 /** Speak a phrase or a sequence. Interrupts anything already playing. */
 export async function say(ref: PhraseRef): Promise<void> {
+  // Blocked and not inside a tap (e.g. an automatic instruction after a reload): keep it for the unlock tap.
+  if (audioLocked() && globalThis.navigator?.userActivation?.isActive === false) { deferred = ref; return }
   stop()
   const mine = token
   const ids = typeof ref === 'string' ? [ref] : ref

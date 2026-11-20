@@ -1,6 +1,9 @@
 # Spec: Networks island
 
-- **Status:** Draft; awaiting user approval. No implementation is authorized by this draft.
+- **Status:** Draft, building in slices. On 2026-11-20 the owner asked to merge the spec and build while
+  open decisions are answered along the way. Open questions, each with a recommendation:
+  `docs/requests/2026-11-20-networks-open-decisions.md`. Built so far: T0 and the delivery slice (T1d). The
+  spec as a whole, its grades and the other eight games are **not yet approved** (question 1).
 - **Stage:** New advanced island, not an expansion of the coding island.
 - **Relies on:** D2, D3, D7, D14, D19, D26; `docs/RESEARCH.md` § Networks education.
 - **Working name:** Networks Island, also described as the Island of Messengers. Final Hebrew names and
@@ -103,6 +106,14 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   destination. Avoid implying every real device has one permanent, globally unique address.
 - **Key/review:** `networks.delivery:<scenario-id>`; yes. Use `PickGame` if the prompt can show the sender,
   destination and options accessibly; otherwise use the island's board component.
+- **As built (slice T1d, pending open question 4):** the address is a shape (circle, triangle, square or star,
+  each always in its own color) and a number 1–9, generated from all 36 addresses rather than 12 written
+  scenarios; key `networks.delivery:<shape>-<n>`. `PickGame` shows the envelope as a named drawing and three
+  computers, named by their address. The two wrong computers share the shape, the number, or nothing with the
+  address, but never one the shape and the other the number: then the right computer would be the only one
+  sharing a part with both others, and a child could pick it without reading the envelope (tested). The spoken
+  instruction ends with the address, so a child who cannot yet read the digits still hears it. No sender
+  drawing: it added nothing to the decision.
 
 ### 2. Crossroads (`route`)
 
@@ -269,23 +280,27 @@ No actual personal data, real service names, real passwords or copyrighted exerc
 - Run `npm run check` and `npm run e2e` twice, review the complete diff and content, then obtain the
   user's play-test approval. No claim of completion until those gates pass.
 
-## Proposed implementation tasks
+## Implementation tasks
 
-These are future tasks, not authorization to build. T0 must commit the shared contracts and skeleton
-before parallel tasks start. T1–T3 use T0 interfaces and local test fixtures, not unmerged sibling files.
-Reconfirm exact files and dependencies after approval; parallel ownership must not overlap.
+T0 is committed; every later task builds on its contracts (`types.ts`, `ids.ts`) and never imports a sibling
+task's unmerged files. Each game is one vertical slice: content, generator, tests, art and wiring together,
+because a game's files are its own. Tasks in the same row group can run in parallel; their files never overlap.
+Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by the planner, when a slice is merged.
 
-| Task | Owner | Exact files | Depends on |
-|---|---|---|---|
-| T0 | Planner | `src/subjects/networks/types.ts`, `src/subjects/networks/ids.ts`, `src/subjects/networks/index.ts`, `src/subjects/networks/phrases.ts`, `src/app/phrases.ts`, `src/ui/theme.css`, their affected existing tests | Approved spec; contracts, intro approach, skeleton, map phrase and theme token; check + build |
-| T1 | Content | `src/subjects/networks/content/scenarios.ts`, `src/subjects/networks/content.test.ts`, `src/subjects/networks/content-phrases.ts` | T0; original scenarios and reviewed phrase map |
-| T2 | Builder | `src/subjects/networks/generators.ts`, `src/subjects/networks/generators.test.ts`, `src/subjects/networks/art.tsx` | T0; generators accept T0-typed scenario inputs and use local fixtures |
-| T3 | Builder | `src/subjects/networks/games.tsx`, `src/subjects/networks/games.test.tsx`, `src/subjects/networks/networks.css` | T0; board components and accessible interactions, using local fixtures |
-| T4 | Planner + reviewer | `src/subjects/networks/index.ts`, `src/subjects/networks/phrases.ts`, `e2e/networks.spec.ts`, `e2e/map.spec.ts`, `CLAUDE.md`, `docs/ROADMAP.md`, `docs/specs/networks.md` | T1–T3 reviewed and merged one by one; wiring, phrase export, E2E, screenshots and full review |
+| Task | Owner | Exact files | Depends on | Status |
+|---|---|---|---|---|
+| T0 | Planner | `src/subjects/networks/{types,ids,phrases,index}.ts`, `src/app/phrases.ts` (`app.island.networks`), `src/ui/theme.css` (`--net`), `src/ui/pick/PickGame.tsx` + `PickGame.test.tsx` (a drawing option said in parts is named by all its parts), `src/app/islands.test.ts`, `e2e/map.spec.ts` (four advanced islands) | — | ✅ |
+| T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0, Q4 | ✅ built, awaiting play-test |
+| T2 | Builder | `content/packets.ts`, `generators-packets.ts` + test (packets and retry) | T0, Q1, Q5 | ⬜ blocked |
+| T3 | Builder | `content/gates.ts`, `generators-gates.ts` + test (firewall) | T0, Q1 | ⬜ blocked |
+| T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0, Q1 | ⬜ blocked |
+| T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0, Q1 | ⬜ blocked |
+| T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0, Q1, Q7 | ⬜ blocked |
+| T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0, Q1, Q6 | ⬜ blocked |
+| Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |
 
-If T0 finds that the intro or a shared component needs a core/UI change beyond these files, revise this
-table with the exact planner-owned files and tests before work starts; update architecture when a shared
-contract changes. Never wire unmerged sibling work into the live island.
+Builders request new phrase IDs or types in `docs/requests/`; the planner adds them to the shared files.
+Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
 
 ## Out of scope
 
@@ -296,7 +311,18 @@ comparison is a possible future extension, not part of this draft. No new Oli-he
 
 ## Decisions awaiting approval
 
-Approve or change the nine games, the proposed grades and the advanced-island placement. In particular,
-the locked-message game and optional early-grade delivery use simplified analogies; their final Hebrew
-wording and all safety explanations require review. The user has accepted international sources for
-this subject, but has **not** approved this draft or authorized implementation.
+All open questions, numbered and each with a recommendation, are in
+`docs/requests/2026-11-20-networks-open-decisions.md`. Record each answer here when it is given:
+
+| # | Topic | Answer |
+|---|---|---|
+| 1 | Nine games, grades, advanced placement | open |
+| 2 | Island name and icon | open; slice uses "אִי הָרְשָׁתוֹת" and 📡 |
+| 3 | Unscored worked example | open; slice has none |
+| 4 | Delivery addresses (shape + number) | open; built this way |
+| 5 | Packets: reuse `OrderGame` | open |
+| 6 | Detective: all four checks first | open |
+| 7 | Privacy: password reminder | open |
+| 8 | Who does the release content review | open |
+| 9 | Offline E2E test | open; slice tests "no request outside the app" |
+| 10 | Recorded voice (D3) | open |

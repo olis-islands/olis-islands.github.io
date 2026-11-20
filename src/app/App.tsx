@@ -7,6 +7,7 @@ import { IslandScreen } from './screens/IslandScreen'
 import { PlayScreen } from './screens/PlayScreen'
 import { StickersScreen } from './screens/StickersScreen'
 import { ParentsScreen } from './parents/ParentsScreen'
+import { AudioGate } from './AudioGate'
 
 // The recording studio exists only in dev builds (docs/DECISIONS.md D10).
 const Studio = import.meta.env.DEV ? lazy(() => import('../tools/studio/Studio')) : null
@@ -20,6 +21,7 @@ export function App() {
   return (
     <HashRouter>
       <div className="app">
+        <AudioGate />
         <Routes>
           <Route path="/" element={<WithProfile><MapScreen /></WithProfile>} />
           <Route path="/profiles" element={<ProfileScreen />} />

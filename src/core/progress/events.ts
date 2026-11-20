@@ -46,7 +46,7 @@ function keepEarned(now: Progress, earlier: Progress): Progress {
   const skills = { ...now.skills }
   for (const [id, was] of Object.entries(earlier.skills)) {
     if (was.mastered && !skills[id]?.mastered) {
-      skills[id] = { rounds: [], mastered: false, bestStars: 0, ...skills[id], mastered: true }
+      skills[id] = { rounds: [], bestStars: 0, ...skills[id], mastered: true }
     }
   }
   return { ...now, stickers, skills }

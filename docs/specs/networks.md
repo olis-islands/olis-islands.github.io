@@ -71,10 +71,11 @@ Final titles, terms, icons and phrasing require full Hebrew-language and educati
 
 ## Shared experience and scoring
 
-- Each skill has one game, with **six questions per round** using the existing default. Before the
-  first scored question of each game, provide an optional, replayable **unscored** worked example
-  explaining the mechanic without revealing the next question. T0 must specify how this fits the
-  current game lifecycle; do not silently count the example as a question or an attempt.
+- Each skill has one game, with **six questions per round** using the existing default.
+- **Worked example: deferred** (owner's answer to question 3). No game has an unscored worked example,
+  and none is promised. Children rely on the instruction, the hint and the engine's aid. If the
+  play-test shows that a mechanic is not understood, a core "intro" step is planned then, with its own
+  phrase IDs (`networks.example.*` stays reserved).
 - Every question has one replayable Hebrew instruction and an optional general hint, both phrase IDs.
   A pick submits immediately. For boards with an explicit submit button, incomplete work cannot be
   submitted or count as a miss. Packet ordering instead scores each attempted placement as described
@@ -217,8 +218,7 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 
 ## Technical and accessibility constraints
 
-- T0 defines question/content types, ID helpers, stable exports and the unscored introduction's
-  lifecycle. `Question`, `GameProps`, `defineGame`, `PickGame`, audio and the round engine remain the
+- T0 defines question/content types, ID helpers and stable exports (the worked example is deferred). `Question`, `GameProps`, `defineGame`, `PickGame`, audio and the round engine remain the
   source of truth. No new dependency and no changes to shared contracts without planner review.
 - Planner T0 creates the `comingSoon` skeleton with `id: 'networks'`, `tier: 'advanced'`, an unused
   order, a light/dark theme token and `app.island.networks` matching its final Hebrew title. The new
@@ -264,7 +264,7 @@ No actual personal data, real service names, real passwords or copyrighted exerc
   unavailable web replies, privacy boundaries, and all four detective faults. Exercise ≥200 seeds per
   generator or exhaust the complete domain. Verify 12 unique keys per game, `avoid`, stable accepted
   review, unique options, reachable answers and all referenced phrase IDs.
-- Component tests cover all attempt boundaries, unscored examples and investigation, retry after
+- Component tests cover all attempt boundaries, unscored investigation, retry after
   errors, keyboard-only and touch-equivalent actions, focus and announcements, no answer leakage,
   and reduced motion. Prove incomplete explicit-submit boards and unchecked investigations cannot score,
   while each wrong packet placement counts exactly once.
@@ -318,7 +318,7 @@ All open questions, numbered and each with a recommendation, are in
 |---|---|---|
 | 1 | Nine games, grades, advanced placement | open |
 | 2 | Island name and icon | open; slice uses "אִי הָרְשָׁתוֹת" and 📡 |
-| 3 | Unscored worked example | open; slice has none |
+| 3 | Unscored worked example | open; deferred: no game has one |
 | 4 | Delivery addresses (shape + number) | open; built this way |
 | 5 | Packets: reuse `OrderGame` | open |
 | 6 | Detective: all four checks first | open |

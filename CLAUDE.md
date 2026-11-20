@@ -40,6 +40,7 @@ computer-first with touch support.
 | Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves into `src/audio/he/` (D12) without refreshing the studio when a take changes |
 | Hebrew letters island | ✅ built, ⏳ awaiting user play-test | 13 skills, 3 game components, 190 words; spec `docs/specs/hebrew-letters.md`; 0 of 324 phrases recorded |
 | Reading island | ✅ built, ⏳ awaiting user play-test | 11 skills (5 nikud signs, build, word/sentence reading, cloze, story order, 5 read-along books); spec `docs/specs/reading.md`; ~273 phrases to record |
+| Accounts, sync and usage data | 📝 draft, ⏳ awaiting spec approval | D27; spec `docs/specs/accounts-sync.md`; no implementation yet |
 | Shared pick UI | ✅ | `src/ui/pick/` — `PickGame`, `SayButton`, `Objects`, `PickQ` (D14) |
 | Numbers island (K–6) | ✅ built, ⏳ awaiting user play-test | 63 skills, one spec per stage (`docs/specs/math-k2.md`, `math-grade2.md` … `math-grade6.md`), ~25 game components and art kits per grade (`art-g3` … `art-g6`); stacked fractions (`src/ui/pick/MathText.tsx`); numbers recorded to 10,000, spoken by the browser voice beyond it, decimals and fractions said as schools read them; timed arenas for the times table and percent (D23); ~400 phrases to record |
 | Thinking island | ✅ built, ⏳ awaiting user play-test | 12 skills, 53 original SVG drawings (`art/`), 4 new games; pre-kindergarten level (Grade −1); ~190 phrases to record |
@@ -130,7 +131,7 @@ See D8 in `docs/DECISIONS.md`.
 - ✅ Match the surrounding code's style, naming and (low) comment density.
 
 ### Children's content and experience
-- ⛔ No network calls, analytics, ads, external links, chat, or personal data beyond a local name and avatar.
+- ⛔ No analytics, ads, external links or chat. Network calls and personal data only as D27 allows (sign-in and sync with the backend; a parent's email and a child's nickname and avatar) — and only once `docs/specs/accounts-sync.md` is approved and built. Until then the app stays fully local.
 - ⛔ No negative messages ("wrong!", "you failed"), no lives, no penalty timers for kindergarten to 2nd grade. A mistake leads to a hint and another try.
 - ✅ Every instruction has a phrase ID and can be replayed (click the owl). Touch targets ≥ 64px. Everything works by keyboard. Respect `prefers-reduced-motion`. Works in RTL and dark mode.
 - ✅ Educational content matches the ministry curriculum, with the source cited in the spec. Hebrew read by children carries correct nikud.

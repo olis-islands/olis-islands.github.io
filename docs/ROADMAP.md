@@ -115,7 +115,7 @@ searching, were merged in PR #20; shortest paths are out. User play-test remains
 ## Networks island – building in slices 🟡
 `docs/specs/networks.md`, approved 2026-11-20 (D28): nine offline games for grades 1–6, using international
 references as permitted by D26. One PR per game or per two related games.
-T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ built · T3 firewall ⬜ ·
+T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ PR #29 · T3 firewall (grade 4) ✅ built ·
 T4 name lookup + web ⬜ · T5 route ⬜ · T6 privacy ⬜ · T7 detective ⬜ · content review ⏳ · user play-test ⏳.
 
 ## Future – Light/dark theme toggle ⬜

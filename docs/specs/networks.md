@@ -169,6 +169,17 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Re-read the rule and the packet's relevant label without saying the outcome.
   A firewall is not perfect protection, and this one-rule model does not describe every firewall.
 - **Key/review:** `networks.firewall:<scenario-id>`; yes; prefer `PickGame`.
+- **As built (T3):** `PickGame`. The places are the four colored shapes. A packet card shows its sender (שׁוֹלֵחַ)
+  and receiver (מְקַבֵּל), never the same. The rule is one readable, spoken sentence ending in a shape, with a
+  small card showing the field it checks and that shape: let in only packets to/from a shape, or stop packets
+  to/from a shape. Options are always "נִכְנֶסֶת" ✅ then "נֶעֱצֶרֶת" ⛔. The generator picks the rule kind first and
+  then the outcome, so every kind lets the packet in half of the time and the wording never predicts the
+  answer. In about half of the possible cases the rule's shape sits in the field the rule does not check, which
+  catches a child who only looks for the shape. All 192 items; key
+  `networks.firewall:<kind>-<shape>:<from>-<to>`.
+  **Open:** the engine turns the aid on after two misses in a row, and a correct answer resets the count, so with
+  two options the hint is never heard. Fixing it needs a small engine change (for example, the hint after one miss
+  in a two-option game); this needs the owner's decision.
 
 ### 6. Name lighthouse (`dns`)
 
@@ -299,7 +310,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T0 | Planner | `src/subjects/networks/{types,ids,phrases,index}.ts`, `src/app/phrases.ts` (`app.island.networks`), `src/ui/theme.css` (`--net`), `src/ui/pick/PickGame.tsx` + `PickGame.test.tsx` (a drawing option said in parts is named by all its parts), `src/app/islands.test.ts`, `e2e/map.spec.ts` (four advanced islands) | — | ✅ |
 | T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0 | ✅ built, awaiting content review and play-test |
 | T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
-| T3 | Builder | `content/gates.ts`, `generators-gates.ts` + test (firewall) | T0 | ⬜ |
+| T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx` (firewall) | T0 | ✅ built, awaiting content review and play-test |
 | T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ⬜ |
 | T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
 | T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |

@@ -18,11 +18,14 @@ export function AudioGate() {
     return () => { off(); document.removeEventListener('visibilitychange', check) }
   }, [])
 
-  // Other screens focus their own fields on load; the gate comes first so Enter or Space unlocks sound.
+  // Other screens focus their own fields on load, sometimes after the gate (the "/" to "/profiles" redirect);
+  // while the gate is up it takes focus back, so Enter or Space unlocks sound and typing never lands behind it.
   useEffect(() => {
     if (!locked) return
-    const t = setTimeout(() => button.current?.focus(), 0)
-    return () => clearTimeout(t)
+    const grab = () => { if (document.activeElement !== button.current) button.current?.focus() }
+    const t = setTimeout(grab, 0)
+    document.addEventListener('focusin', grab)
+    return () => { clearTimeout(t); document.removeEventListener('focusin', grab) }
   }, [locked])
 
   if (!locked) return null

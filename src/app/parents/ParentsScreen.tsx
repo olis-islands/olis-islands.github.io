@@ -1,9 +1,8 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { GRADE_NAMES, gradeName, gradeShort, type Grade } from '../../core/engine/types'
 import { emptyProgress, type Progress } from '../../core/progress/progress'
 import { practiceItems, skillStatus, summary, type SkillState } from '../../core/progress/report'
-import { parseBackup, type Backup } from '../../core/storage/backup'
 import { useStore, type Profile } from '../../core/storage/store'
 import { islands } from '../islands'
 import { AVATARS } from '../screens/ProfileScreen'
@@ -101,8 +100,7 @@ function Settings({ child }: { child: Profile }) {
 }
 
 function BackupBox() {
-  const { exportAll, importAll } = useStore()
-  const [found, setFound] = useState<Backup | null>(null)
+  const { exportAll } = useStore()
   const [msg, setMsg] = useState('')
   const download = async () => {
     const b = await exportAll()
@@ -114,33 +112,13 @@ function BackupBox() {
     URL.revokeObjectURL(url)
     setMsg('הגיבוי נשמר בתיקיית ההורדות.')
   }
-  const pick = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    e.target.value = ''
-    if (!file) return
-    let data: unknown = null
-    try { data = JSON.parse(await file.text()) } catch { /* not JSON */ }
-    const b = parseBackup(data)
-    setFound(b)
-    setMsg(b ? '' : 'הקובץ הזה אינו גיבוי תקין של האפליקציה. לא שונה דבר.')
-  }
   return (
     <section className="card pr-section" aria-labelledby="pr-backup">
-      <h2 id="pr-backup">גיבוי והעברה למחשב אחר</h2>
-      <p className="pr-mute">הגיבוי הוא קובץ במחשב שלכם. הוא לא נשלח לשום מקום.</p>
+      <h2 id="pr-backup">שמירת גיבוי</h2>
+      <p className="pr-mute">הגיבוי הוא קובץ במחשב שלכם, לשמירה אצלכם. הוא לא נשלח לשום מקום.</p>
       <div className="pr-row">
         <button type="button" className="pill" onClick={() => void download()}>שמור גיבוי</button>
-        <label className="pill pr-file">שחזר מגיבוי<input type="file" accept="application/json,.json" onChange={e => void pick(e)} /></label>
       </div>
-      {found && (
-        <div className="pr-confirm" role="alertdialog" aria-label="שחזור">
-          <p>נמצאו {found.profiles.length} ילדים: {found.profiles.map(p => p.name).join(', ')} (מ־{date(found.savedAt)}). השחזור יחליף את כל ההתקדמות שבמכשיר.</p>
-          <div className="pr-row">
-            <button type="button" className="pill pr-danger" onClick={() => { void importAll(found).then(() => setMsg('השחזור הושלם.')); setFound(null) }}>שחזר</button>
-            <button type="button" className="pill" onClick={() => setFound(null)}>ביטול</button>
-          </div>
-        </div>
-      )}
       <p className="pr-done" role="status">{msg}</p>
     </section>
   )

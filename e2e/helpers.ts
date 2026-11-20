@@ -10,7 +10,7 @@ export async function createProfile(page: Page) {
 }
 
 /**
- * Mark skills mastered in IndexedDB (idb-keyval's default store) to unlock later skills, then reload.
+ * Mark skills mastered in IndexedDB (idb-keyval's default store, the child's event log) to unlock later skills, then reload.
  * Waits for the transaction to complete — resolving on the put request alone can lose the write on reload.
  */
 export async function master(page: Page, skillIds: readonly string[]) {
@@ -20,11 +20,14 @@ export async function master(page: Page, skillIds: readonly string[]) {
       r.onsuccess = () => res(r.result)
       r.onerror = () => rej(r.error)
     })
-    const read = db.transaction('keyval').objectStore('keyval').get('profiles')
+    const read = db.transaction('keyval').objectStore('keyval').get('guest:profiles')
     const profiles = await new Promise<{ id: string }[]>(res => { read.onsuccess = () => res(read.result) })
     const skills = Object.fromEntries(ids.map(id => [id, { rounds: [], mastered: true, bestStars: 3 }]))
+    const events = ids.map((skillId, i) => ({ id: `seed-${i}`, kind: 'known', at: 1 + i, payload: { skillId, known: true } }))
     const tx = db.transaction('keyval', 'readwrite')
-    tx.objectStore('keyval').put({ skills, leitner: {}, stickers: [], totalStars: 0 }, `progress:${profiles[0]!.id}`)
+    tx.objectStore('keyval').put(
+      { events, folded: { progress: { skills, leitner: {}, stickers: [], totalStars: 0 }, resetId: '' } },
+      `guest:log:${profiles[0]!.id}`)
     await new Promise<void>((res, rej) => { tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error) })
   }, skillIds)
   await page.reload()

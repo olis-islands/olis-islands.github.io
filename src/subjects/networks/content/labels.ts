@@ -2,8 +2,8 @@
 
 export const LABELS = {
   /** Retry: "the computer waited for packets 1 to 4", then the packets that arrived. */
-  waited: (total: number) => `הַמַּחְשֵׁב חִכָּה לַחֲבִילוֹת 1 עַד ${total}.`,
+  waited: (total: number) => `הַמַּחְשֵׁב חִכָּה לַחֲבִילוֹת מִ־1 עַד ${total}.`,
   arrived: (numbers: readonly number[]) => `הִגִּיעוּ: ${numbers.join(', ')}.`,
-  waitedShort: 'צְרִיכוֹת לְהַגִּיעַ:',
+  waitedShort: 'הָיוּ צְרִיכוֹת לְהַגִּיעַ:',
   arrivedShort: 'הִגִּיעוּ:',
 } as const

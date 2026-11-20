@@ -1,5 +1,7 @@
 # Networks island: open decisions for the owner
 
+**Answered 2026-11-20 by the owner: "all yes" — every recommendation below is accepted.** Recorded in the spec and D28.
+
 - **From:** planner, 2026-11-20. **Spec:** `docs/specs/networks.md`.
 - **Context:** the owner asked to merge the spec and start building while decisions are taken along the way.
   The first slice (the island on the map and the grade 1 delivery game) is built on the recommendations

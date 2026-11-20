@@ -1,11 +1,9 @@
 # Spec: Networks island
 
-- **Status:** Draft, building in slices. On 2026-11-20 the owner asked to merge the spec and build while
-  open decisions are answered along the way. Open questions, each with a recommendation:
-  `docs/requests/2026-11-20-networks-open-decisions.md`. Built so far: T0 and the delivery slice (T1d). The
-  spec as a whole, its grades and the other eight games are **not yet approved** (question 1).
+- **Status:** Approved by user on 2026-11-20 ("all yes" to the ten open decisions, D28). Built game by game;
+  see the task table.
 - **Stage:** New advanced island, not an expansion of the coding island.
-- **Relies on:** D2, D3, D7, D14, D19, D26; `docs/RESEARCH.md` § Networks education.
+- **Relies on:** D2, D3, D7, D14, D19, D26, D28; `docs/RESEARCH.md` § Networks education.
 - **Working name:** Networks Island, also described as the Island of Messengers. Final Hebrew names and
   nikud need content review; English labels below are design labels, not child-facing text.
 
@@ -311,18 +309,18 @@ comparison is a possible future extension, not part of this draft. No new Oli-he
 
 ## Decisions awaiting approval
 
-All open questions, numbered and each with a recommendation, are in
-`docs/requests/2026-11-20-networks-open-decisions.md`. Record each answer here when it is given:
+The owner answered all ten questions in `docs/requests/2026-11-20-networks-open-decisions.md` on 2026-11-20:
+"all yes", taking every recommendation.
 
 | # | Topic | Answer |
 |---|---|---|
-| 1 | Nine games, grades, advanced placement | open |
-| 2 | Island name and icon | open; slice uses "אִי הָרְשָׁתוֹת" and 📡 |
-| 3 | Unscored worked example | open; slice has none |
-| 4 | Delivery addresses (shape + number) | open; built this way |
-| 5 | Packets: reuse `OrderGame` | open |
-| 6 | Detective: all four checks first | open |
-| 7 | Privacy: password reminder | open |
-| 8 | Who does the release content review | open |
-| 9 | Offline E2E test | open; slice tests "no request outside the app" |
-| 10 | Recorded voice (D3) | open |
+| 1 | Nine games, grades, advanced placement | Yes: nine games, grades 1, 3, 3, 4, 4, 5, 5, 6, 6, advanced group; build order delivery, packets + retry, firewall, DNS + web, route, privacy, detective (D28) |
+| 2 | Island name and icon | "אִי הָרְשָׁתוֹת" with 📡 |
+| 3 | Unscored worked example | No worked example for now; add a core intro step only if the play-test shows a need |
+| 4 | Delivery addresses (shape + number) | Yes: shape + number, three computers, generated from all 36 addresses |
+| 5 | Packets: reuse `OrderGame` | Reuse `OrderGame`; a new board only if a picture is needed |
+| 6 | Detective: all four checks first | Yes: all four checks before answering |
+| 7 | Privacy: password reminder | Yes: a separate line after success, flagged for content review |
+| 8 | Who does the release content review | Opus content-review agent reads every item, then the owner play-tests |
+| 9 | Offline E2E test | Test "no request outside the app" plus one manual offline check before release |
+| 10 | Recorded voice (D3) | Record as usual (D3) |

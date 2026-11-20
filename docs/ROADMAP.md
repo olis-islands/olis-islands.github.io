@@ -119,6 +119,9 @@ open questions with recommendations: `docs/requests/2026-11-20-networks-open-dec
 T0 (contracts, map entry, `--net` token) ✅ · T1d delivery game (grade 1) ✅ built, user play-test ⏳ ·
 T2–T7 (the other eight games) ⬜ blocked on open question 1 · 4 new texts to record.
 
+## Stage 9 – Accounts, sync and usage data 📝 spec drafted
+Spec `docs/specs/accounts-sync.md` (D27) written after a design debate; awaiting user approval. Build order: event log and fold (offline, tests) → backend schema, access rules and RLS tests → sign-in, sync, consent screen → daily summary email and feedback links (later). The tap-to-hear audio unlock (PR #25) is separate and does not wait for it.
+
 ## Future – Light/dark theme toggle ⬜
 
 Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.

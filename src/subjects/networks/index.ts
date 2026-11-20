@@ -2,14 +2,17 @@ import { defineGame, type IslandDef } from '../../core/engine/types'
 import { PickGame } from '../../ui/pick/PickGame'
 import { OrderGame } from '../reading/games'
 import { registerNetworksArt } from './art'
+import { registerGatesArt } from './art-gates'
 import { registerPacketsArt } from './art-packets'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
+import { describeFirewall, firewallAccepts, firewallQuestion } from './generators-gates'
 import { describePackets, describeRetry, packetsAccepts, packetsQuestion, retryAccepts, retryQuestion } from './generators-packets'
 import { phrases } from './phrases'
 
 // Spec: docs/specs/networks.md (approved, D28). Built one game at a time. Packets reuse the reading island's OrderGame (D28).
 registerNetworksArt()
 registerPacketsArt()
+registerGatesArt()
 
 export const island: IslandDef = {
   id: 'networks',
@@ -32,6 +35,10 @@ export const island: IslandDef = {
     {
       id: 'networks.retry', title: 'חֲבִילָה שֶׁהָלְכָה לְאִבּוּד', grade: 4, requires: ['networks.packets'], sticker: '🔁', describeItem: describeRetry,
       games: [defineGame({ id: 'retry', title: 'אֵיזוֹ חֲבִילָה חָסֵרָה?', icon: '🔁', component: PickGame, generate: retryQuestion, accepts: retryAccepts })],
+    },
+    {
+      id: 'networks.firewall', title: 'הַכְּלָלִים שֶׁל הַשַּׁעַר', grade: 4, requires: ['networks.delivery'], sticker: '🚪', describeItem: describeFirewall,
+      games: [defineGame({ id: 'firewall', title: 'נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?', icon: '🚪', component: PickGame, generate: firewallQuestion, accepts: firewallAccepts })],
     },
   ],
 }

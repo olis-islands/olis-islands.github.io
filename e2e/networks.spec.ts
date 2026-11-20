@@ -100,3 +100,29 @@ test('retry: a full round, comparing what was expected with what arrived; misses
   }
   await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
 })
+
+test('firewall: a full round reading the rule and the packet; a wrong choice stays disabled', async ({ page }) => {
+  await open(page, /נִכְנֶסֶת אוֹ נֶעֱצֶרֶת/, ['networks.delivery'])
+  const kinds = ['allowTo', 'allowFrom', 'blockTo', 'blockFrom'] as const
+  const shapes = ['circle', 'triangle', 'square', 'star'] as const
+  const shapeOf = (name: string) => shapes.find(s => phrases[`networks.shape.${s}`] === name.trim())!
+  for (let i = 0; i < 6; i++) {
+    await atQuestion(page, i)
+    const rule = (await page.locator('.pk-sentence').innerText()).trim()
+    const kind = kinds.find(k => rule.startsWith(phrases[`networks.rule.${k}`]!))!
+    const ruleShape = shapeOf(rule.slice(phrases[`networks.rule.${kind}`]!.length))
+    const packet = (await page.getByRole('img', { name: /^📦/ }).getAttribute('aria-label'))!
+    const [, from, to] = /: (.+)\. .+: (.+)\.$/.exec(packet)!
+    const value = kind.endsWith('To') ? shapeOf(to!) : shapeOf(from!)
+    const goesIn = kind.startsWith('allow') ? value === ruleShape : value !== ruleShape
+    const right = phrases[goesIn ? 'networks.ui.allow' : 'networks.ui.block']!
+    const wrong = phrases[goesIn ? 'networks.ui.block' : 'networks.ui.allow']!
+    if (i === 0) {
+      await page.getByRole('button', { name: wrong, exact: true }).click()
+      await expect(page.getByRole('button', { name: wrong, exact: true })).toBeDisabled()
+    }
+    await page.getByRole('button', { name: right, exact: true }).click()
+    await expect(page.locator('.pk-opt.ok')).toHaveCount(1)
+  }
+  await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
+})

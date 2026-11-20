@@ -9,7 +9,7 @@ for (const width of [320, 390, 1280]) {
     await page.addStyleTag({ content: '.island { transition: none !important; }' })
     await page.evaluate(() => document.fonts.ready)
 
-    for (const [index, count] of [4, 3].entries()) {
+    for (const [index, count] of [4, 4].entries()) {
       const islands = page.locator('.map').nth(index).getByRole('button')
       await expect(islands).toHaveCount(count)
       const boxes = await islands.evaluateAll(elements => elements.map(element => {

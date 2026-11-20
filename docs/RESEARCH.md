@@ -413,6 +413,26 @@ Sources: `https://meyda.education.gov.il/files/Mazkirut_Pedagogit/English/curric
   proposed enrichment: this source check did not establish them as named elementary requirements.
   Re-check their separate curriculum basis before claiming alignment or making them required.
 
+### Networks education (draft island research, 2026-11-16)
+
+- The user supplied a networking topic outline and accepted international educational sources for this
+  subject (D26). The reviewed Israeli elementary computer-science programme above did not establish a
+  network-mechanics requirement; Israeli digital-safety grade mapping has not been verified.
+- [CSTA 2017 standards](https://csteachers.org/wp-content/uploads/2025/03/2017-csta-k12-computer-science-standards-al.pdf):
+  1A-NI-04 covers passwords in K–2; 1B-NI-04 models packet transmission and reassembly in grades 3–5;
+  1B-NI-05 concerns personal information; 2-NI-04 addresses protocols in grades 6–8.
+- [England's computing programme](https://www.gov.uk/government/publications/national-curriculum-in-england-computing-programmes-of-study/national-curriculum-in-england-computing-programmes-of-study):
+  key stage 2 includes networks and web services; key stages 1 and 2 include safe use. The specific
+  game sequence and Israeli grade labels in `docs/specs/networks.md` are proposed, not source mandates.
+- [CS Unplugged](https://www.csunplugged.org/en/topics/) lists error detection for ages 5–10. Its
+  lessons and licence have not been reviewed; this is not evidence for a specific packet-retry exercise.
+- [DNS background](https://www.cloudflare.com/learning/dns/what-is-dns/) describes distributed lookup
+  and caching. [MDN's HTTP overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)
+  describes request and response. These technical sources are not evidence of age suitability.
+- Proposed original simulations: delivery, next-hop choice, packet order, missing-piece retry, firewall
+  rules, name lookup, request/response, encryption metaphor and diagnosis. No external calls or actual
+  traffic. Full Hebrew and educational review and user approval are still required.
+
 ## Products we learn from (patterns only, never assets — CLAUDE.md)
 
 | Product | Pattern we take |

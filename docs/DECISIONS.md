@@ -104,6 +104,11 @@ child-facing instructions. The existing game instruction remains replayable in t
 retain nikud; answers omit it. Replay and a yellow square close button share a row. Each island keeps its games'
 help in one content file. The clock-setting pilot is play-tested before expanding.
 
+**D26 · 2026-11-16 · user** — International educational programmes may inform the proposed networks
+island even when a topic is not an established Israeli elementary requirement. This is a subject-specific
+exception to D6, not a change to the curriculum basis of existing islands. Cite sources and distinguish
+proposed enrichment from verified Israeli requirements. The island spec still needs user approval.
+
 **D27 · 2026-11-20 · user** — Parent accounts, sync and usage data. This replaces D2's "no server, accounts, analytics or network calls" and the matching lines in CLAUDE.md and D18; offline play stays.
 - **Accounts:** a parent signs in with a verified email code (not a password, not a link). Child profiles belong to that account and progress follows the child across devices. Ownership is the authenticated account ID, never the email text.
 - **Guest first:** a new device plays as a guest with nothing uploaded. Signing in is offered from the parents' area; guest children are added to the account only after the parent says yes.

@@ -1,0 +1,5 @@
+/* Networks island styles (theme tokens only). */
+.net-after { margin-top: 16px; padding: 16px; border-radius: var(--radius); background: var(--okbg); border: 3px solid var(--ok); display: grid; gap: 12px; }
+.net-after-text { margin: 0; font-size: 22px; line-height: 1.6; color: var(--ink); }
+.net-after-row { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.net-after-row .cta { min-height: var(--tap); min-width: 160px; }

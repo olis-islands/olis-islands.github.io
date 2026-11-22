@@ -116,7 +116,7 @@ searching, were merged in PR #20; shortest paths are out. User play-test remains
 `docs/specs/networks.md`, approved 2026-11-20 (D28): nine offline games for grades 1–6, using international
 references as permitted by D26. One PR per game or per two related games.
 T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ PR #29 · T3 firewall (grade 4) + Oli's help ✅ PR #30 ·
-T4 name lookup + web (grade 5) ✅ PR #32 · T5 route ⬜ · T6 privacy ⬜ · T7 detective ⬜ · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
+T4 name lookup + web (grade 5) ✅ PR #32 · T5 route (grade 3) ✅ built · T6 privacy ⬜ · T7 detective ⬜ · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
 
 ## Future – Light/dark theme toggle ⬜
 

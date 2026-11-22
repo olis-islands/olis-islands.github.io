@@ -197,6 +197,12 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   simplified lookup; real DNS is distributed and may use cached answers, not one universal book.
   Never show real domains, IP addresses, links or user-entered names.
 - **Key/review:** `networks.dns:<scenario-id>`; yes; use the island board when the directory is needed.
+- **As built (T4):** `PickGame`, no island board. The "lighthouse" became an address book (סֵפֶר הַכְּתוֹבוֹת), a real
+  table read row by row. Sixteen invented places: a noun (סִפְרִיַּת, מִגְדַּל, גַּן, חֲנוּת) plus a descriptor (הַיָּרֵחַ,
+  הַשֶּׁמֶשׁ, הַכּוֹכָבִים, הַיָּם), each with a fixed two-digit address, so a due review asks the same address. The book
+  has four rows: the place, one with the same first word, one with the same second word, and one unrelated. The
+  three options are the addresses of the first three, so matching one word only picks a wrong one. Key
+  `networks.dns:<noun>-<kind>`. Real DNS is distributed and cached; the game says nothing about that.
 
 ### 7. Ask the library (`web`)
 
@@ -209,6 +215,11 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Compare the request with the library's visible catalogue. HTTP is modelled
   as a request and response, not as the internet itself; a website can comprise many resources.
 - **Key/review:** `networks.web:<scenario-id>`; yes; prefer `PickGame` where the catalogue is representable.
+- **As built (T4):** `PickGame`. The request is a readable, spoken line ("דַּף עַל צָבִים"). The options are the
+  library's three pages (picture and caption) and "הַדַּף לֹא נִמְצָא" 📭, always last. Twelve topics in four families
+  of three look-alikes. The library always offers the request's look-alikes, so the answer needs an exact match,
+  and "not found" is right only when nothing matches (about one request in three). 24 items; key
+  `networks.web:<topic>:has|missing`.
 
 ### 8. Locked message (`privacy`)
 
@@ -250,7 +261,7 @@ now. No core or UI change: the island sets `help` on the game, and `PlayScreen` 
 - **Firewall** (built): how to play; who is the sender and who is the receiver; what the gate does (it also names
   "חומת אש" as the real-world term, simplified); what "רַק" means for this rule (allow or block); and a clue naming
   the one field this rule checks. Help depends only on the rule, never on the packet or the outcome (tested).
-- **Delivery, packets and retry: follow-up**, one game at a time after the firewall help is play-tested, as D25
+- **Delivery, packets, retry, name lookup and web: follow-up**, one game at a time after the firewall help is play-tested, as D25
   intends. Each needs about three entries in the same file.
 
 ## Technical and accessibility constraints
@@ -330,7 +341,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0 | ✅ built, awaiting content review and play-test |
 | T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
 | T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx`, `content/help.ts` + `help.test.ts` (firewall and its Oli help) | T0 | ✅ built, content reviewed, awaiting play-test |
-| T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ⬜ |
+| T4 | Planner | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ✅ built, awaiting content review and play-test |
 | T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
 | T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
 | T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |

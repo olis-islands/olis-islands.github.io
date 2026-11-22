@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { atQuestion, createProfile, master } from './helpers'
+import { EVIDENCE, STAGES } from '../src/subjects/networks/content/detective'
 import { phrases } from '../src/subjects/networks/phrases'
 
 // Plays the networks island through the real UI (docs/specs/networks.md). Everything is simulated: the island
@@ -282,4 +283,34 @@ test('locked message: full rounds; "who can open" shows the safety line and wait
     await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
   }
   expect(sawOpens).toBe(true)
+})
+
+test('detective: a full round; answers wait for all four checks, two misses bring the hint', async ({ page }) => {
+  await open(page, /מָה לֹא עוֹבֵד/, ['networks.delivery', 'networks.route', 'networks.retry', 'networks.firewall', 'networks.dns', 'networks.web'])
+  const failing = new Set(STAGES.flatMap(s => EVIDENCE[s.id].fail))
+  for (let i = 0; i < 6; i++) {
+    await atQuestion(page, i)
+    const answers = page.locator('.nd-answer')
+    await expect(answers).toHaveCount(4)
+    for (const a of await answers.all()) await expect(a).toBeDisabled()
+    let fault = ''
+    for (const s of STAGES) {
+      await page.getByRole('button', { name: `בְּדִיקָה: ${s.name}` }).focus()
+      await page.keyboard.press('Enter')
+      const row = page.locator('.nd-row').filter({ has: page.getByRole('button', { name: `בְּדִיקָה: ${s.name}` }) })
+      const result = (await row.locator('.nd-result').innerText()).trim()
+      if (failing.has(result)) fault = s.name
+    }
+    expect(fault).not.toBe('')
+    if (i === 0) {
+      for (const s of STAGES.filter(s => s.name !== fault).slice(0, 2)) {
+        await page.getByRole('button', { name: s.name, exact: true }).click()
+        await expect(page.getByRole('button', { name: s.name, exact: true })).toBeDisabled()
+      }
+      await expect(page.locator('.nd-hint')).toBeVisible()
+    }
+    await page.getByRole('button', { name: fault, exact: true }).click()
+    await expect(page.locator('.nd-answer.ok')).toHaveCount(1)
+  }
+  await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
 })

@@ -40,6 +40,7 @@ export const N = {
   privacyOpens: 'networks.q.privacyOpens', // "מִי יָכוֹל לִפְתֹּחַ אֶת הַקֻּפְסָה הַנְּעוּלָה?"
   hintPrivacySee: 'networks.hint.privacySee',
   hintPrivacyOpens: 'networks.hint.privacyOpens',
+  hintPrivacyOpen: 'networks.hint.privacyOpen', // the open-box question: no lock in the picture
   optTo: 'networks.ui.knowsTo', //        "רַק לְמִי הַקֻּפְסָה נִשְׁלְחָה"
   optContent: 'networks.ui.knowsContent',
   optBoth: 'networks.ui.knowsBoth',

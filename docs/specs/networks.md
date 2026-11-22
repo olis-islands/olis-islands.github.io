@@ -257,6 +257,9 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   `networks.explain.password` ("גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא מְשַׁתְּפִים אוֹתָהּ … פּוֹנִים לִמְבֻגָּר
   שֶׁסּוֹמְכִים עָלָיו"), separately from the answer, and the round goes on only after "הֵבַנְתִּי" (the play screen moves on
   1.1 s after a right answer, too soon to read it). It never asks for a real password. **Flagged for content review.**
+  It comes after every "who can open" question, about one question in three; if the play-test finds it repetitive,
+  show it once per session instead. The open-box question has its own hint (no lock in that picture), and the boxes
+  are drawn as 📦 with 🔒 or 🔓 (content review).
 
 ### 9. Network detective (`diagnose`)
 
@@ -375,7 +378,8 @@ Content for each slice gets the full content review (FEATURE-GUIDE §5) before i
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
 term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
-נִמְצָא" for a 404. **Check with the Academy:** the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
+נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** דְּבִיבוֹן or
+רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope
 

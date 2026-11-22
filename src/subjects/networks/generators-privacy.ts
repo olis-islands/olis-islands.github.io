@@ -54,7 +54,7 @@ export function privacyQuestion(ctx: GenContext): PrivacyQ {
     answer: item.kind === 'locked' ? N.optTo : N.optBoth,
     say: [scene, N.privacySee],
     instruction: N.privacySee,
-    hint: N.hintPrivacySee,
+    hint: item.kind === 'open' ? N.hintPrivacyOpen : N.hintPrivacySee,
     prompt: { sentence: { text: phrases[scene]!, say: scene }, art: [art] },
     options: shuffle(ctx.rng, KNOWS.map(text)),
   }

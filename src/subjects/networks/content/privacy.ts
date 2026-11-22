@@ -8,7 +8,7 @@ export interface Animal { id: string; emoji: string; name: string; to: string }
 export const ANIMALS: Readonly<Record<string, Animal>> = {
   fox: { id: 'fox', emoji: '🦊', name: 'הַשּׁוּעָל', to: 'לַשּׁוּעָל' },
   turtle: { id: 'turtle', emoji: '🐢', name: 'הַצָּב', to: 'לַצָּב' },
-  raccoon: { id: 'raccoon', emoji: '🦝', name: 'הָרָקוּן', to: 'לָרָקוּן' },
+  camel: { id: 'camel', emoji: '🐪', name: 'הַגָּמָל', to: 'לַגָּמָל' },
   rabbit: { id: 'rabbit', emoji: '🐰', name: 'הָאַרְנָב', to: 'לָאַרְנָב' },
   hedgehog: { id: 'hedgehog', emoji: '🦔', name: 'הַקִּפּוֹד', to: 'לַקִּפּוֹד' },
   monkey: { id: 'monkey', emoji: '🐒', name: 'הַקּוֹף', to: 'לַקּוֹף' },
@@ -23,7 +23,7 @@ export const ANIMALS: Readonly<Record<string, Animal>> = {
 /** Who sends, who receives (and holds the key), who sees the box on the way. */
 export interface Trio { id: string; sender: string; recipient: string; observer: string }
 export const TRIOS: readonly Trio[] = [
-  { id: 't1', sender: 'fox', recipient: 'turtle', observer: 'raccoon' },
+  { id: 't1', sender: 'fox', recipient: 'turtle', observer: 'camel' },
   { id: 't2', sender: 'rabbit', recipient: 'hedgehog', observer: 'monkey' },
   { id: 't3', sender: 'bear', recipient: 'elephant', observer: 'mouse' },
   { id: 't4', sender: 'cat', recipient: 'dog', observer: 'horse' },

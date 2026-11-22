@@ -30,6 +30,8 @@ describe('locked message', () => {
       } else {
         expect(q.answer).toBe(item.kind === 'locked' ? 'networks.ui.knowsTo' : 'networks.ui.knowsBoth')
         expect(q.after).toBeUndefined()
+        // The open box has no lock, so its hint never talks about one.
+        expect(q.hint).toBe(item.kind === 'open' ? 'networks.hint.privacyOpen' : 'networks.hint.privacySee')
       }
       for (const id of [...ids(q.say), q.instruction, ...ids(q.hint), ...ids(q.after), ...q.options.flatMap(o => ('say' in o ? ids(o.say) : []))]) {
         expect(phrases[id], id).toBeTruthy()
@@ -43,7 +45,7 @@ describe('locked message', () => {
       const html = renderToStaticMarkup(createElement(ArtView, { art: q.prompt.art![0]!, size: 120 }))
       const trio = TRIOS.find(t => t.id === item.trio)!
       expect(html).toContain(ANIMALS[trio.recipient]!.name)
-      expect(html).toContain(item.kind === 'open' ? '📂' : '🔒')
+      expect(html).toContain(item.kind === 'open' ? '📦🔓' : '📦🔒')
       expect(html.includes('🔑')).toBe(item.kind !== 'open')
       expect(html).not.toMatch(/#[0-9a-f]{3,6}\b/i)
       // The scene sentence says who sends to whom and who sees; nothing about the message's words.

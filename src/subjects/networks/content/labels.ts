@@ -6,4 +6,8 @@ export const LABELS = {
   arrived: (numbers: readonly number[]) => `הִגִּיעוּ: ${numbers.join(', ')}.`,
   waitedShort: 'הָיוּ צְרִיכוֹת לְהַגִּיעַ:',
   arrivedShort: 'הִגִּיעוּ:',
+  /** Name lookup: the address book's caption and column headings (visible, read by screen readers, not spoken). */
+  book: 'סֵפֶר הַכְּתוֹבוֹת',
+  bookName: 'שֵׁם',
+  bookAddress: 'כְּתֹבֶת',
 } as const

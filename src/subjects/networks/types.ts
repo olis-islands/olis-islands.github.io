@@ -28,3 +28,10 @@ export interface Packet { from: Shape; to: Shape }
 
 /** Firewall: one rule and one packet; the answer is 'allow' or 'block'. */
 export type FirewallQ = PickQ
+
+/** A place in the address book: a noun and a descriptor id (content/lookup.ts). */
+export interface Place { noun: string; kind: string }
+/** Name lookup: the answer is the place's address, as text. */
+export type DnsQ = PickQ
+/** Web request: the answer is the requested page's topic id, or 'not-found'. */
+export type WebQ = PickQ

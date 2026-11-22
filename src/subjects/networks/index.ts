@@ -4,10 +4,12 @@ import { OrderGame } from '../reading/games'
 import { registerNetworksArt } from './art'
 import { registerGatesArt } from './art-gates'
 import { registerLookupArt } from './art-lookup'
+import { registerRouteArt } from './art-route'
 import { registerPacketsArt } from './art-packets'
 import { firewallHelp } from './content/help'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
 import { describeDns, describeWeb, dnsAccepts, dnsQuestion, webAccepts, webQuestion } from './generators-lookup'
+import { describeRoute, routeAccepts, routeQuestion } from './generators-route'
 import { describeFirewall, firewallAccepts, firewallQuestion } from './generators-gates'
 import { describePackets, describeRetry, packetsAccepts, packetsQuestion, retryAccepts, retryQuestion } from './generators-packets'
 import { phrases } from './phrases'
@@ -17,6 +19,7 @@ registerNetworksArt()
 registerPacketsArt()
 registerGatesArt()
 registerLookupArt()
+registerRouteArt()
 
 export const island: IslandDef = {
   id: 'networks',
@@ -35,6 +38,10 @@ export const island: IslandDef = {
     {
       id: 'networks.packets', title: 'מְסַדְּרִים חֲבִילוֹת', grade: 3, requires: ['networks.delivery'], sticker: '📦', describeItem: describePackets,
       games: [defineGame({ id: 'packets', title: 'סַדְּרוּ אֶת הַחֲבִילוֹת', icon: '📦', component: OrderGame, generate: packetsQuestion, accepts: packetsAccepts })],
+    },
+    {
+      id: 'networks.route', title: 'הַצֹּמֶת', grade: 3, requires: ['networks.delivery'], sticker: '🧭', describeItem: describeRoute,
+      games: [defineGame({ id: 'route', title: 'לְאָן מִכָּאן?', icon: '🧭', component: PickGame, generate: routeQuestion, accepts: routeAccepts })],
     },
     {
       id: 'networks.retry', title: 'חֲבִילָה שֶׁהָלְכָה לְאִבּוּד', grade: 4, requires: ['networks.packets'], sticker: '🔁', describeItem: describeRetry,

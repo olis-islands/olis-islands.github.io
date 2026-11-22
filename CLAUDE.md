@@ -53,7 +53,7 @@ computer-first with touch support.
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
-| Git | ✅ | Networks spec merged (PR #23). Networks games on stacked PRs: delivery #28, packets + retry #29, firewall #30, name lookup + web on `island/networks/lookup` |
+| Git | ✅ | Networks spec merged (PR #23). Networks games on stacked PRs: delivery #28, packets + retry #29, firewall #30, name lookup + web #32 |
 
 Current work: **Networks island**, built game by game (D28); Stage 8b, the Oli-help pilot and Stage 5 await user play-test.
 

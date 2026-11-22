@@ -62,7 +62,7 @@ Current work: **Networks island**, built game by game (D28); Stage 8b, the Oli-h
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
 1. **Content reviewer:** read the route, locked-message and detective Hebrew. **Planner:** apply the findings.
-   **Content reviewer:** read every networks item. **User:** play-test delivery, packets, retry and firewall.
+   **User:** play-test all nine networks games, including the firewall's Oli help.
 2. **User + planner:** play-test the clock-setting help pilot and Stages 8a and 8b.
 3. **User:**
    - play-test all islands;

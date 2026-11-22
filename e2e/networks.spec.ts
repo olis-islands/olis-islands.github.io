@@ -160,3 +160,48 @@ test('firewall: Oli’s help opens mid-round, gives a clue about the checked fie
   }
   await expect(page.getByText('אלופים! שלושה כוכבים!')).toBeVisible()
 })
+
+test('name lookup: a full round finding the full name in the address book; two misses bring the hint', async ({ page }) => {
+  await open(page, /מָה הַכְּתֹבֶת\?/, ['networks.delivery'])
+  for (let i = 0; i < 6; i++) {
+    await atQuestion(page, i)
+    const name = (await page.locator('.pk-sentence').innerText()).trim()
+    const row = page.locator('table tbody tr').filter({ has: page.getByRole('cell', { name, exact: true }) })
+    await expect(row).toHaveCount(1)
+    const address = (await row.locator('td').nth(1).innerText()).trim()
+    if (i === 0) {
+      for (const opt of await page.locator('.pk-opt').all()) {
+        if ((await opt.innerText()).trim() === address) continue
+        await opt.click()
+        await expect(opt).toBeDisabled()
+      }
+      await expect(page.locator('.pk-hint')).toBeVisible()
+    }
+    await page.getByRole('button', { name: address, exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('.pk-opt.ok')).toHaveCount(1)
+  }
+  await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
+})
+
+test('web request: a full round answering with the exact page or "not found"; two misses bring the hint', async ({ page }) => {
+  await open(page, /מָה הַסִּפְרִיָּה עוֹנָה/, ['networks.delivery', 'networks.dns'])
+  const lead = `${phrases['networks.ui.pageAbout']} `
+  for (let i = 0; i < 6; i++) {
+    await atQuestion(page, i)
+    const topic = (await page.locator('.pk-sentence').innerText()).trim().slice(lead.length)
+    const labels = await page.locator('.pk-opt').evaluateAll(els => els.map(e => e.getAttribute('aria-label') ?? ''))
+    expect(labels).toHaveLength(4)
+    const answer = labels.includes(topic) ? topic : phrases['networks.ui.notFound']!
+    if (i === 0) {
+      for (const label of labels.filter(l => l !== answer).slice(0, 2)) {
+        await page.getByRole('button', { name: label, exact: true }).click()
+        await expect(page.getByRole('button', { name: label, exact: true })).toBeDisabled()
+      }
+      await expect(page.locator('.pk-hint')).toBeVisible()
+    }
+    await page.getByRole('button', { name: answer, exact: true }).click()
+    await expect(page.locator('.pk-opt.ok')).toHaveCount(1)
+  }
+  await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
+})

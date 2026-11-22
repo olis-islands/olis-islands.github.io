@@ -36,7 +36,7 @@ computer-first with touch support.
 | Tooling | ✅ | Vite 8, React 19, TS strict, ESLint, Vitest, Playwright, PWA. `npm run check` and `npm run e2e` green |
 | Core | ✅ | Contracts, session, adaptive + Leitner, progress, IndexedDB store, audio with TTS fallback |
 | UI & app shell | ✅ | Theme tokens + dark mode, owl mascot, profiles, world map (base and advanced islands arranged in circles), island path, play screen, sticker book |
-| Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games; `docs/specs/oli-help.md` (D25) |
+| Oli help | ✅ built, ⏳ awaiting user play-test | Offline, text-only menu in clock-setting games and the networks firewall game; `docs/specs/oli-help.md` (D25) |
 | Clock island | ✅ built, ⏳ awaiting user play-test | 7 skills, 5 games; spec `docs/specs/clock.md` |
 | Recording studio | ✅ dev-only | `#/studio` under `npm run dev`; saves into `src/audio/he/` (D12) without refreshing the studio when a take changes |
 | Hebrew letters island | ✅ built, ⏳ awaiting user play-test | 13 skills, 3 game components, 190 words; spec `docs/specs/hebrew-letters.md`; 0 of 324 phrases recorded |
@@ -49,11 +49,11 @@ computer-first with touch support.
 | Parents' page | ✅ built, ⏳ awaiting user play-test | `#/parents` behind a number-in-words gate (D18): summary, what to practise, settings, backup; soft locks with "start here" by grade and a parent's "already knows this" (D19); spec `docs/specs/parents.md` |
 | Coding island (K–2) | ✅ built, ⏳ awaiting user play-test | 7 skills (story algorithms, follow, arrow programs, debug, loops), `ProgramGame` + `program.ts` simulator; spec `docs/specs/coding.md`; ~90 phrases to record |
 | Coding expansion (3–6) | ✅ merged, ⏳ awaiting user play-test | Eight skills; spec `docs/specs/coding-grade3-6.md`; PR #20 |
-| Networks island | 🟡 4 of 9 games built, ⏳ content review + play-test | Spec `docs/specs/networks.md` approved 2026-11-20 (D28). On the map (advanced group, 📡). Delivery (grade 1), packets (grade 3, reuses `OrderGame`), retry (grade 4) and firewall (grade 4), all with original art. 19 new texts to record |
+| Networks island | 🟡 4 of 9 games built, ⏳ content review + play-test | Spec `docs/specs/networks.md` approved 2026-11-20 (D28). On the map (advanced group, 📡). Delivery (grade 1), packets (grade 3, reuses `OrderGame`), retry (grade 4) and firewall (grade 4, with Oli's help), all with original art. Content review applied. 19 new texts to record |
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
-| Git | ✅ | Networks spec merged (PR #23). Networks games on stacked PRs: delivery #28, packets + retry #29, firewall on `island/networks/firewall` |
+| Git | ✅ | Networks spec merged (PR #23). Networks games on stacked PRs: delivery #28, packets + retry #29, firewall #30 |
 
 Current work: **Networks island**, built game by game (D28); Stage 8b, the Oli-help pilot and Stage 5 await user play-test.
 

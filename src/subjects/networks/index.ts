@@ -4,6 +4,7 @@ import { OrderGame } from '../reading/games'
 import { registerNetworksArt } from './art'
 import { registerGatesArt } from './art-gates'
 import { registerPacketsArt } from './art-packets'
+import { firewallHelp } from './content/help'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
 import { describeFirewall, firewallAccepts, firewallQuestion } from './generators-gates'
 import { describePackets, describeRetry, packetsAccepts, packetsQuestion, retryAccepts, retryQuestion } from './generators-packets'
@@ -38,7 +39,7 @@ export const island: IslandDef = {
     },
     {
       id: 'networks.firewall', title: 'הַכְּלָלִים שֶׁל הַשַּׁעַר', grade: 4, requires: ['networks.delivery'], sticker: '🚪', describeItem: describeFirewall,
-      games: [defineGame({ id: 'firewall', title: 'נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?', icon: '🚪', component: PickGame, generate: firewallQuestion, accepts: firewallAccepts })],
+      games: [defineGame({ id: 'firewall', title: 'נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?', icon: '🚪', component: PickGame, generate: firewallQuestion, accepts: firewallAccepts, help: firewallHelp })],
     },
   ],
 }

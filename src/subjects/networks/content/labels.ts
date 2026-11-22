@@ -7,7 +7,8 @@ export const LABELS = {
   waitedShort: 'הָיוּ צְרִיכוֹת לְהַגִּיעַ:',
   arrivedShort: 'הִגִּיעוּ:',
   /** Route: the map described for screen readers, bridge by bridge. */
-  routeMap: 'מַפָּה: הַהוֹדָעָה בַּצֹּמֶת, וּמִמֶּנָּה דְּרָכִים לְשָׁלוֹשׁ צוּרוֹת.',
+  routeMap: 'מַפָּה: הַהוֹדָעָה בַּצֹּמֶת, וּמִמֶּנָּה דְּרָכִים לְשָׁלוֹשׁ צוּרוֹת. הַדְּרָכִים מֵהַצֹּמֶת לַצּוּרוֹת תָּמִיד פְּתוּחוֹת. אֵין גֶּשֶׁר בֵּין שְׁתֵּי תַּחֲנוֹת שֶׁלֹּא הוּזְכְּרוּ.',
+  routeStop: (n: string) => `תַּחֲנָה ${n}`,
   routeComputer: 'הַמַּחְשֵׁב',
   routeBridge: (a: string, b: string, open: boolean) => `גֶּשֶׁר בֵּין ${a} וּבֵין ${b}: ${open ? 'פָּתוּחַ' : 'סָגוּר'}.`,
   /** Name lookup: the address book's caption and column headings (visible, read by screen readers, not spoken). */

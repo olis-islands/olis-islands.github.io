@@ -23,7 +23,7 @@ function NetMap(p: ArtProps) {
   const names = String(p.names ?? '').split('-').map(asShape)
   if (bridges.length !== ROUTE_EDGES.length || names.length !== 3 || names.some(n => !n)) return null
   const shapeOf: Partial<Record<RouteNode, Shape>> = { A: names[0], B: names[1], C: names[2] }
-  const nameOf = (n: RouteNode) => n === 'D' ? LABELS.routeComputer : shapeOf[n] ? phrases[shapePhrase(shapeOf[n]!)]! : STOP_NUMBER[n]!
+  const nameOf = (n: RouteNode) => n === 'D' ? LABELS.routeComputer : shapeOf[n] ? phrases[shapePhrase(shapeOf[n]!)]! : LABELS.routeStop(STOP_NUMBER[n]!)
   const drawn = ROUTE_EDGES.map((e, i) => ({ a: e[0] as RouteNode, b: e[1] as RouteNode, state: bridges[i] })).filter(e => e.state !== '0')
   const label = [LABELS.routeMap, ...drawn.map(e => LABELS.routeBridge(nameOf(e.a), nameOf(e.b), e.state === '1'))].join(' ')
   return (

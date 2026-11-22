@@ -128,7 +128,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **As built (T5):** `PickGame` with a drawn map, no island board. The crossroads (✉️) is on the right, the computer on
   the left; three choices (named by shapes) lead through numbered stops 1–3 over bridges. An open bridge is a solid
   line; a closed one is red, dashed and crossed (✕), so color is never the only cue. The map's accessible name lists
-  every bridge and whether it is open. Boards are generated, not authored: every board has exactly one choice that
+  every bridge and whether it is open, names the stops in words ("תַּחֲנָה 1"), and says that the ways from the
+  crossroads to the shapes are always open and that no other bridges exist (content review). Boards are generated, not authored: every board has exactly one choice that
   gets through, every choice has a bridge, and at least one wrong choice is stopped by a closed bridge (not only a
   dead end). Paths never go back through the crossroads. Key `networks.route:<12 bridge states>:<three shapes>`;
   a due review redraws the same board.

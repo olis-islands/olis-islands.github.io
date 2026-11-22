@@ -112,11 +112,11 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 Spec `docs/specs/coding-grade3-6.md` approved 2026-11-16. Eight skills, including binary, sorting and
 searching, were merged in PR #20; shortest paths are out. User play-test remains a follow-up.
 
-## Networks island – building in slices 🟡
+## Networks island ✅ built (all nine games)
 `docs/specs/networks.md`, approved 2026-11-20 (D28): nine offline games for grades 1–6, using international
 references as permitted by D26. One PR per game or per two related games.
 T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ PR #29 · T3 firewall (grade 4) + Oli's help ✅ PR #30 ·
-T4 name lookup + web (grade 5) ✅ PR #32 · T5 route (grade 3) ✅ PR #33 · T6 privacy (grade 6) ✅ built · T7 detective ⬜ · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
+T4 name lookup + web (grade 5) ✅ PR #32 · T5 route (grade 3) ✅ PR #33 · T6 privacy (grade 6) ✅ PR #34 · T7 detective (grade 6) ✅ built · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
 
 ## Future – Light/dark theme toggle ⬜
 

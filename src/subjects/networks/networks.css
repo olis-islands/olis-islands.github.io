@@ -3,3 +3,15 @@
 .net-after-text { margin: 0; font-size: 22px; line-height: 1.6; color: var(--ink); }
 .net-after-row { display: flex; gap: 12px; align-items: center; justify-content: center; flex-wrap: wrap; }
 .net-after-row .cta { min-height: var(--tap); min-width: 160px; }
+.nd-stage { display: grid; gap: 14px; }
+.nd-q { margin: 0; font-size: 22px; font-weight: 700; text-align: center; color: var(--ink); }
+.nd-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.nd-row { display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: 12px; align-items: center; }
+.nd-check { min-height: var(--tap); font-size: 20px; font-weight: 700; }
+.nd-check[aria-pressed='true'] { border-color: var(--net); }
+.nd-result { margin: 0; font-size: 20px; line-height: 1.5; color: var(--ink); }
+.nd-empty { color: var(--mute); }
+.nd-hint { display: flex; justify-content: center; }
+.nd-answers .nd-answer { min-height: var(--tap); font-size: 22px; font-weight: 700; }
+@media (max-width: 560px) { .nd-row { grid-template-columns: 1fr; } }
+.nd-answers .nd-answer:disabled:not(.bad) { opacity: 0.5; }

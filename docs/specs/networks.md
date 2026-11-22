@@ -279,8 +279,9 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   what that stage found, **in words only, with no ✅/❌**: reading the result is the task, and it ties back to the earlier
   games. Every stage has two working results and three failing ones; 12 items (stage × failing result), the other
   three results chosen at random. The answer buttons stay disabled and unscored ("קֹדֶם בִּדְקוּ אֶת כָּל אַרְבַּעַת
-  הַשְּׁלַבִּים") until all four checks were made (owner's answer 6); a wrong answer is one miss and stays disabled. When
-  the aid turns on, the hint is said and a 💡 🔊 button replays it. Key `networks.diagnose:<stage>:<n>`.
+  הַשְּׁלָבִים") until all four checks were made (owner's answer 6); a wrong answer is one miss and stays disabled. When
+  the aid turns on, the hint is said and a 💡 🔊 button replays it. Key `networks.diagnose:<stage>:<n>`. A working route
+  means "one can get through on open bridges", not "every bridge is open", as in the route game (content review).
 
 ## Oli help (D25)
 
@@ -385,7 +386,7 @@ Content for each slice gets the full content review (FEATURE-GUIDE §5) before i
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
 term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
-נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** דְּבִיבוֹן or
+נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** שְׁלָבִים (not שְׁלַבִּים); דְּבִיבוֹן or
 רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope

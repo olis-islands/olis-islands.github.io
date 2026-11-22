@@ -9,6 +9,7 @@ import type { Address, RuleKind, Shape } from './types'
 //   T2 packets     generators-packets.ts packetsQuestion, retryQuestion (+ accepts, describe) · art-packets.tsx
 //   T3 firewall    generators-gates.ts firewallQuestion, firewallAccepts, describeFirewall · art-gates.tsx
 //   T5 route       route.ts (board logic) · generators-route.ts routeQuestion, routeAccepts · art-route.tsx
+//   T6 privacy     content/privacy.ts · generators-privacy.ts privacyQuestion, privacyAccepts · games-privacy.tsx · art-privacy.tsx
 //   T4 lookup      content/lookup.ts · generators-lookup.ts dnsQuestion, webQuestion (+ accepts, describe) · art-lookup.tsx
 // Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
@@ -35,6 +36,18 @@ export const N = {
   hintWeb: 'networks.hint.web',
   route: 'networks.q.route', //          "הַהוֹדָעָה בַּצֹּמֶת. לְאָן לִשְׁלֹחַ אוֹתָהּ …"
   hintRoute: 'networks.hint.route',
+  privacySee: 'networks.q.privacySee', //   "מָה יָכוֹל לָדַעַת מִי שֶׁרוֹאֶה אֶת הַקֻּפְסָה בַּדֶּרֶךְ?"
+  privacyOpens: 'networks.q.privacyOpens', // "מִי יָכוֹל לִפְתֹּחַ אֶת הַקֻּפְסָה הַנְּעוּלָה?"
+  hintPrivacySee: 'networks.hint.privacySee',
+  hintPrivacyOpens: 'networks.hint.privacyOpens',
+  optTo: 'networks.ui.knowsTo', //        "רַק לְמִי הַקֻּפְסָה נִשְׁלְחָה"
+  optContent: 'networks.ui.knowsContent',
+  optBoth: 'networks.ui.knowsBoth',
+  optNothing: 'networks.ui.knowsNothing',
+  optEveryone: 'networks.ui.everyone', // "כָּל מִי שֶׁרוֹאֶה אוֹתָהּ"
+  optNoOne: 'networks.ui.noOne', //       "אַף אֶחָד"
+  password: 'networks.explain.password', // the safety line after "who can open" (content review)
+  gotIt: 'networks.ui.gotIt', //          "הֵבַנְתִּי"
   sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
   receiver: 'networks.ui.receiver', //   "מְקַבֵּל"
 } as const
@@ -54,3 +67,7 @@ export const placeNounPhrase = (id: string) => `networks.place.${id}`
 export const placeKindPhrase = (id: string) => `networks.placeKind.${id}`
 /** A web page's topic ("צָבִים"). */
 export const topicPhrase = (id: string) => `networks.topic.${id}`
+/** A locked-message scene: who sends to whom, and who sees the box (`lock`: locked or open box). */
+export const scenePhrase = (trio: string, lock: 'locked' | 'open') => `networks.scene.${trio}.${lock}`
+/** An animal character's name ("הַצָּב"). */
+export const animalPhrase = (id: string) => `networks.animal.${id}`

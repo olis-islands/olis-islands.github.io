@@ -1,7 +1,8 @@
 import type { PhraseMap } from '../../core/engine/types'
 import { NUMBER_NAMES, SHAPES } from './content/addresses'
 import { PLACE_KINDS, PLACE_NOUNS, TOPICS } from './content/lookup'
-import { N, numberPhrase, placeKindPhrase, placeNounPhrase, rulePhrase, shapePhrase, topicPhrase } from './ids'
+import { ANIMALS, TRIOS } from './content/privacy'
+import { N, animalPhrase, numberPhrase, scenePhrase, placeKindPhrase, placeNounPhrase, rulePhrase, shapePhrase, topicPhrase } from './ids'
 
 export const phrases: PhraseMap = {
   [N.delivery]: 'לְאֵיזֶה מַחְשֵׁב הַהוֹדָעָה צְרִיכָה לְהַגִּיעַ?',
@@ -26,6 +27,18 @@ export const phrases: PhraseMap = {
   [N.hintWeb]: 'הַשְׁווּ אֶת הַבַּקָּשָׁה לְכָל דַּף שֶׁיֵּשׁ בַּסִּפְרִיָּה. אִם אֵין דַּף שֶׁמַּתְאִים בְּדִיּוּק, הַסִּפְרִיָּה עוֹנָה שֶׁהַדַּף לֹא נִמְצָא.',
   [N.route]: 'הַהוֹדָעָה נִמְצֵאת בַּצֹּמֶת. לְאָן לִשְׁלֹחַ אוֹתָהּ, כְּדֵי שֶׁתַּגִּיעַ אֶל הַמַּחְשֵׁב?',
   [N.hintRoute]: 'עִקְבוּ מִכָּל צוּרָה אַחֲרֵי הַגְּשָׁרִים, עַד הַמַּחְשֵׁב. אֶפְשָׁר לַעֲבֹר רַק בִּגְשָׁרִים פְּתוּחִים. גֶּשֶׁר מְקֻוְקָו עִם אִיקְס סָגוּר.',
+  [N.privacySee]: 'מָה יָכוֹל לָדַעַת מִי שֶׁרוֹאֶה אֶת הַקֻּפְסָה בַּדֶּרֶךְ?',
+  [N.privacyOpens]: 'מִי יָכוֹל לִפְתֹּחַ אֶת הַקֻּפְסָה הַנְּעוּלָה?',
+  [N.hintPrivacySee]: 'הַמַּנְעוּל שׁוֹמֵר עַל מָה שֶׁבְּתוֹךְ הַקֻּפְסָה. מָה שֶׁכָּתוּב עָלֶיהָ מִבַּחוּץ, כֻּלָּם יְכוֹלִים לִרְאוֹת.',
+  [N.hintPrivacyOpens]: 'מַנְעוּל נִפְתָּח רַק בַּמַּפְתֵּחַ שֶׁלּוֹ. חַפְּשׂוּ בַּתְּמוּנָה אֵצֶל מִי הַמַּפְתֵּחַ.',
+  [N.optTo]: 'רַק לְמִי הַקֻּפְסָה נִשְׁלְחָה',
+  [N.optContent]: 'רַק מָה כָּתוּב בַּהוֹדָעָה',
+  [N.optBoth]: 'גַּם לְמִי הִיא נִשְׁלְחָה, וְגַם מָה כָּתוּב בָּהּ',
+  [N.optNothing]: 'שׁוּם דָּבָר',
+  [N.optEveryone]: 'כָּל מִי שֶׁרוֹאֶה אוֹתָהּ',
+  [N.optNoOne]: 'אַף אֶחָד',
+  [N.password]: 'גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא מְשַׁתְּפִים אוֹתָהּ עִם אַף אֶחָד. וְאִם מַשֶּׁהוּ בָּרֶשֶׁת מְבַלְבֵּל אוֹ מַפְחִיד, פּוֹנִים לִמְבֻגָּר שֶׁסּוֹמְכִים עָלָיו.',
+  [N.gotIt]: 'הֵבַנְתִּי',
   [N.sender]: 'שׁוֹלֵחַ',
   [N.receiver]: 'מְקַבֵּל',
   [rulePhrase('allowTo')]: 'הַשַּׁעַר מַכְנִיס רַק חֲבִילוֹת שֶׁהַמְּקַבֵּל שֶׁלָּהֶן הוּא',
@@ -37,4 +50,13 @@ export const phrases: PhraseMap = {
   ...Object.fromEntries(PLACE_NOUNS.map(w => [placeNounPhrase(w.id), w.he])),
   ...Object.fromEntries(PLACE_KINDS.map(w => [placeKindPhrase(w.id), w.he])),
   ...Object.fromEntries(TOPICS.map(t => [topicPhrase(t.id), t.he])),
+  // Only recipients and observers are answer options; senders are named inside the scene lines.
+  ...Object.fromEntries(TRIOS.flatMap(t => [t.recipient, t.observer]).map(id => [animalPhrase(id), ANIMALS[id]!.name])),
+  ...Object.fromEntries(TRIOS.flatMap(t => {
+    const [s, r, o] = [ANIMALS[t.sender]!, ANIMALS[t.recipient]!, ANIMALS[t.observer]!]
+    return [
+      [scenePhrase(t.id, 'locked'), `${s.name} שׁוֹלֵחַ ${r.to} קֻפְסָה נְעוּלָה בְּמַנְעוּל. ${o.name} רוֹאֶה אֶת הַקֻּפְסָה בַּדֶּרֶךְ.`],
+      [scenePhrase(t.id, 'open'), `${s.name} שׁוֹלֵחַ ${r.to} קֻפְסָה פְּתוּחָה, בְּלִי מַנְעוּל. ${o.name} רוֹאֶה אֶת הַקֻּפְסָה בַּדֶּרֶךְ.`],
+    ]
+  })),
 }

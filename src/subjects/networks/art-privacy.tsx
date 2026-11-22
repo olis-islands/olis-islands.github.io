@@ -21,7 +21,7 @@ function NetPrivacy(p: ArtProps) {
         <span style={who}><span style={big}>{s.emoji}</span>{s.name}</span>
         <span aria-hidden="true" style={{ fontSize: 20 }}>⬅️</span>
         <span style={{ ...who, padding: '8px 12px', borderRadius: 14, background: 'var(--sand)', border: '3px solid var(--owl)' }}>
-          <span style={big}>{locked ? '🔒' : '📂'}</span>
+          <span style={big}>📦{locked ? '🔒' : '🔓'}</span>
           <span>{LABELS.privacyTo(r.name)}</span>
         </span>
         <span aria-hidden="true" style={{ fontSize: 20 }}>⬅️</span>

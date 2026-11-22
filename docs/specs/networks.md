@@ -128,7 +128,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **As built (T5):** `PickGame` with a drawn map, no island board. The crossroads (✉️) is on the right, the computer on
   the left; three choices (named by shapes) lead through numbered stops 1–3 over bridges. An open bridge is a solid
   line; a closed one is red, dashed and crossed (✕), so color is never the only cue. The map's accessible name lists
-  every bridge and whether it is open. Boards are generated, not authored: every board has exactly one choice that
+  every bridge and whether it is open, names the stops in words ("תַּחֲנָה 1"), and says that the ways from the
+  crossroads to the shapes are always open and that no other bridges exist (content review). Boards are generated, not authored: every board has exactly one choice that
   gets through, every choice has a bridge, and at least one wrong choice is stopped by a closed bridge (not only a
   dead end). Paths never go back through the crossroads. Key `networks.route:<12 bridge states>:<three shapes>`;
   a due review redraws the same board.
@@ -256,6 +257,9 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   `networks.explain.password` ("גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא מְשַׁתְּפִים אוֹתָהּ … פּוֹנִים לִמְבֻגָּר
   שֶׁסּוֹמְכִים עָלָיו"), separately from the answer, and the round goes on only after "הֵבַנְתִּי" (the play screen moves on
   1.1 s after a right answer, too soon to read it). It never asks for a real password. **Flagged for content review.**
+  It comes after every "who can open" question, about one question in three; if the play-test finds it repetitive,
+  show it once per session instead. The open-box question has its own hint (no lock in that picture), and the boxes
+  are drawn as 📦 with 🔒 or 🔓 (content review).
 
 ### 9. Network detective (`diagnose`)
 
@@ -381,7 +385,8 @@ Content for each slice gets the full content review (FEATURE-GUIDE §5) before i
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
 term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
-נִמְצָא" for a 404. **Check with the Academy:** the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
+נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** דְּבִיבוֹן or
+רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope
 

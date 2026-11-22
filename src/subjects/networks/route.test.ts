@@ -84,7 +84,9 @@ describe('route', () => {
     const b = parseRouteKey(q.itemKey)!
     const html = renderToStaticMarkup(createElement(ArtView, { art: q.prompt.art![0]!, size: 320 }))
     const present = b.bridges.filter(s => s !== 'none').length
-    expect(html.match(/גֶּשֶׁר בֵּין/g)).toHaveLength(present)
+    expect(html.match(/גֶּשֶׁר בֵּין [^.]+: (פָּתוּחַ|סָגוּר)\./g)).toHaveLength(present)
+    // Stops are named in words; only bridges that exist are listed (the description says the rest do not exist).
+    expect(html).not.toMatch(/(בֵּין|וּבֵין) [123]:?/)
     expect(html.match(/סָגוּר/g)?.length ?? 0).toBe(b.bridges.filter(s => s === 'closed').length)
     expect(html.match(/stroke-dasharray/g)?.length ?? 0).toBe(b.bridges.filter(s => s === 'closed').length)
     expect(html).not.toMatch(/#[0-9a-f]{3,6}\b/i)

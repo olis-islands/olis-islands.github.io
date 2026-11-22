@@ -10,6 +10,7 @@ import type { Address, RuleKind, Shape } from './types'
 //   T3 firewall    generators-gates.ts firewallQuestion, firewallAccepts, describeFirewall · art-gates.tsx
 //   T5 route       route.ts (board logic) · generators-route.ts routeQuestion, routeAccepts · art-route.tsx
 //   T6 privacy     content/privacy.ts · generators-privacy.ts privacyQuestion, privacyAccepts · games-privacy.tsx · art-privacy.tsx
+//   T7 detective  content/detective.ts · generators-detective.ts detectiveQuestion, detectiveAccepts · games-detective.tsx
 //   T4 lookup      content/lookup.ts · generators-lookup.ts dnsQuestion, webQuestion (+ accepts, describe) · art-lookup.tsx
 // Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
@@ -48,6 +49,9 @@ export const N = {
   optNoOne: 'networks.ui.noOne', //       "אַף אֶחָד"
   password: 'networks.explain.password', // the safety line after "who can open" (content review)
   gotIt: 'networks.ui.gotIt', //          "הֵבַנְתִּי"
+  detective: 'networks.q.detective', //  "הַמַּחְשֵׁב לֹא מַצְלִיחַ לִפְתֹּחַ דַּף …"
+  detectiveAnswer: 'networks.q.detectiveAnswer', // "אֵיזֶה שָׁלָב לֹא עוֹבֵד?", once all four checks are made
+  hintDetective: 'networks.hint.detective',
   sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
   receiver: 'networks.ui.receiver', //   "מְקַבֵּל"
 } as const
@@ -71,3 +75,7 @@ export const topicPhrase = (id: string) => `networks.topic.${id}`
 export const scenePhrase = (trio: string, lock: 'locked' | 'open') => `networks.scene.${trio}.${lock}`
 /** An animal character's name ("הַצָּב"). */
 export const animalPhrase = (id: string) => `networks.animal.${id}`
+/** A detective stage's name ("הַשַּׁעַר"). */
+export const stagePhrase = (stage: string) => `networks.stage.${stage}`
+/** What a check finds: `ok` (the stage works) or `fail`, variant n. */
+export const evidencePhrase = (stage: string, result: 'ok' | 'fail', n: number) => `networks.evidence.${stage}.${result}.${n}`

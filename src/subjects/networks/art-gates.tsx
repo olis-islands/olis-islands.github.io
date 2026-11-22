@@ -24,7 +24,7 @@ function NetPacket(p: ArtProps) {
   const from = asShape(p.from)
   const to = asShape(p.to)
   if (!from || !to) return null
-  const label = `📦 ${phrases[N.sender]}: ${phrases[shapePhrase(from)]}. ${phrases[N.receiver]}: ${phrases[shapePhrase(to)]}.`
+  const label = `${phrases[N.sender]}: ${phrases[shapePhrase(from)]}. ${phrases[N.receiver]}: ${phrases[shapePhrase(to)]}.`
   return (
     <div role="img" aria-label={label} style={card}>
       <span aria-hidden="true" style={{ gridColumn: '1 / -1', fontSize: 34, textAlign: 'center', lineHeight: 1 }}>📦</span>

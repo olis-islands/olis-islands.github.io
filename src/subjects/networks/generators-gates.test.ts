@@ -24,6 +24,17 @@ describe('firewall rules', () => {
   })
 })
 
+describe('firewall rule texts', () => {
+  it('every rule says "רַק", names the field it checks and uses the right verb', () => {
+    for (const kind of RULE_KINDS) {
+      const text = phrases[`networks.rule.${kind}`]!
+      expect(text, kind).toContain(' רַק ')
+      expect(text, kind).toContain(kind.endsWith('To') ? 'הַמְּקַבֵּל' : 'הַשּׁוֹלֵחַ')
+      expect(text, kind).toContain(kind.startsWith('allow') ? 'מַכְנִיס' : 'עוֹצֵר')
+    }
+  })
+})
+
 describe('firewall', () => {
   it('over 600 seeds: the answer follows the shown rule, the options are allow and block, every phrase exists', () => {
     for (let seed = 0; seed < 600; seed++) {

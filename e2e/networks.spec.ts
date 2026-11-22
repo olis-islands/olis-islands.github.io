@@ -111,7 +111,7 @@ test('firewall: a full round reading the rule and the packet; a wrong choice sta
     const rule = (await page.locator('.pk-sentence').innerText()).trim()
     const kind = kinds.find(k => rule.startsWith(phrases[`networks.rule.${k}`]!))!
     const ruleShape = shapeOf(rule.slice(phrases[`networks.rule.${kind}`]!.length))
-    const packet = (await page.getByRole('img', { name: /^📦/ }).getAttribute('aria-label'))!
+    const packet = (await page.getByRole('img', { name: new RegExp(`^${phrases['networks.ui.sender']}:`) }).getAttribute('aria-label'))!
     const [, from, to] = /: (.+)\. .+: (.+)\.$/.exec(packet)!
     const value = kind.endsWith('To') ? shapeOf(to!) : shapeOf(from!)
     const goesIn = kind.startsWith('allow') ? value === ruleShape : value !== ruleShape

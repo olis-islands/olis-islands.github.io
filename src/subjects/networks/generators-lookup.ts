@@ -86,10 +86,11 @@ export function webQuestion(ctx: GenContext): WebQ {
   return {
     itemKey: webKey(item),
     answer: item.has ? topic.id : NOT_FOUND,
-    say: [N.web, ...request],
+    say: [N.web, ...request, N.webAnswer],
     instruction: N.web,
     hint: N.hintWeb,
-    prompt: { sentence: { text: request.map(id => phrases[id]).join(' '), say: request } },
+    // The request first, then the question, shown over the options (they are the library's pages).
+    prompt: { sentence: { text: request.map(id => phrases[id]).join(' '), say: request }, art: [{ name: 'net-label', props: { phrase: N.webAnswer } }] },
     options: [...shuffle(ctx.rng, pages.map(page)), { id: NOT_FOUND, kind: 'picture', emoji: '📭', caption: phrases[N.notFound]!, say: N.notFound }],
   }
 }

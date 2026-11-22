@@ -25,9 +25,10 @@ export const N = {
   allow: 'networks.ui.allow', //         "נִכְנֶסֶת"
   block: 'networks.ui.block', //         "נֶעֱצֶרֶת"
   dns: 'networks.q.dns', //              "הַמַּחְשֵׁב צָרִיךְ אֶת הַכְּתֹבֶת שֶׁל", then the place's name
-  dnsFind: 'networks.q.dnsFind', //      "חַפְּשׂוּ אוֹתָהּ בְּסֵפֶר הַכְּתוֹבוֹת."
+  dnsFind: 'networks.q.dnsFind', //      "חַפְּשׂוּ אוֹתָהּ בְּסֵפֶר הַכְּתֹבוֹת."
   hintDns: 'networks.hint.dns',
-  web: 'networks.q.web', //              "הַמַּחְשֵׁב בִּקֵּשׁ מֵהַסִּפְרִיָּה אֶת הַדַּף הַזֶּה. מָה הַסִּפְרִיָּה עוֹנָה?"
+  web: 'networks.q.web', //              "הַמַּחְשֵׁב בִּקֵּשׁ מֵהַסִּפְרִיָּה:", then the request
+  webAnswer: 'networks.q.webAnswer', //  "אֵלֶּה הַדַּפִּים שֶׁיֵּשׁ בַּסִּפְרִיָּה. מָה הִיא עוֹנָה?", over the options
   pageAbout: 'networks.ui.pageAbout', // "דַּף עַל", then a topic
   notFound: 'networks.ui.notFound', //   "הַדַּף לֹא נִמְצָא"
   hintWeb: 'networks.hint.web',

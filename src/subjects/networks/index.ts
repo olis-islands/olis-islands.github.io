@@ -45,7 +45,7 @@ export const island: IslandDef = {
       games: [defineGame({ id: 'firewall', title: 'נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?', icon: '🚪', component: PickGame, generate: firewallQuestion, accepts: firewallAccepts, help: firewallHelp })],
     },
     {
-      id: 'networks.dns', title: 'סֵפֶר הַכְּתוֹבוֹת', grade: 5, requires: ['networks.delivery'], sticker: '🔎', describeItem: describeDns,
+      id: 'networks.dns', title: 'סֵפֶר הַכְּתֹבוֹת', grade: 5, requires: ['networks.delivery'], sticker: '🔎', describeItem: describeDns,
       games: [defineGame({ id: 'dns', title: 'מָה הַכְּתֹבֶת?', icon: '🔎', component: PickGame, generate: dnsQuestion, accepts: dnsAccepts })],
     },
     {

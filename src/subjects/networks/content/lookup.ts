@@ -18,12 +18,15 @@ export const PLACE_KINDS: readonly Word[] = [
   { id: 'sea', he: 'הַיָּם', plain: 'הים' },
 ]
 
-/** Each place's simulated address: fixed, so a due review asks the same address again. Two digits, all distinct. */
+/**
+ * Each place's simulated address (a simplified two-digit number): fixed, so a due review asks the same address again.
+ * All distinct, and none is another's digit reversal (14 and 41), which would test digit order instead of lookup.
+ */
 export const PLACE_ADDRESS: Readonly<Record<string, number>> = {
-  'library-moon': 14, 'library-sun': 41, 'library-stars': 27, 'library-sea': 63,
-  'tower-moon': 36, 'tower-sun': 18, 'tower-stars': 72, 'tower-sea': 45,
-  'garden-moon': 52, 'garden-sun': 25, 'garden-stars': 81, 'garden-sea': 39,
-  'shop-moon': 67, 'shop-sun': 76, 'shop-stars': 58, 'shop-sea': 93,
+  'library-moon': 12, 'library-sun': 13, 'library-stars': 15, 'library-sea': 16,
+  'tower-moon': 17, 'tower-sun': 19, 'tower-stars': 23, 'tower-sea': 24,
+  'garden-moon': 26, 'garden-sun': 28, 'garden-stars': 29, 'garden-sea': 34,
+  'shop-moon': 35, 'shop-sun': 37, 'shop-stars': 38, 'shop-sea': 47,
 }
 
 /** Page topics, in families of three look-alikes, so a near miss is plausible. Each follows "דַּף עַל". */

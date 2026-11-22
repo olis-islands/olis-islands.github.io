@@ -27,7 +27,11 @@ describe('address book', () => {
     const values = Object.values(PLACE_ADDRESS)
     expect(Object.keys(PLACE_ADDRESS).sort()).toEqual(PLACES.map(p => `${p.noun}-${p.kind}`).sort())
     expect(new Set(values).size).toBe(values.length)
-    for (const v of values) expect(v).toBeGreaterThanOrEqual(10)
+    for (const v of values) {
+      expect(v).toBeGreaterThanOrEqual(10)
+      const reversed = Number([...`${v}`].reverse().join(''))
+      if (reversed !== v) expect(values, `${v} and ${reversed}`).not.toContain(reversed)
+    }
   })
 })
 
@@ -107,6 +111,8 @@ describe('web request', () => {
       expect(q.answer).toBe(item.has ? topic.id : NOT_FOUND)
       const lookAlikes = TOPICS.filter(t => t.family === topic.family && t.id !== topic.id).map(t => t.id)
       expect(pages.filter(p => lookAlikes.includes(p))).toHaveLength(item.has ? 1 : 2)
+      expect(ids(q.say)).toEqual(['networks.q.web', 'networks.ui.pageAbout', `networks.topic.${topic.id}`, 'networks.q.webAnswer'])
+      expect(q.prompt.art).toEqual([{ name: 'net-label', props: { phrase: 'networks.q.webAnswer' } }])
       if (item.has) has++
       for (const id of [...ids(q.say), q.instruction, ...ids(q.hint), ...ids(q.prompt.sentence!.say), ...q.options.flatMap(o => ('say' in o ? ids(o.say) : []))]) {
         expect(phrases[id], id).toBeTruthy()

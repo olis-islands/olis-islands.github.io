@@ -14,7 +14,7 @@ function NetBook(p: ArtProps) {
   const rows = String(p.rows ?? '').split('|').filter(id => id in PLACE_ADDRESS)
   return (
     <table style={{ borderCollapse: 'collapse', background: 'var(--card)', border: '3px solid var(--net)', borderRadius: 12, color: 'var(--ink)' }}>
-      <caption style={{ fontWeight: 800, fontSize: 20, paddingBlockEnd: 6 }}>📖 {LABELS.book}</caption>
+      <caption style={{ fontWeight: 800, fontSize: 20, paddingBlockEnd: 6 }}><span aria-hidden="true">📖 </span>{LABELS.book}</caption>
       <thead>
         <tr><th style={{ ...cell, textAlign: 'start' }}>{LABELS.bookName}</th><th style={cell}>{LABELS.bookAddress}</th></tr>
       </thead>
@@ -33,5 +33,11 @@ function NetBook(p: ArtProps) {
   )
 }
 
-export const LOOKUP_ART = { 'net-book': NetBook }
+/** A line of text between the prompt and the options (the web game's question). Plain text, read by screen readers. */
+function NetLabel(p: ArtProps) {
+  const text = typeof p.phrase === 'string' ? phrases[p.phrase] : undefined
+  return text ? <p className="he-text" style={{ margin: 0, fontSize: 22, fontWeight: 700, color: 'var(--ink)' }}>{text}</p> : null
+}
+
+export const LOOKUP_ART = { 'net-book': NetBook, 'net-label': NetLabel }
 export const registerLookupArt = () => registerArt(LOOKUP_ART)

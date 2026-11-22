@@ -197,12 +197,14 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   simplified lookup; real DNS is distributed and may use cached answers, not one universal book.
   Never show real domains, IP addresses, links or user-entered names.
 - **Key/review:** `networks.dns:<scenario-id>`; yes; use the island board when the directory is needed.
-- **As built (T4):** `PickGame`, no island board. The "lighthouse" became an address book (סֵפֶר הַכְּתוֹבוֹת), a real
+- **As built (T4):** `PickGame`, no island board. The "lighthouse" became an address book (סֵפֶר הַכְּתֹבוֹת), a real
   table read row by row. Sixteen invented places: a noun (סִפְרִיַּת, מִגְדַּל, גַּן, חֲנוּת) plus a descriptor (הַיָּרֵחַ,
   הַשֶּׁמֶשׁ, הַכּוֹכָבִים, הַיָּם), each with a fixed two-digit address, so a due review asks the same address. The book
   has four rows: the place, one with the same first word, one with the same second word, and one unrelated. The
   three options are the addresses of the first three, so matching one word only picks a wrong one. Key
-  `networks.dns:<noun>-<kind>`. Real DNS is distributed and cached; the game says nothing about that.
+  `networks.dns:<noun>-<kind>`. Real DNS is distributed and cached; the game says nothing about that. The address is a
+  simplified two-digit number, and no address is another's digit reversal (14 and 41), so the game tests lookup,
+  not digit order (content review).
 
 ### 7. Ask the library (`web`)
 
@@ -218,7 +220,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **As built (T4):** `PickGame`. The request is a readable, spoken line ("דַּף עַל צָבִים"). The options are the
   library's three pages (picture and caption) and "הַדַּף לֹא נִמְצָא" 📭, always last. Twelve topics in four families
   of three look-alikes. The library always offers the request's look-alikes, so the answer needs an exact match,
-  and "not found" is right only when nothing matches (about one request in three). 24 items; key
+  and "not found" is right only when nothing matches (about one request in three). Spoken in order: the request,
+  then "אֵלֶּה הַדַּפִּים שֶׁיֵּשׁ בַּסִּפְרִיָּה. מָה הִיא עוֹנָה?", which is also shown over the options. 24 items; key
   `networks.web:<topic>:has|missing`.
 
 ### 8. Locked message (`privacy`)
@@ -351,7 +354,8 @@ Builders request new phrase IDs or types in `docs/requests/`; the planner adds t
 Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
-term is נִמְעָן) and שׁוֹלֵחַ (sender).
+term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
+נִמְצָא" for a 404. **Check with the Academy:** the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope
 

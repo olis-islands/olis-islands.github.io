@@ -7,7 +7,7 @@ export const LABELS = {
   waitedShort: 'הָיוּ צְרִיכוֹת לְהַגִּיעַ:',
   arrivedShort: 'הִגִּיעוּ:',
   /** Name lookup: the address book's caption and column headings (visible, read by screen readers, not spoken). */
-  book: 'סֵפֶר הַכְּתוֹבוֹת',
+  book: 'סֵפֶר הַכְּתֹבוֹת',
   bookName: 'שֵׁם',
   bookAddress: 'כְּתֹבֶת',
 } as const

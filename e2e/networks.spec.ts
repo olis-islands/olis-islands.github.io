@@ -242,3 +242,44 @@ test('route: a full round solved from the map’s description; two misses bring 
   }
   await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
 })
+
+test('locked message: full rounds; "who can open" shows the safety line and waits for "got it"', async ({ page }) => {
+  await open(page, /מִי רוֹאֶה מָה/, ['networks.delivery'])
+  const opensQ = phrases['networks.q.privacyOpens']!
+  let sawOpens = false
+  // A round has about two "who can open" questions; play again (at most 4 rounds) until one has come up.
+  for (let round = 0; round < 4 && !sawOpens; round++) {
+    if (round > 0) await page.getByRole('button', { name: 'שחקו שוב' }).click()
+    for (let i = 0; i < 6; i++) {
+      await atQuestion(page, i)
+      const instruction = (await page.locator('.pk-q').innerText()).trim()
+      let answer: string
+      if (instruction === opensQ) {
+        const scene = (await page.getByRole('img', { name: /^קֻפְסָה/ }).getAttribute('aria-label'))!
+        answer = /הַמַּפְתֵּחַ אֵצֶל (.+)\.$/.exec(scene)![1]!
+      } else {
+        const open = (await page.locator('.pk-sentence').innerText()).includes('קֻפְסָה פְּתוּחָה')
+        answer = phrases[open ? 'networks.ui.knowsBoth' : 'networks.ui.knowsTo']!
+      }
+      if (round === 0 && i === 0) {
+        const labels = await page.locator('.pk-opt').evaluateAll(els => els.map(e => e.getAttribute('aria-label') ?? ''))
+        for (const wrong of labels.filter(l => l !== answer).slice(0, 2)) {
+          await page.getByRole('button', { name: wrong, exact: true }).click()
+          await expect(page.getByRole('button', { name: wrong, exact: true })).toBeDisabled()
+        }
+        await expect(page.locator('.pk-hint')).toBeVisible()
+      }
+      await page.getByRole('button', { name: answer, exact: true }).click()
+      await expect(page.locator('.pk-opt.ok')).toHaveCount(1)
+      if (instruction === opensQ) {
+        sawOpens = true
+        // The round waits: the safety line is shown, and only "got it" moves on.
+        await expect(page.getByRole('status').filter({ hasText: 'סִּיסְמָה' })).toBeVisible()
+        await expect(page.locator('.dot.done')).toHaveCount(i)
+        await page.getByRole('button', { name: phrases['networks.ui.gotIt']! }).press('Enter')
+      }
+    }
+    await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
+  }
+  expect(sawOpens).toBe(true)
+})

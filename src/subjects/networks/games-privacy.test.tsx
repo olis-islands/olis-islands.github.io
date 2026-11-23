@@ -6,12 +6,12 @@ import { PrivacyGame } from './games-privacy'
 import type { PrivacyQ } from './types'
 
 vi.mock('../../core/audio/audio', () => ({
-  phrases: { 'q': 'Who?', 'after': 'Keep your password.', 'networks.ui.gotIt': 'הֵבַנְתִּי', 'a': 'A', 'b': 'B' },
+  phrases: { 'q': 'Who?', 'after': 'Keep your password.', 'trust': 'A lock is not trust.', 'networks.ui.gotIt': 'הֵבַנְתִּי', 'a': 'A', 'b': 'B' },
   say: vi.fn(() => Promise.resolve()),
 }))
 afterEach(() => { cleanup(); vi.clearAllMocks() })
 
-const question = (after?: string): PrivacyQ => ({
+const question = (after?: readonly string[]): PrivacyQ => ({
   itemKey: 'k', answer: 'a', say: 'q', instruction: 'q', prompt: {},
   options: [{ id: 'a', kind: 'text', label: 'A' }, { id: 'b', kind: 'text', label: 'B' }], after,
 })
@@ -19,13 +19,13 @@ const question = (after?: string): PrivacyQ => ({
 it('with a safety line: a miss counts at once; the right answer waits for "got it", then counts once', async () => {
   const user = userEvent.setup()
   const onAttempt = vi.fn()
-  render(<PrivacyGame question={question('after')} aid={false} onAttempt={onAttempt} />)
+  render(<PrivacyGame question={question(['after', 'trust'])} aid={false} onAttempt={onAttempt} />)
   await user.click(screen.getByRole('button', { name: 'B' }))
   expect(onAttempt.mock.calls).toEqual([[false]])
   await user.click(screen.getByRole('button', { name: 'A' }))
   expect(onAttempt.mock.calls).toEqual([[false]])
-  expect(screen.getByRole('status')).toHaveTextContent('Keep your password.')
-  expect(say).toHaveBeenCalledWith('after')
+  expect(screen.getByRole('status')).toHaveTextContent('Keep your password.A lock is not trust.')
+  expect(say).toHaveBeenCalledWith(['after', 'trust'])
   const gotIt = screen.getByRole('button', { name: 'הֵבַנְתִּי' })
   expect(gotIt).toHaveFocus()
   await user.keyboard('{Enter}')

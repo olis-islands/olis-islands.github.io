@@ -47,7 +47,8 @@ export const N = {
   optNothing: 'networks.ui.knowsNothing',
   optEveryone: 'networks.ui.everyone', // "כָּל מִי שֶׁרוֹאֶה אוֹתָהּ"
   optNoOne: 'networks.ui.noOne', //       "אַף אֶחָד"
-  password: 'networks.explain.password', // the safety line after "who can open" (content review)
+  password: 'networks.explain.password', // the safety line after "who can open" (owner's wording, 2026-11-23)
+  lockTrust: 'networks.explain.lockTrust', // "a lock is not trust", said right after the safety line
   gotIt: 'networks.ui.gotIt', //          "הֵבַנְתִּי"
   sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
   receiver: 'networks.ui.receiver', //   "מְקַבֵּל"

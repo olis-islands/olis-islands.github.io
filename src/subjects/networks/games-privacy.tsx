@@ -7,8 +7,8 @@ import { N } from './ids'
 import type { PrivacyQ } from './types'
 import './networks.css'
 
-// Locked message (docs/specs/networks.md, game 8). A pick game; when the question has an `after` line (the password
-// safety line), a right answer first shows and says that line, and the round goes on only after "הֵבַנְתִּי". The play
+// Locked message (docs/specs/networks.md, game 8). A pick game; when the question has `after` lines (the password
+// safety line, then "a lock is not trust"), a right answer first shows and says them, and the round goes on only after "הֵבַנְתִּי". The play
 // screen moves on 1.1 s after a right answer, too soon to read a sentence, so the answer is reported on that click.
 
 export function PrivacyGame({ question, aid, onAttempt }: GameProps<PrivacyQ>) {
@@ -34,7 +34,7 @@ export function PrivacyGame({ question, aid, onAttempt }: GameProps<PrivacyQ>) {
       <PickGame question={question} aid={aid} onAttempt={attempt} />
       {after && question.after && (
         <div className="net-after" role="status">
-          <p className="he-text net-after-text">🔐 {phrases[question.after]}</p>
+          {question.after.map((id, i) => <p key={id} className="he-text net-after-text">{i === 0 ? '🔐 ' : ''}{phrases[id]}</p>)}
           <div className="net-after-row">
             <SayButton id={question.after} />
             <button ref={button} type="button" className="cta" disabled={done} onClick={confirm}>{phrases[N.gotIt]}</button>

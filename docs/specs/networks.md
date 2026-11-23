@@ -253,10 +253,12 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   - **opens:** who can open the locked box? Answer: the recipient, who holds the key (🔑 shown with them).
   Four options each: for the first two the same four sentences, so the wording never gives the kind away. The scene
   is a readable, spoken sentence plus a drawing; the message's words are never shown or said.
-  **Safety line** (owner's answer 7): after a right answer to "who can open", the game shows and says
-  `networks.explain.password` ("גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא מְשַׁתְּפִים אוֹתָהּ … פּוֹנִים לִמְבֻגָּר
-  שֶׁסּוֹמְכִים עָלָיו"), separately from the answer, and the round goes on only after "הֵבַנְתִּי" (the play screen moves on
-  1.1 s after a right answer, too soon to read it). It never asks for a real password. **Flagged for content review.**
+  **Safety line** (owner's answer 7, wording chosen 2026-11-23): after a right answer to "who can open", the game shows
+  and says `networks.explain.password` ("גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא נוֹתְנִים אוֹתָהּ לַחֲבֵרִים וְלֹא לִזָּרִים. וְאִם
+  מַשֶּׁהוּ בָּרֶשֶׁת מְבַלְבֵּל אוֹ מַפְחִיד, מְסַפְּרִים לִמְבֻגָּר שֶׁאֶפְשָׁר לִסְמֹךְ עָלָיו.") and then `networks.explain.lockTrust`
+  ("מַנְעוּל שׁוֹמֵר עַל הַהוֹדָעָה, אֲבָל לֹא אוֹמֵר שֶׁהָאֲתָר טוֹב."), separately from the answer, and the round goes on only
+  after "הֵבַנְתִּי" (the play screen moves on 1.1 s after a right answer, too soon to read it). It never asks for a real
+  password. **Flagged for content review.**
   It comes after every "who can open" question, about one question in three; if the play-test finds it repetitive,
   show it once per session instead. The open-box question has its own hint (no lock in that picture), and the boxes
   are drawn as 📦 with 🔒 or 🔓 (content review).
@@ -385,7 +387,7 @@ Builders request new phrase IDs or types in `docs/requests/`; the planner adds t
 Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
-term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
+term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; "אֲתָר" or "אֲתַר אִינְטֶרְנֶט"; the wording of "הַדַּף לֹא
 נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** שְׁלָבִים (not שְׁלַבִּים); דְּבִיבוֹן or
 רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 

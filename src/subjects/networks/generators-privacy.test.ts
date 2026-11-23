@@ -26,7 +26,7 @@ describe('locked message', () => {
       if (item.kind === 'opens') {
         expect(q.answer).toBe(trio.recipient)
         expect(q.options.map(o => o.id)).toContain(trio.observer)
-        expect(q.after).toBe('networks.explain.password')
+        expect(q.after).toEqual(['networks.explain.password', 'networks.explain.lockTrust'])
       } else {
         expect(q.answer).toBe(item.kind === 'locked' ? 'networks.ui.knowsTo' : 'networks.ui.knowsBoth')
         expect(q.after).toBeUndefined()

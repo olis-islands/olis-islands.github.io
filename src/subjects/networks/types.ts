@@ -48,8 +48,8 @@ export type RouteQ = PickQ
 
 /** Locked message: what the one who sees the box can know (locked or open box), or who can open a locked box. */
 export type PrivacyKind = 'locked' | 'open' | 'opens'
-/** `after`: a line shown and said after a right answer, which the child confirms before the round goes on. */
-export interface PrivacyQ extends PickQ { after?: string }
+/** `after`: lines shown and said after a right answer, which the child confirms before the round goes on. */
+export interface PrivacyQ extends PickQ { after?: readonly string[] }
 
 /** Detective: the four stages a page request goes through. */
 export type Stage = 'lookup' | 'route' | 'gate' | 'library'

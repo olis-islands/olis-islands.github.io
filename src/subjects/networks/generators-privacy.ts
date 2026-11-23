@@ -46,7 +46,7 @@ export function privacyQuestion(ctx: GenContext): PrivacyQ {
         { id: N.optEveryone, kind: 'picture', emoji: '👥', caption: phrases[N.optEveryone]!, say: N.optEveryone },
         { id: N.optNoOne, kind: 'picture', emoji: '🚫', caption: phrases[N.optNoOne]!, say: N.optNoOne },
       ]),
-      after: N.password,
+      after: [N.password, N.lockTrust],
     }
   }
   return {

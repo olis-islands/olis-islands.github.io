@@ -49,7 +49,7 @@ computer-first with touch support.
 | Parents' page | ✅ built, ⏳ awaiting user play-test | `#/parents` behind a number-in-words gate (D18): summary, what to practise, settings, backup; soft locks with "start here" by grade and a parent's "already knows this" (D19); spec `docs/specs/parents.md` |
 | Coding island (K–2) | ✅ built, ⏳ awaiting user play-test | 7 skills (story algorithms, follow, arrow programs, debug, loops), `ProgramGame` + `program.ts` simulator; spec `docs/specs/coding.md`; ~90 phrases to record |
 | Coding expansion (3–6) | ✅ merged, ⏳ awaiting user play-test | Eight skills; spec `docs/specs/coding-grade3-6.md`; PR #20 |
-| Networks island | ✅ built (9 of 9 games), ⏳ content review + play-test | Spec `docs/specs/networks.md` approved 2026-11-20 (D28). On the map (advanced group, 📡). Delivery (grade 1), packets and route (grade 3), retry and firewall (grade 4, firewall with Oli's help), name lookup and web request (grade 5), locked message (with a password safety line) and network detective (grade 6); original art, no core changes. Content review applied to all nine (three wording questions wait for the owner). 101 new texts to record |
+| Networks island | ✅ built (9 of 9 games), ⏳ content review + play-test | Spec `docs/specs/networks.md` approved 2026-11-20 (D28). On the map (advanced group, 📡). Delivery (grade 1), packets and route (grade 3), retry and firewall (grade 4, firewall with Oli's help), name lookup and web request (grade 5), locked message (with a password safety line) and network detective (grade 6); original art, no core changes. Content review applied to all nine, with the owner's wording choices (2026-11-23). 102 new texts to record |
 | English island | ✅ built, ⏳ awaiting user play-test | 13 skills (Pre-A1 → early A1), English by browser voice (D17), Andika font, LTR; 16 Hebrew instructions to record | `comingSoon` stubs in `src/subjects/*/index.ts` |
 | Legacy prototype | 📦 `legacy/` | Reference only; delete once the user approves the clock island |
 | Hosting & CI/CD | ✅ set up | GitHub Pages at https://olis-islands.github.io/ (D20, D22). `.github/workflows/ci-cd.yml`: check + E2E on every PR, deploy on merge to `main`. One-time repo setup: `scripts/setup-pages.sh` |
@@ -61,7 +61,7 @@ Current work: **Networks island**, built game by game (D28); Stage 8b, the Oli-h
 
 Details for every open item are in **`docs/BACKLOG.md`**. In order:
 
-1. **Owner:** answer the three open wording questions from the content review (safety line, "a lock is not trust", library failure); **planner** applies them.
+1. **Teacher check** of the networks terms listed in `docs/specs/networks.md` (חֲבִילָה, מְקַבֵּל, שְׁלָבִים, the safety line…).
    **User:** play-test all nine networks games, including the firewall's Oli help.
 2. **User + planner:** play-test the clock-setting help pilot and Stages 8a and 8b.
 3. **User:**

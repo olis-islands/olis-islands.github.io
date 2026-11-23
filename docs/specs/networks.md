@@ -284,6 +284,8 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   הַשְּׁלָבִים") until all four checks were made (owner's answer 6); a wrong answer is one miss and stays disabled. When
   the aid turns on, the hint is said and a 💡 🔊 button replays it. Key `networks.diagnose:<stage>:<n>`. A working route
   means "one can get through on open bridges", not "every bridge is open", as in the route game (content review).
+  A failing library says "הַסִּפְרִיָּה לֹא עָנְתָה כְּלָל" rather than "הַדַּף לֹא נִמְצָא", which is a right answer in the web
+  game (owner's choice, 2026-11-23).
 
 ## Oli help (D25)
 

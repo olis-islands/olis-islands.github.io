@@ -62,13 +62,20 @@ export const raw = (text: string) => `raw:${text}`
 
 const textOf = (id: string) => (id.startsWith('raw:') ? id.slice(4) : id.startsWith('raw-en:') ? id.slice(7) : (phrases[id] ?? id))
 
-let current: HTMLAudioElement | null = null
 let token = 0
+
+// One <audio> element for every recording that does not go through Web Audio. iOS lets an element play outside a tap
+// only after a tap has started it once, so the unlock tap primes this element and it is reused, never replaced.
+let mediaEl: HTMLAudioElement | null = null
+const media = () => (mediaEl ??= new Audio())
+/** Settles the playback in progress on the shared element, so a stopped `say` does not hang its caller. */
+let endMedia: (() => void) | null = null
 
 export function stop() {
   token++
-  current?.pause()
-  current = null
+  mediaEl?.pause()
+  endMedia?.()
+  endMedia = null
   try { source?.stop() } catch { /* already ended */ }
   source = null
   try { speechSynthesis.cancel() } catch { /* no speech support */ }
@@ -97,19 +104,44 @@ function speakText(text: string, lang: Lang = 'he-IL'): Promise<void> {
   })
 }
 
-function playUrl(url: string): Promise<void> {
+/** Plays a file on the shared element. Resolves true when it played to the end, false when it could not play. */
+function playUrl(url: string, rate = 1, onTime?: (a: HTMLAudioElement) => void): Promise<boolean> {
   return new Promise(resolve => {
-    const a = new Audio(url)
-    current = a
-    a.onended = a.onerror = () => resolve()
-    a.play().catch(() => resolve())
+    let timer: ReturnType<typeof setInterval> | undefined
+    const done = (played: boolean) => {
+      clearInterval(timer)
+      if (endMedia === finish) endMedia = null
+      resolve(played)
+    }
+    const finish = () => done(true)
+    endMedia = finish
+    try {
+      const a = media()
+      a.onended = finish
+      a.onerror = () => done(false)
+      a.src = url
+      a.playbackRate = rate
+      if (onTime) timer = setInterval(() => onTime(a), TICK_MS)
+      Promise.resolve(a.play()).catch(() => done(false))
+    } catch { done(false) }
   })
 }
 
 /* ---------- recordings played through Web Audio, without the silence the studio captured ---------- */
 
 let ctx: AudioContext | null = null
-const audioCtx = () => (ctx ??= new AudioContext())
+const audioCtx = () => (ctx ??= (playThroughSilentSwitch(), new AudioContext()))
+
+/**
+ * iOS (Safari, and Chrome, which is WebKit there) treats web sound as "ambient" by default and mutes it while the phone
+ * is on silent. "playback" makes it play like a video does. Needs no tap; other browsers have no Audio Session API.
+ */
+function playThroughSilentSwitch() {
+  try {
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
+    if (session && session.type !== 'playback') session.type = 'playback'
+  } catch { /* no Audio Session API */ }
+}
 
 /* ---------- autoplay unlock: phones and tablets stay silent until the first tap ---------- */
 
@@ -130,24 +162,47 @@ export function onAudioLockChange(cb: () => void): () => void {
 /** The last instruction asked for while sound was blocked: said after the child's first tap, so it is not lost. */
 let deferred: PhraseRef | null = null
 
-/** Must run inside a tap or click: resumes Web Audio, primes <audio> and speech, then says what was waiting. */
-export async function unlockAudio(): Promise<void> {
+/** 12 ms of silence: playing it inside the tap unlocks the shared <audio> element on iOS. */
+const SILENCE = 'data:audio/wav;base64,UklGRogAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YWQAAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA'
+
+/**
+ * Every call that a phone allows only during a tap, issued synchronously: iOS (Safari and Chrome, both WebKit) forgets
+ * the tap at the first `await`, so nothing here waits for anything.
+ */
+function primeInTap() {
+  playThroughSilentSwitch()
   try {
     const c = audioCtx()
-    await c.resume()
+    void c.resume().catch(() => {})
     const s = c.createBufferSource()
     s.buffer = c.createBuffer(1, 1, 22050)
     s.connect(c.destination)
     s.start(0)
   } catch { /* audio unavailable */ }
   try {
+    const a = media()
+    if (!a.src || a.paused) {
+      a.onended = a.onerror = null
+      a.src = SILENCE
+      Promise.resolve(a.play()).catch(() => {})
+    }
+  } catch { /* no media element */ }
+  try {
     const u = new SpeechSynthesisUtterance(' ')
     u.volume = 0
     speechSynthesis.speak(u)
   } catch { /* no speech support */ }
-  const waiting = deferred
+}
+
+/**
+ * Must run inside a tap or click. Unlocks sound, then says what was waiting — or, when nothing was, `greeting`, so the
+ * child who tapped "hear Oli" always hears Oli.
+ */
+export function unlockAudio(greeting?: PhraseRef): void {
+  const next = deferred ?? greeting
   deferred = null
-  if (waiting) void say(waiting)
+  if (next) void speak(next, true)
+  else primeInTap()
 }
 
 const BLOCK_S = 0.01
@@ -182,7 +237,7 @@ export function audibleRange(samples: Float32Array, rate: number, pad = 0.05): [
 interface Clip { buffer: AudioBuffer; from: number; to: number }
 const clips = new Map<string, Promise<Clip | null>>()
 
-/** Decoded once per URL; null when this browser can't decode it (then the plain <audio> path plays it). */
+/** Decoded once per URL; null when this browser can't decode it (then the shared <audio> element plays it). */
 function loadClip(url: string): Promise<Clip | null> {
   let clip = clips.get(url)
   if (!clip) {
@@ -196,12 +251,19 @@ function loadClip(url: string): Promise<Clip | null> {
 }
 
 let source: AudioBufferSourceNode | null = null
+const RESUME_WAIT_MS = 300
 
-async function playRecording(url: string): Promise<void> {
+/** Web Audio when it can decode and run; else the <audio> element; else the browser voice reads the phrase's text. */
+async function playRecording(url: string, id: string): Promise<void> {
   const clip = await loadClip(url)
   const c = clip && audioCtx()
-  if (c && c.state !== 'running') await c.resume().catch(() => {})
-  if (!clip || !c || c.state !== 'running') return playUrl(url)
+  // Bounded: iOS can leave an "interrupted" context's resume() pending for good, and the phrase must not hang on it.
+  if (c && c.state !== 'running') await Promise.race([c.resume().catch(() => {}), new Promise(r => setTimeout(r, RESUME_WAIT_MS))])
+  if (!clip || !c || c.state !== 'running') {
+    const mine = token
+    if (!(await playUrl(url)) && mine === token) await speakText(textOf(id), langOf(id))
+    return
+  }
   return new Promise(resolve => {
     const s = c.createBufferSource()
     s.buffer = clip.buffer
@@ -213,10 +275,19 @@ async function playRecording(url: string): Promise<void> {
 }
 
 /** Speak a phrase or a sequence. Interrupts anything already playing. */
-export async function say(ref: PhraseRef): Promise<void> {
+export function say(ref: PhraseRef): Promise<void> {
+  // A browser without the User Activation API (iOS before 16.4) counts as "not in a tap": the call cannot unlock it.
+  return speak(ref, globalThis.navigator?.userActivation?.isActive ?? false)
+}
+
+async function speak(ref: PhraseRef, inTap: boolean): Promise<void> {
+  const locked = audioLocked()
   // Blocked and not inside a tap (e.g. an automatic instruction after a reload): keep it for the unlock tap.
-  if (audioLocked() && globalThis.navigator?.userActivation?.isActive === false) { deferred = ref; return }
+  if (locked && !inTap) { deferred = ref; return }
+  deferred = null
   stop()
+  // After stop(), whose speech cancel would otherwise cut the priming utterance.
+  if (locked) primeInTap()
   const mine = token
   const ids = typeof ref === 'string' ? [ref] : ref
   // Decode every recorded part up front, so parts follow each other without a loading gap.
@@ -234,7 +305,7 @@ export async function say(ref: PhraseRef): Promise<void> {
     if (url) {
       await flush()
       if (mine !== token) return
-      await playRecording(url)
+      await playRecording(url, id)
     } else {
       const lang = langOf(id)
       if (lang !== pendingLang) { await flush(); if (mine !== token) return; pendingLang = lang }
@@ -285,15 +356,7 @@ export async function narrate(id: string, onWord: (index: number) => void, rate 
   report(0)
   const url = recordingOf(id)
   if (url) {
-    const a = new Audio(url)
-    a.playbackRate = rate
-    current = a
-    const timer = setInterval(() => { if (a.duration) report(wordAt(starts, a.currentTime / a.duration)) }, TICK_MS)
-    await new Promise<void>(resolve => {
-      a.onended = a.onerror = () => resolve()
-      a.play().catch(() => resolve())
-    })
-    clearInterval(timer)
+    await playUrl(url, rate, a => { if (a.duration) report(wordAt(starts, a.currentTime / a.duration)) })
   } else {
     await new Promise<void>(resolve => {
       try {

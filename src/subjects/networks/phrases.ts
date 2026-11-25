@@ -1,8 +1,9 @@
 import type { PhraseMap } from '../../core/engine/types'
 import { NUMBER_NAMES, SHAPES } from './content/addresses'
 import { PLACE_KINDS, PLACE_NOUNS, TOPICS } from './content/lookup'
+import { EVIDENCE, STAGES } from './content/detective'
 import { ANIMALS, TRIOS } from './content/privacy'
-import { N, animalPhrase, numberPhrase, scenePhrase, placeKindPhrase, placeNounPhrase, rulePhrase, shapePhrase, topicPhrase } from './ids'
+import { N, animalPhrase, evidencePhrase, numberPhrase, stagePhrase, scenePhrase, placeKindPhrase, placeNounPhrase, rulePhrase, shapePhrase, topicPhrase } from './ids'
 
 export const phrases: PhraseMap = {
   [N.delivery]: 'לְאֵיזֶה מַחְשֵׁב הַהוֹדָעָה צְרִיכָה לְהַגִּיעַ?',
@@ -41,6 +42,9 @@ export const phrases: PhraseMap = {
   [N.password]: 'גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא נוֹתְנִים אוֹתָהּ לַחֲבֵרִים וְלֹא לִזָּרִים. וְאִם מַשֶּׁהוּ בָּרֶשֶׁת מְבַלְבֵּל אוֹ מַפְחִיד, מְסַפְּרִים לִמְבֻגָּר שֶׁאֶפְשָׁר לִסְמֹךְ עָלָיו.',
   [N.lockTrust]: 'מַנְעוּל שׁוֹמֵר עַל הַהוֹדָעָה, אֲבָל לֹא אוֹמֵר שֶׁהָאֲתָר טוֹב.',
   [N.gotIt]: 'הֵבַנְתִּי',
+  [N.detective]: 'הַמַּחְשֵׁב לֹא מַצְלִיחַ לִפְתֹּחַ אֶת הַדַּף עַל צָבִים. בִּדְקוּ אֶת אַרְבַּעַת הַשְּׁלָבִים, וּמִצְאוּ אֵיזֶה מֵהֶם לֹא עוֹבֵד.',
+  [N.detectiveAnswer]: 'אֵיזֶה שָׁלָב לֹא עוֹבֵד?',
+  [N.hintDetective]: 'קִרְאוּ שׁוּב אֶת אַרְבַּע הַתּוֹצָאוֹת. בְּשָׁלוֹשׁ מֵהֶן הַכֹּל בְּסֵדֶר. חַפְּשׂוּ אֶת זוֹ שֶׁמַּסְבִּירָה לָמָּה הַדַּף לֹא נִפְתָּח.',
   [N.sender]: 'שׁוֹלֵחַ',
   [N.receiver]: 'מְקַבֵּל',
   [rulePhrase('allowTo')]: 'הַשַּׁעַר מַכְנִיס רַק חֲבִילוֹת שֶׁהַמְּקַבֵּל שֶׁלָּהֶן הוּא',
@@ -61,4 +65,6 @@ export const phrases: PhraseMap = {
       [scenePhrase(t.id, 'open'), `${s.name} שׁוֹלֵחַ ${r.to} קֻפְסָה פְּתוּחָה, בְּלִי מַנְעוּל. ${o.name} רוֹאֶה אֶת הַקֻּפְסָה בַּדֶּרֶךְ.`],
     ]
   })),
+  ...Object.fromEntries(STAGES.map(s => [stagePhrase(s.id), s.name])),
+  ...Object.fromEntries(STAGES.flatMap(s => (['ok', 'fail'] as const).flatMap(r => EVIDENCE[s.id][r].map((text, n) => [evidencePhrase(s.id, r, n), text])))),
 }

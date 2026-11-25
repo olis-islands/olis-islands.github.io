@@ -10,6 +10,8 @@ import { registerPacketsArt } from './art-packets'
 import { firewallHelp } from './content/help'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
 import { describeDns, describeWeb, dnsAccepts, dnsQuestion, webAccepts, webQuestion } from './generators-lookup'
+import { describeDetective, detectiveAccepts, detectiveQuestion } from './generators-detective'
+import { DetectiveGame } from './games-detective'
 import { describePrivacy, privacyAccepts, privacyQuestion } from './generators-privacy'
 import { PrivacyGame } from './games-privacy'
 import { describeRoute, routeAccepts, routeQuestion } from './generators-route'
@@ -66,6 +68,11 @@ export const island: IslandDef = {
     {
       id: 'networks.privacy', title: 'הוֹדָעָה נְעוּלָה', grade: 6, requires: ['networks.delivery'], sticker: '🔒', describeItem: describePrivacy,
       games: [defineGame({ id: 'privacy', title: 'מִי רוֹאֶה מָה?', icon: '🔒', component: PrivacyGame, generate: privacyQuestion, accepts: privacyAccepts })],
+    },
+    {
+      id: 'networks.diagnose', title: 'בַּלָּשֵׁי הָרֶשֶׁת', grade: 6,
+      requires: ['networks.route', 'networks.retry', 'networks.firewall', 'networks.dns', 'networks.web'], sticker: '🔧', describeItem: describeDetective,
+      games: [defineGame({ id: 'diagnose', title: 'מָה לֹא עוֹבֵד?', icon: '🔧', component: DetectiveGame, generate: detectiveQuestion, accepts: detectiveAccepts })],
     },
   ],
 }

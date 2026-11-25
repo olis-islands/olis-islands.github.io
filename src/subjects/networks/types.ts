@@ -1,3 +1,4 @@
+import type { Question } from '../../core/engine/types'
 import type { PickQ } from '../../ui/pick/types'
 import type { OrderQ } from '../reading/types'
 
@@ -49,3 +50,15 @@ export type RouteQ = PickQ
 export type PrivacyKind = 'locked' | 'open' | 'opens'
 /** `after`: lines shown and said after a right answer, which the child confirms before the round goes on. */
 export interface PrivacyQ extends PickQ { after?: readonly string[] }
+
+/** Detective: the four stages a page request goes through. */
+export type Stage = 'lookup' | 'route' | 'gate' | 'library'
+/**
+ * Detective: four checks, each with its evidence phrase (in `evidence`, by stage); the answer is the stage that fails.
+ * Answer buttons count only after all four checks were made.
+ */
+export interface DetectiveQ extends Question<Stage> {
+  instruction: string
+  hint: string
+  evidence: Readonly<Record<Stage, string>>
+}

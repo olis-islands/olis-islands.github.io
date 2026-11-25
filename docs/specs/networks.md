@@ -1,7 +1,7 @@
 # Spec: Networks island
 
-- **Status:** Approved by user on 2026-11-20 ("all yes" to the ten open decisions, D28). Built game by game;
-  see the task table.
+- **Status:** Approved by user on 2026-11-20 ("all yes" to the ten open decisions, D28). All nine games built
+  (2026-11-22); awaiting content review of the last three and the owner's play-test. See the task table.
 - **Stage:** New advanced island, not an expansion of the coding island.
 - **Relies on:** D2, D3, D7, D14, D19, D26, D28; `docs/RESEARCH.md` § Networks education.
 - **Working name:** Networks Island, also described as the Island of Messengers. Final Hebrew names and
@@ -276,6 +276,16 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   order of the checks. The independent test results are a puzzle abstraction: a real end-to-end
   failure can have multiple causes and does not always make every other stage independently testable.
 - **Key/review:** `networks.diagnose:<scenario-id>`; yes; use an island board with button-based inspection.
+- **As built (T7):** `DetectiveGame` in the island (no core change). The story: the computer cannot open the page on
+  turtles. Four check buttons (address book, route, gate, library), in the order a request travels, each show and say
+  what that stage found, **in words only, with no ✅/❌**: reading the result is the task, and it ties back to the earlier
+  games. Every stage has two working results and three failing ones; 12 items (stage × failing result), the other
+  three results chosen at random. The answer buttons stay disabled and unscored ("קֹדֶם בִּדְקוּ אֶת כָּל אַרְבַּעַת
+  הַשְּׁלָבִים") until all four checks were made (owner's answer 6); a wrong answer is one miss and stays disabled. When
+  the aid turns on, the hint is said and a 💡 🔊 button replays it. Key `networks.diagnose:<stage>:<n>`. A working route
+  means "one can get through on open bridges", not "every bridge is open", as in the route game (content review).
+  A failing library says "הַסִּפְרִיָּה לֹא עָנְתָה כְּלָל" rather than "הַדַּף לֹא נִמְצָא", which is a right answer in the web
+  game (owner's choice, 2026-11-23).
 
 ## Oli help (D25)
 
@@ -372,7 +382,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T4 | Planner | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ✅ built, awaiting content review and play-test |
 | T5 | Planner | `route.ts` (board logic), `generators-route.ts`, `route.test.ts`, `art-route.tsx` | T0 | ✅ built, awaiting content review and play-test |
 | T6 | Planner | `content/privacy.ts`, `generators-privacy.ts` + test, `games-privacy.tsx` + test, `art-privacy.tsx`, `networks.css` | T0 | ✅ built, awaiting content review and play-test |
-| T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |
+| T7 | Planner | `content/detective.ts`, `generators-detective.ts` + test, `games-detective.tsx` + test, styles in `networks.css` | T0 | ✅ built, awaiting content review and play-test |
 | Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |
 
 Builders request new phrase IDs or types in `docs/requests/`; the planner adds them to the shared files.
@@ -380,7 +390,7 @@ Content for each slice gets the full content review (FEATURE-GUIDE §5) before i
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
 term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; "אֲתָר" or "אֲתַר אִינְטֶרְנֶט"; the wording of "הַדַּף לֹא
-נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** דְּבִיבוֹן or
+נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** שְׁלָבִים (not שְׁלַבִּים); דְּבִיבוֹן or
 רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope

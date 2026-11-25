@@ -15,6 +15,10 @@ export const LABELS = {
   privacyTo: (name: string) => `אֶל: ${name}`,
   privacyScene: (locked: boolean, recipient: string) =>
     locked ? `קֻפְסָה נְעוּלָה בְּמַנְעוּל, וְעָלֶיהָ כָּתוּב אֶל ${recipient}. הַמַּפְתֵּחַ אֵצֶל ${recipient}.` : `קֻפְסָה פְּתוּחָה, וְעָלֶיהָ כָּתוּב אֶל ${recipient}.`,
+  /** Detective: the check buttons' prefix and the placeholder before a check. */
+  check: 'בְּדִיקָה:',
+  notChecked: 'עוֹד לֹא נִבְדַּק',
+  checkFirst: 'קֹדֶם בִּדְקוּ אֶת כָּל אַרְבַּעַת הַשְּׁלָבִים.',
   /** Name lookup: the address book's caption and column headings (visible, read by screen readers, not spoken). */
   book: 'סֵפֶר הַכְּתֹבוֹת',
   bookName: 'שֵׁם',

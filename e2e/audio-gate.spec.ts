@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { createProfile } from './helpers'
 
 // Phones and tablets keep sound blocked until the first tap. The first screen has a speaker button, and the first tap
 // anywhere unlocks sound silently; nothing covers the app. Chromium's own autoplay rule applies here (the other specs
@@ -50,22 +49,10 @@ test('the speaker button works by keyboard', async ({ page }) => {
   await expect.poll(() => played(page)).toContainEqual(expect.stringMatching(/^(buffer|media):/))
 })
 
-test('a first tap anywhere unlocks sound without a covering screen', async ({ page, browser }) => {
-  await createProfile(page)
-  // A fresh browser context keeps the profile (copied IndexedDB) but has had no tap yet.
-  const state0 = await page.context().storageState({ indexedDB: true })
-  const ctx = await browser.newContext({ storageState: state0 })
-  await ctx.addInitScript(() => {
-    const contexts: AudioContext[] = []
-    Object.assign(window, { __ctx: contexts })
-    const Ctx = window.AudioContext
-    window.AudioContext = class extends Ctx { constructor(o?: AudioContextOptions) { super(o); contexts.push(this) } }
-  })
-  const tab = await ctx.newPage()
-  await tab.goto('/')
-  await expect(tab.getByRole('button', { name: /אִי הַשָּׁעוֹן/ })).toBeVisible()
-  expect(await state(tab)).not.toBe('running')
-  await tab.mouse.click(5, 5)
-  await expect.poll(() => state(tab)).toBe('running')
-  await ctx.close()
+test('a first tap anywhere unlocks sound without a covering screen', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByLabel('שם')).toBeVisible()
+  expect(await state(page)).not.toBe('running')
+  await page.mouse.click(5, 5)
+  await expect.poll(() => state(page)).toBe('running')
 })

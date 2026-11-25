@@ -132,6 +132,18 @@ timeout), where the parent answers (behind the parents' gate, D18), what is aske
 the answer is stored (per profile; synced once accounts exist, D27) and how it appears in the usage statistics.
 See the stage 9 plan in `docs/specs/accounts-sync.md`.
 
+## Future – Measurement and free quality tools ⬜
+
+Decision needed first: **Google Analytics is not planned** (CLAUDE.md forbids third-party analytics for children, and
+its terms bar use on services aimed at children under 13). Usage numbers come from our own events (stage 9, D27).
+Free tools to consider, one small task each:
+- Accessibility: axe-core inside the Playwright tests (contrast, labels, keyboard); Lighthouse CI on every PR (accessibility, performance, PWA).
+- Size and speed: `size-limit` (fails a PR when the bundle grows too much); Web Vitals measured in tests, not sent anywhere.
+- Safety: Dependabot (dependency updates) and CodeQL (code scanning), both free on GitHub.
+- Look: Playwright screenshot comparison for the first screen and one game per island (light, dark, 390px).
+- Errors: a local error log shown on the parents' page; a hosted error service only if it can run without personal data.
+- Optional later, self-hosted only: Umami or GoatCounter for page counts, if we ever want numbers from guests (needs the owner's opt-in decision).
+
 ## Future – Light/dark theme toggle ⬜
 
 Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.

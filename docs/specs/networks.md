@@ -245,6 +245,23 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   child not to share passwords and to ask a trusted adult for help; never ask for an actual password.
 - **Key/review:** `networks.privacy:<scenario-id>`; yes; prefer `PickGame`. This is a simplified privacy
   metaphor, not a description of TLS certificates or real key exchange.
+- **As built (T6):** `PrivacyGame`, a thin wrapper around `PickGame` (no core change). Twelve items: four invented
+  animal trios (sender, recipient, the one who sees the box on the way; all masculine nouns so the verbs agree) × three
+  kinds:
+  - **locked:** what can the one who sees a locked box know? Answer: only whom it was sent to (the label is outside).
+  - **open:** the same with an open box. Answer: both whom it was sent to and what is written in it.
+  - **opens:** who can open the locked box? Answer: the recipient, who holds the key (🔑 shown with them).
+  Four options each: for the first two the same four sentences, so the wording never gives the kind away. The scene
+  is a readable, spoken sentence plus a drawing; the message's words are never shown or said.
+  **Safety line** (owner's answer 7, wording chosen 2026-11-23): after a right answer to "who can open", the game shows
+  and says `networks.explain.password` ("גַּם הַסִּיסְמָה שֶׁלָּכֶם הִיא מַפְתֵּחַ: לֹא נוֹתְנִים אוֹתָהּ לַחֲבֵרִים וְלֹא לִזָּרִים. וְאִם
+  מַשֶּׁהוּ בָּרֶשֶׁת מְבַלְבֵּל אוֹ מַפְחִיד, מְסַפְּרִים לִמְבֻגָּר שֶׁאֶפְשָׁר לִסְמֹךְ עָלָיו.") and then `networks.explain.lockTrust`
+  ("מַנְעוּל שׁוֹמֵר עַל הַהוֹדָעָה, אֲבָל לֹא אוֹמֵר שֶׁהָאֲתָר טוֹב."), separately from the answer, and the round goes on only
+  after "הֵבַנְתִּי" (the play screen moves on 1.1 s after a right answer, too soon to read it). It never asks for a real
+  password. **Flagged for content review.**
+  It comes after every "who can open" question, about one question in three; if the play-test finds it repetitive,
+  show it once per session instead. The open-box question has its own hint (no lock in that picture), and the boxes
+  are drawn as 📦 with 🔒 or 🔓 (content review).
 
 ### 9. Network detective (`diagnose`)
 
@@ -354,7 +371,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx`, `content/help.ts` + `help.test.ts` (firewall and its Oli help) | T0 | ✅ built, content reviewed, awaiting play-test |
 | T4 | Planner | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ✅ built, awaiting content review and play-test |
 | T5 | Planner | `route.ts` (board logic), `generators-route.ts`, `route.test.ts`, `art-route.tsx` | T0 | ✅ built, awaiting content review and play-test |
-| T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
+| T6 | Planner | `content/privacy.ts`, `generators-privacy.ts` + test, `games-privacy.tsx` + test, `art-privacy.tsx`, `networks.css` | T0 | ✅ built, awaiting content review and play-test |
 | T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |
 | Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |
 
@@ -362,8 +379,9 @@ Builders request new phrase IDs or types in `docs/requests/`; the planner adds t
 Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
 
 **Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
-term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; the wording of "הַדַּף לֹא
-נִמְצָא" for a 404. **Check with the Academy:** the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
+term is נִמְעָן) and שׁוֹלֵחַ (sender); "סֵפֶר כְּתֹבוֹת" or "פִּנְקַס כְּתֹבוֹת"; "דַּף" or "עַמּוּד"; "אֲתָר" or "אֲתַר אִינְטֶרְנֶט"; the wording of "הַדַּף לֹא
+נִמְצָא" for a 404; the animal names and their "to" forms (לַשּׁוּעָל, לֶחָתוּל…). **Check with the Academy:** דְּבִיבוֹן or
+רָקוּן (colloquial; the game now uses הַגָּמָל instead); and the pointed spelling כְּתֹבֶת / כְּתֹבוֹת (haser), used everywhere here.
 
 ## Out of scope
 

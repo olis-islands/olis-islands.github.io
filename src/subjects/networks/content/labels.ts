@@ -11,6 +11,10 @@ export const LABELS = {
   routeStop: (n: string) => `תַּחֲנָה ${n}`,
   routeComputer: 'הַמַּחְשֵׁב',
   routeBridge: (a: string, b: string, open: boolean) => `גֶּשֶׁר בֵּין ${a} וּבֵין ${b}: ${open ? 'פָּתוּחַ' : 'סָגוּר'}.`,
+  /** Locked message: the box's label and the scene described for screen readers (the key goes with the recipient). */
+  privacyTo: (name: string) => `אֶל: ${name}`,
+  privacyScene: (locked: boolean, recipient: string) =>
+    locked ? `קֻפְסָה נְעוּלָה בְּמַנְעוּל, וְעָלֶיהָ כָּתוּב אֶל ${recipient}. הַמַּפְתֵּחַ אֵצֶל ${recipient}.` : `קֻפְסָה פְּתוּחָה, וְעָלֶיהָ כָּתוּב אֶל ${recipient}.`,
   /** Name lookup: the address book's caption and column headings (visible, read by screen readers, not spoken). */
   book: 'סֵפֶר הַכְּתֹבוֹת',
   bookName: 'שֵׁם',

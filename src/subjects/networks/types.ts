@@ -44,3 +44,8 @@ export type BridgeState = 'none' | 'open' | 'closed'
 export interface RouteBoard { bridges: readonly BridgeState[]; names: Readonly<Record<'A' | 'B' | 'C', Shape>> }
 /** Route: the answer is the choice's shape id. */
 export type RouteQ = PickQ
+
+/** Locked message: what the one who sees the box can know (locked or open box), or who can open a locked box. */
+export type PrivacyKind = 'locked' | 'open' | 'opens'
+/** `after`: lines shown and said after a right answer, which the child confirms before the round goes on. */
+export interface PrivacyQ extends PickQ { after?: readonly string[] }

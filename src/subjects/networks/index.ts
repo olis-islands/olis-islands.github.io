@@ -4,11 +4,14 @@ import { OrderGame } from '../reading/games'
 import { registerNetworksArt } from './art'
 import { registerGatesArt } from './art-gates'
 import { registerLookupArt } from './art-lookup'
+import { registerPrivacyArt } from './art-privacy'
 import { registerRouteArt } from './art-route'
 import { registerPacketsArt } from './art-packets'
 import { firewallHelp } from './content/help'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
 import { describeDns, describeWeb, dnsAccepts, dnsQuestion, webAccepts, webQuestion } from './generators-lookup'
+import { describePrivacy, privacyAccepts, privacyQuestion } from './generators-privacy'
+import { PrivacyGame } from './games-privacy'
 import { describeRoute, routeAccepts, routeQuestion } from './generators-route'
 import { describeFirewall, firewallAccepts, firewallQuestion } from './generators-gates'
 import { describePackets, describeRetry, packetsAccepts, packetsQuestion, retryAccepts, retryQuestion } from './generators-packets'
@@ -20,6 +23,7 @@ registerPacketsArt()
 registerGatesArt()
 registerLookupArt()
 registerRouteArt()
+registerPrivacyArt()
 
 export const island: IslandDef = {
   id: 'networks',
@@ -58,6 +62,10 @@ export const island: IslandDef = {
     {
       id: 'networks.web', title: 'מְבַקְּשִׁים דַּף', grade: 5, requires: ['networks.dns'], sticker: '📚', describeItem: describeWeb,
       games: [defineGame({ id: 'web', title: 'מָה הַסִּפְרִיָּה עוֹנָה?', icon: '📚', component: PickGame, generate: webQuestion, accepts: webAccepts })],
+    },
+    {
+      id: 'networks.privacy', title: 'הוֹדָעָה נְעוּלָה', grade: 6, requires: ['networks.delivery'], sticker: '🔒', describeItem: describePrivacy,
+      games: [defineGame({ id: 'privacy', title: 'מִי רוֹאֶה מָה?', icon: '🔒', component: PrivacyGame, generate: privacyQuestion, accepts: privacyAccepts })],
     },
   ],
 }

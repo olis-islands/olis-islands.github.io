@@ -205,3 +205,40 @@ test('web request: a full round answering with the exact page or "not found"; tw
   }
   await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
 })
+
+test('route: a full round solved from the map’s description; two misses bring the hint', async ({ page }) => {
+  await open(page, /לְאָן מִכָּאן/, ['networks.delivery'])
+  const computer = 'הַמַּחְשֵׁב'
+  for (let i = 0; i < 6; i++) {
+    await atQuestion(page, i)
+    const label = (await page.getByRole('img', { name: /^מַפָּה:/ }).getAttribute('aria-label'))!
+    const open = [...label.matchAll(/גֶּשֶׁר בֵּין ([^:.]+) וּבֵין ([^:.]+): פָּתוּחַ\./g)].map(m => [m[1]!, m[2]!] as const)
+    const gets = (start: string) => {
+      const seen = new Set([start])
+      const queue = [start]
+      while (queue.length) {
+        const at = queue.shift()!
+        if (at === computer) return true
+        for (const [a, b] of open) {
+          const next = a === at ? b : b === at ? a : undefined
+          if (next && !seen.has(next)) { seen.add(next); queue.push(next) }
+        }
+      }
+      return false
+    }
+    const labels = await page.locator('.pk-opt').evaluateAll(els => els.map(e => e.getAttribute('aria-label') ?? ''))
+    const right = labels.filter(gets)
+    expect(right).toHaveLength(1)
+    if (i === 0) {
+      for (const wrong of labels.filter(l => l !== right[0])) {
+        await page.getByRole('button', { name: wrong, exact: true }).click()
+        await expect(page.getByRole('button', { name: wrong, exact: true })).toBeDisabled()
+      }
+      await expect(page.locator('.pk-hint')).toBeVisible()
+    }
+    await page.getByRole('button', { name: right[0], exact: true }).focus()
+    await page.keyboard.press('Enter')
+    await expect(page.locator('.pk-opt.ok')).toHaveCount(1)
+  }
+  await expect(page.getByRole('button', { name: 'שחקו שוב' })).toBeVisible()
+})

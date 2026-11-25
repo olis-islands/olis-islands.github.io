@@ -8,6 +8,7 @@ import type { Address, RuleKind, Shape } from './types'
 //   delivery slice content/addresses.ts SHAPES, NUMBERS · generators.ts deliveryQuestion, deliveryAccepts · art.tsx
 //   T2 packets     generators-packets.ts packetsQuestion, retryQuestion (+ accepts, describe) · art-packets.tsx
 //   T3 firewall    generators-gates.ts firewallQuestion, firewallAccepts, describeFirewall · art-gates.tsx
+//   T5 route       route.ts (board logic) · generators-route.ts routeQuestion, routeAccepts · art-route.tsx
 //   T4 lookup      content/lookup.ts · generators-lookup.ts dnsQuestion, webQuestion (+ accepts, describe) · art-lookup.tsx
 // Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
@@ -32,6 +33,8 @@ export const N = {
   pageAbout: 'networks.ui.pageAbout', // "דַּף עַל", then a topic
   notFound: 'networks.ui.notFound', //   "הַדַּף לֹא נִמְצָא"
   hintWeb: 'networks.hint.web',
+  route: 'networks.q.route', //          "הַהוֹדָעָה בַּצֹּמֶת. לְאָן לִשְׁלֹחַ אוֹתָהּ …"
+  hintRoute: 'networks.hint.route',
   sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
   receiver: 'networks.ui.receiver', //   "מְקַבֵּל"
 } as const

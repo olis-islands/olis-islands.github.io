@@ -125,6 +125,14 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   to a next hop; it does not necessarily see the whole path. This puzzle's complete map is a teaching
   aid, not a claim about a real router's knowledge.
 - **Key/review:** `networks.route:<board-id>`; yes. Use an island board if shared pick art cannot convey the graph.
+- **As built (T5):** `PickGame` with a drawn map, no island board. The crossroads (✉️) is on the right, the computer on
+  the left; three choices (named by shapes) lead through numbered stops 1–3 over bridges. An open bridge is a solid
+  line; a closed one is red, dashed and crossed (✕), so color is never the only cue. The map's accessible name lists
+  every bridge and whether it is open, names the stops in words ("תַּחֲנָה 1"), and says that the ways from the
+  crossroads to the shapes are always open and that no other bridges exist (content review). Boards are generated, not authored: every board has exactly one choice that
+  gets through, every choice has a bridge, and at least one wrong choice is stopped by a closed bridge (not only a
+  dead end). Paths never go back through the crossroads. Key `networks.route:<12 bridge states>:<three shapes>`;
+  a due review redraws the same board.
 
 ### 3. Packet shells (`packets`)
 
@@ -345,7 +353,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
 | T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx`, `content/help.ts` + `help.test.ts` (firewall and its Oli help) | T0 | ✅ built, content reviewed, awaiting play-test |
 | T4 | Planner | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ✅ built, awaiting content review and play-test |
-| T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
+| T5 | Planner | `route.ts` (board logic), `generators-route.ts`, `route.test.ts`, `art-route.tsx` | T0 | ✅ built, awaiting content review and play-test |
 | T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
 | T7 | Builder | `content/detective.ts`, `DetectiveBoard.tsx` + test, `detective.css` | T0 | ⬜ |
 | Tn | Planner + reviewer | `index.ts`, `phrases.ts`, `ids.ts`, `e2e/networks.spec.ts`, full content review, screenshots, docs | each of T2–T7, merged one at a time | per slice |

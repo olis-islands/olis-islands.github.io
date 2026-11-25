@@ -35,3 +35,12 @@ export interface Place { noun: string; kind: string }
 export type DnsQ = PickQ
 /** Web request: the answer is the requested page's topic id, or 'not-found'. */
 export type WebQ = PickQ
+
+/** Route: a choice (A, B, C, next to the crossroads), a middle stop (X, Y, Z) or the destination computer (D). */
+export type RouteNode = 'A' | 'B' | 'C' | 'X' | 'Y' | 'Z' | 'D'
+/** A bridge on the map: absent, open or closed. */
+export type BridgeState = 'none' | 'open' | 'closed'
+/** A route board: the state of every possible bridge (in ROUTE_EDGES order) and the shape that names each choice. */
+export interface RouteBoard { bridges: readonly BridgeState[]; names: Readonly<Record<'A' | 'B' | 'C', Shape>> }
+/** Route: the answer is the choice's shape id. */
+export type RouteQ = PickQ

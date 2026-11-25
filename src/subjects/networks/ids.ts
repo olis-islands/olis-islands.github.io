@@ -8,6 +8,7 @@ import type { Address, RuleKind, Shape } from './types'
 //   delivery slice content/addresses.ts SHAPES, NUMBERS · generators.ts deliveryQuestion, deliveryAccepts · art.tsx
 //   T2 packets     generators-packets.ts packetsQuestion, retryQuestion (+ accepts, describe) · art-packets.tsx
 //   T3 firewall    generators-gates.ts firewallQuestion, firewallAccepts, describeFirewall · art-gates.tsx
+//   T4 lookup      content/lookup.ts · generators-lookup.ts dnsQuestion, webQuestion (+ accepts, describe) · art-lookup.tsx
 // Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
 export const N = {
@@ -23,6 +24,14 @@ export const N = {
   hintFirewall: 'networks.hint.firewall',
   allow: 'networks.ui.allow', //         "נִכְנֶסֶת"
   block: 'networks.ui.block', //         "נֶעֱצֶרֶת"
+  dns: 'networks.q.dns', //              "הַמַּחְשֵׁב צָרִיךְ אֶת הַכְּתֹבֶת שֶׁל", then the place's name
+  dnsFind: 'networks.q.dnsFind', //      "חַפְּשׂוּ אוֹתָהּ בְּסֵפֶר הַכְּתֹבוֹת."
+  hintDns: 'networks.hint.dns',
+  web: 'networks.q.web', //              "הַמַּחְשֵׁב בִּקֵּשׁ מֵהַסִּפְרִיָּה:", then the request
+  webAnswer: 'networks.q.webAnswer', //  "אֵלֶּה הַדַּפִּים שֶׁיֵּשׁ בַּסִּפְרִיָּה. מָה הִיא עוֹנָה?", over the options
+  pageAbout: 'networks.ui.pageAbout', // "דַּף עַל", then a topic
+  notFound: 'networks.ui.notFound', //   "הַדַּף לֹא נִמְצָא"
+  hintWeb: 'networks.hint.web',
   sender: 'networks.ui.sender', //       "שׁוֹלֵחַ"
   receiver: 'networks.ui.receiver', //   "מְקַבֵּל"
 } as const
@@ -37,3 +46,8 @@ export const addressPhrase = (a: Address) => [shapePhrase(a.shape), numberPhrase
 export const addressId = (a: Address) => `${a.shape}-${a.n}`
 /** A gate rule's opening words, completed by a shape: "הַשַּׁעַר עוֹצֵר חֲבִילוֹת שֶׁהַשּׁוֹלֵחַ שֶׁלָּהֶן הוּא" + "כּוֹכָב". */
 export const rulePhrase = (kind: RuleKind) => `networks.rule.${kind}`
+/** A place name's two words. */
+export const placeNounPhrase = (id: string) => `networks.place.${id}`
+export const placeKindPhrase = (id: string) => `networks.placeKind.${id}`
+/** A web page's topic ("צָבִים"). */
+export const topicPhrase = (id: string) => `networks.topic.${id}`

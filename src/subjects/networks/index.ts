@@ -3,9 +3,11 @@ import { PickGame } from '../../ui/pick/PickGame'
 import { OrderGame } from '../reading/games'
 import { registerNetworksArt } from './art'
 import { registerGatesArt } from './art-gates'
+import { registerLookupArt } from './art-lookup'
 import { registerPacketsArt } from './art-packets'
 import { firewallHelp } from './content/help'
 import { deliveryAccepts, deliveryQuestion, describeDelivery } from './generators'
+import { describeDns, describeWeb, dnsAccepts, dnsQuestion, webAccepts, webQuestion } from './generators-lookup'
 import { describeFirewall, firewallAccepts, firewallQuestion } from './generators-gates'
 import { describePackets, describeRetry, packetsAccepts, packetsQuestion, retryAccepts, retryQuestion } from './generators-packets'
 import { phrases } from './phrases'
@@ -14,6 +16,7 @@ import { phrases } from './phrases'
 registerNetworksArt()
 registerPacketsArt()
 registerGatesArt()
+registerLookupArt()
 
 export const island: IslandDef = {
   id: 'networks',
@@ -40,6 +43,14 @@ export const island: IslandDef = {
     {
       id: 'networks.firewall', title: 'הַכְּלָלִים שֶׁל הַשַּׁעַר', grade: 4, requires: ['networks.delivery'], sticker: '🚪', describeItem: describeFirewall,
       games: [defineGame({ id: 'firewall', title: 'נִכְנֶסֶת אוֹ נֶעֱצֶרֶת?', icon: '🚪', component: PickGame, generate: firewallQuestion, accepts: firewallAccepts, help: firewallHelp })],
+    },
+    {
+      id: 'networks.dns', title: 'סֵפֶר הַכְּתֹבוֹת', grade: 5, requires: ['networks.delivery'], sticker: '🔎', describeItem: describeDns,
+      games: [defineGame({ id: 'dns', title: 'מָה הַכְּתֹבֶת?', icon: '🔎', component: PickGame, generate: dnsQuestion, accepts: dnsAccepts })],
+    },
+    {
+      id: 'networks.web', title: 'מְבַקְּשִׁים דַּף', grade: 5, requires: ['networks.dns'], sticker: '📚', describeItem: describeWeb,
+      games: [defineGame({ id: 'web', title: 'מָה הַסִּפְרִיָּה עוֹנָה?', icon: '📚', component: PickGame, generate: webQuestion, accepts: webAccepts })],
     },
   ],
 }

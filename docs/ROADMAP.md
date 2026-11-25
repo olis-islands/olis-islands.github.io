@@ -106,7 +106,7 @@ arrow-card programs on a board, debugging and repeat loops (grades 1–2).
 - **Pilot:** clock-setting games, including hour-only mode. The user approved `docs/specs/oli-help.md`; other clock games, including Oli's day, are outside the pilot.
 - **Fairness:** opening or using help does not penalize stars or mastery. Preserve existing automatic aids.
 - **Rollout:** user play-tests the pilot; then audit and expand to other games one at a time. The earlier parent-only free-text help idea is deferred.
-- **Status:** mapping, spec and approval ✅ · pilot build and verification ✅ · user play-test ⏳ · other games ⬜.
+- **Status:** mapping, spec and approval ✅ · pilot build and verification ✅ · user play-test ⏳ · networks firewall ✅ (owner's choice, 2026-11-22) · other games ⬜.
 
 ## Stage 8b – Coding island: grades 3 – 6 ✅ merged
 Spec `docs/specs/coding-grade3-6.md` approved 2026-11-16. Eight skills, including binary, sorting and
@@ -115,8 +115,8 @@ searching, were merged in PR #20; shortest paths are out. User play-test remains
 ## Networks island – building in slices 🟡
 `docs/specs/networks.md`, approved 2026-11-20 (D28): nine offline games for grades 1–6, using international
 references as permitted by D26. One PR per game or per two related games.
-T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ built · T3 firewall ⬜ ·
-T4 name lookup + web ⬜ · T5 route ⬜ · T6 privacy ⬜ · T7 detective ⬜ · content review ⏳ · user play-test ⏳.
+T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ PR #29 · T3 firewall (grade 4) + Oli's help ✅ PR #30 ·
+T4 name lookup + web ⬜ · T5 route ⬜ · T6 privacy ⬜ · T7 detective ⬜ · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
 
 ## Future – Light/dark theme toggle ⬜
 

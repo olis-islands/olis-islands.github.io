@@ -172,6 +172,19 @@ with exactly one correct answer unless an alternate correct answer is explicitly
 - **Aid/misconception:** Re-read the rule and the packet's relevant label without saying the outcome.
   A firewall is not perfect protection, and this one-rule model does not describe every firewall.
 - **Key/review:** `networks.firewall:<scenario-id>`; yes; prefer `PickGame`.
+- **As built (T3):** `PickGame`. The places are the four colored shapes. A packet card shows its sender (שׁוֹלֵחַ)
+  and receiver (מְקַבֵּל), never the same. The rule is one readable, spoken sentence ending in a shape, with a
+  small card showing the field it checks and that shape: let in only packets to/from a shape, or stop packets
+  to/from a shape. Options are always "נִכְנֶסֶת" ✅ then "נֶעֱצֶרֶת" ⛔. The generator picks the rule kind first and
+  then the outcome, so every kind lets the packet in half of the time and the wording never predicts the
+  answer. In about half of the possible cases the rule's shape sits in the field the rule does not check, which
+  catches a child who only looks for the shape. All 192 items; key
+  `networks.firewall:<kind>-<shape>:<from>-<to>`.
+  The block rules say "רַק" ("הַשַּׁעַר עוֹצֵר רַק חֲבִילוֹת …"), like the allow rules, so it is clear that every
+  other packet goes in (content review).
+  **Help: Oli's FAQ, engine unchanged.** The engine turns the spoken aid on after two misses in a row and a
+  correct answer resets the count, so with two options `networks.hint.firewall` is never heard. On the owner's
+  decision (2026-11-22) the game keeps two options and gets Oli's help instead (see "Oli help" below).
 
 ### 6. Name lighthouse (`dns`)
 
@@ -224,6 +237,21 @@ with exactly one correct answer unless an alternate correct answer is explicitly
   order of the checks. The independent test results are a puzzle abstraction: a real end-to-end
   failure can have multiple causes and does not always make every other stage independently testable.
 - **Key/review:** `networks.diagnose:<scenario-id>`; yes; use an island board with button-based inspection.
+
+## Oli help (D25)
+
+Owner's decision, 2026-11-22: the networks games get Oli's help in the clock-pilot pattern (`docs/specs/oli-help.md`),
+starting with the firewall. D25 planned the clock pilot's play-test before any expansion; the owner chose to expand
+now. No core or UI change: the island sets `help` on the game, and `PlayScreen` already shows the menu.
+
+- One help file for the island: `src/subjects/networks/content/help.ts`, entries by game. Offline and text only:
+  answers are never spoken or recorded. The same menu replays the spoken instruction. Questions keep nikud;
+  answers have none. Opening help never counts as an attempt and never changes stars, mastery or the aid.
+- **Firewall** (built): how to play; who is the sender and who is the receiver; what the gate does (it also names
+  "חומת אש" as the real-world term, simplified); what "רַק" means for this rule (allow or block); and a clue naming
+  the one field this rule checks. Help depends only on the rule, never on the packet or the outcome (tested).
+- **Delivery, packets and retry: follow-up**, one game at a time after the firewall help is play-tested, as D25
+  intends. Each needs about three entries in the same file.
 
 ## Technical and accessibility constraints
 
@@ -301,7 +329,7 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 | T0 | Planner | `src/subjects/networks/{types,ids,phrases,index}.ts`, `src/app/phrases.ts` (`app.island.networks`), `src/ui/theme.css` (`--net`), `src/ui/pick/PickGame.tsx` + `PickGame.test.tsx` (a drawing option said in parts is named by all its parts), `src/app/islands.test.ts`, `e2e/map.spec.ts` (four advanced islands) | — | ✅ |
 | T1d | Planner | `content/addresses.ts`, `generators.ts`, `generators.test.ts`, `art.tsx`, `e2e/networks.spec.ts` | T0 | ✅ built, awaiting content review and play-test |
 | T2 | Planner | `content/labels.ts`, `generators-packets.ts` + test, `art-packets.tsx` (packets and retry) | T0 | ✅ built, awaiting content review and play-test |
-| T3 | Builder | `content/gates.ts`, `generators-gates.ts` + test (firewall) | T0 | ⬜ |
+| T3 | Planner | `generators-gates.ts` + test, `art-gates.tsx`, `content/help.ts` + `help.test.ts` (firewall and its Oli help) | T0 | ✅ built, content reviewed, awaiting play-test |
 | T4 | Builder | `content/lookup.ts`, `generators-lookup.ts` + test, `art-lookup.tsx` (DNS and web) | T0 | ⬜ |
 | T5 | Builder | `content/routes.ts`, `route.ts` (graph logic) + test, `RouteBoard.tsx` + test, `route.css` | T0 | ⬜ |
 | T6 | Builder | `content/privacy.ts`, `generators-privacy.ts` + test, `art-privacy.tsx` | T0 | ⬜ |
@@ -310,6 +338,9 @@ Shared files (`index.ts`, `phrases.ts`, `ids.ts`, `types.ts`) are edited only by
 
 Builders request new phrase IDs or types in `docs/requests/`; the planner adds them to the shared files.
 Content for each slice gets the full content review (FEATURE-GUIDE §5) before it is wired.
+
+**Terms to check with a teacher before release** (content review): חֲבִילָה (packet), מְקַבֵּל (receiver; the formal
+term is נִמְעָן) and שׁוֹלֵחַ (sender).
 
 ## Out of scope
 

@@ -86,6 +86,7 @@ function Settings({ child }: { child: Profile }) {
         <input type="checkbox" checked={child.autoSpeak} onChange={e => save({ autoSpeak: e.target.checked })} />
         השמעה אוטומטית של הוראות (מומלץ לילדים שעוד לא קוראים)
       </label>
+      <p className="pr-hint">אין קול? בדקו שמצב שקט של הטלפון כבוי ושהעוצמה למעלה.</p>
       <p className="pr-done" role="status">{done}</p>
       <div className="pr-row">
         <button type="button" className="pill" onClick={() => setConfirm('reset')}>אפס התקדמות</button>

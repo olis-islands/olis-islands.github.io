@@ -80,7 +80,8 @@ GameProps<Q>{ question: Q, aid: boolean, onAttempt(correct: boolean) }
 - Show text from `phrases[id]` rather than repeating the Hebrew string in JSX.
 - A recording plays through Web Audio (trimmed); if this browser cannot decode it, through one shared `<audio>`
   element; if that fails too, the browser voice reads the phrase's text. A child never gets silence.
-- Phones block sound until a tap. `AudioGate` covers the app while `audioLocked()`; its tap calls `unlockAudio`,
+- Phones block sound until a tap. The first screen has a speaker button beside Oli, and `AudioGate` (renderless)
+  listens for the first `click`, `touchend` or `keydown` while `audioLocked()` and calls `unlockAudio`,
   which issues every unlock call synchronously (iOS forgets the tap at the first `await`), then says the instruction
   that was held back, or Oli's greeting. On iOS it also sets `navigator.audioSession.type = 'playback'` so the
   silent switch does not mute the app.

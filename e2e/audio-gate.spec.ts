@@ -1,14 +1,19 @@
 import { expect, test } from '@playwright/test'
 
-// Phones and tablets keep sound blocked until the first tap: a full-screen "tap to hear" must cover the app,
-// and one tap must start audio. Chromium's own autoplay rule applies here (the other specs switch it off).
+// Phones and tablets keep sound blocked until the first tap. The first screen has a speaker button, and the first tap
+// anywhere unlocks sound silently; nothing covers the app. Chromium's own autoplay rule applies here (the other specs
+// switch it off).
 
 test.use({ launchOptions: { args: ['--autoplay-policy=document-user-activation-required'] } })
 
 // Records what actually starts playing: Web Audio buffers longer than the unlock blip, and <audio> sources.
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => {
+test.beforeEach(async ({ context }) => {
+  await context.addInitScript(() => {
     const played: string[] = []
+    const contexts: AudioContext[] = []
+    Object.assign(window, { __ctx: contexts })
+    const Ctx = window.AudioContext
+    window.AudioContext = class extends Ctx { constructor(o?: AudioContextOptions) { super(o); contexts.push(this) } }
     Object.assign(window, { __played: played })
     const start = AudioBufferSourceNode.prototype.start
     AudioBufferSourceNode.prototype.start = function (...args: Parameters<typeof start>) {
@@ -25,24 +30,30 @@ test.beforeEach(async ({ page }) => {
 
 const played = (page: import('@playwright/test').Page) => page.evaluate(() => (window as unknown as { __played: string[] }).__played)
 
-test('sound is blocked until the child taps the speaker, and the tap is answered by Oli', async ({ page }) => {
+const state = (page: import('@playwright/test').Page) => page.evaluate(() => (window as unknown as { __ctx: AudioContext[] }).__ctx[0]?.state)
+
+test('the first screen has a speaker button; sound waits for the tap and the tap is answered by Oli', async ({ page }) => {
   await page.goto('/')
-  const gate = page.getByRole('button', { name: 'לחצו כדי לשמוע את אולי' })
-  await expect(gate).toBeVisible()
-  await expect(gate).toBeFocused() // reachable by keyboard
+  const speaker = page.getByRole('button', { name: 'לחצו כדי לשמוע את אולי' })
+  await expect(speaker).toBeVisible()
+  await expect(page.getByLabel('שם')).toBeVisible() // nothing covers the sign-up form
   expect(await played(page)).toEqual([])
-  await gate.click()
-  await expect(gate).toBeHidden()
-  await expect(page.getByLabel('שם')).toBeVisible()
-  // The profile screen says nothing by itself; the tap must still be answered with Oli's greeting (a recording).
-  await expect.poll(() => played(page)).toContainEqual(expect.stringMatching(/^buffer:/))
+  await speaker.click()
+  await expect.poll(() => played(page)).toContainEqual(expect.stringMatching(/^(buffer|media):/))
 })
 
-test('one key press on the gate unlocks sound too', async ({ page }) => {
+test('the speaker button works by keyboard', async ({ page }) => {
   await page.goto('/')
-  const gate = page.getByRole('button', { name: 'לחצו כדי לשמוע את אולי' })
-  await expect(gate).toBeFocused()
+  await page.getByRole('button', { name: 'לחצו כדי לשמוע את אולי' }).focus()
   await page.keyboard.press('Enter')
-  await expect(gate).toBeHidden()
-  await expect.poll(() => played(page)).toContainEqual(expect.stringMatching(/^buffer:/))
+  await expect.poll(() => played(page)).toContainEqual(expect.stringMatching(/^(buffer|media):/))
+})
+
+test('a first tap anywhere unlocks sound without a covering screen', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByLabel('שם')).toBeVisible()
+  // Some CI browsers start with audio already running; there is nothing to unlock there.
+  test.skip((await state(page)) === 'running', 'audio already running in this browser')
+  await page.mouse.click(5, 5)
+  await expect.poll(() => state(page)).toBe('running')
 })

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStore } from '../../core/storage/store'
 import { GRADE_NAMES, gradeName, type Grade } from '../../core/engine/types'
 import { Mascot } from '../../ui/Mascot'
+import { unlockAudio } from '../../core/audio/audio'
+import '../hear-oli.css'
 
 export const AVATARS = ['🦊', '🐼', '🐯', '🐸', '🐵', '🦄', '🐙', '🐶', '🐱', '🐰', '🦁', '🐨']
 
@@ -12,15 +14,21 @@ export function ProfileScreen() {
   const [adding, setAdding] = useState(profiles.length === 0)
 
   const choose = async (id: string) => {
+    unlockAudio() // inside the tap, before any await
     await selectProfile(id)
     navigate('/')
   }
 
   return (
     <>
-      <Mascot mood="happy" line={adding ? "app.hello" : "app.who"} />
+      <div className="hear-oli-row">
+        <Mascot mood="happy" line={adding ? "app.hello" : "app.who"} />
+        {/* Sound is blocked until a tap on phones: a big speaker, no text, says the line and unlocks audio. */}
+        <button type="button" className="hear-oli" aria-label="לחצו כדי לשמוע את אולי"
+          onClick={() => unlockAudio(adding ? 'app.hello' : 'app.who')}>🔊</button>
+      </div>
       {adding
-        ? <NewProfile onCancel={profiles.length ? () => setAdding(false) : undefined} onSave={async p => { await createProfile(p); navigate('/') }} />
+        ? <NewProfile onCancel={profiles.length ? () => setAdding(false) : undefined} onSave={async p => { unlockAudio(); await createProfile(p); navigate('/') }} />
         : (
           <div className="grid" style={{ marginTop: 24 }}>
             {profiles.map(p => (

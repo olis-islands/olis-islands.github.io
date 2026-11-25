@@ -1,0 +1,9 @@
+.hear-oli-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.hear-oli {
+  display: grid; place-items: center; flex-shrink: 0;
+  min-width: var(--tap); min-height: var(--tap); padding: 12px 22px;
+  border: 0; border-radius: var(--radius); cursor: pointer;
+  background: var(--abc); color: var(--on-accent);
+  font-size: 40px; line-height: 1;
+}
+.hear-oli:focus-visible { outline: 4px solid var(--sun); outline-offset: 4px; }

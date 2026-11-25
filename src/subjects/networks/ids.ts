@@ -6,11 +6,18 @@ import type { Address, Shape } from './types'
 // Exports by task:
 //   T0 (planner)   types.ts, ids.ts, phrases.ts, index.ts
 //   delivery slice content/addresses.ts SHAPES, NUMBERS · generators.ts deliveryQuestion, deliveryAccepts · art.tsx
+//   T2 packets     generators-packets.ts packetsQuestion, retryQuestion (+ accepts, describe) · art-packets.tsx
+// Text that is only read by screen readers, never spoken, lives in content/labels.ts (nothing to record).
 
 export const N = {
   delivery: 'networks.q.delivery', //    "לְאֵיזֶה מַחְשֵׁב הַהוֹדָעָה צְרִיכָה לְהַגִּיעַ?"
   hintAddress: 'networks.hint.address', // "הַכְּתֹבֶת … צוּרָה וּמִסְפָּר …"
   address: 'networks.ui.address', //     "הַכְּתֹבֶת הִיא", followed by a shape and a number
+  packets: 'networks.q.packets', //      "הַהוֹדָעָה הִגִּיעָה בַּחֲבִילוֹת …"
+  packet: 'networks.ui.packet', //       "חֲבִילָה", followed by a number
+  retry3: 'networks.q.retry3', //        "הַמַּחְשֵׁב חִכָּה לְשָׁלוֹשׁ חֲבִילוֹת …"
+  retry4: 'networks.q.retry4', //        "… לְאַרְבַּע חֲבִילוֹת …"
+  hintRetry: 'networks.hint.retry', //   "הַשְׁווּ אֶת הַשּׁוּרָה הָעֶלְיוֹנָה …"
 } as const
 
 /** A shape's name ("עִגּוּל"); the same text as the thinking island's shapes, so one recording serves both. */

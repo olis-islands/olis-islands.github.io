@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
 import { phrases, say } from '../../core/audio/audio'
 import type { GameProps, PhraseRef } from '../../core/engine/types'
 import { ArtView } from './art'
@@ -69,7 +69,11 @@ function optionFace(o: PickOption, speaker = false) {
     case 'text': return o.lang === 'en'
       ? <span className="en-text pk-opt-name" dir="ltr">{o.label}</span>
       : <span className="he-text pk-opt-name" dir="rtl">{o.label}</span>
-    case 'number': return <span className={`pk-opt-number digi${o.label.length >= 4 && !o.label.includes('/') ? ' long' : ''}`} dir="ltr"><MathText text={o.label} /></span>
+    case 'number': {
+      const long = o.label.length >= 4 && !o.label.includes('/')
+      // `--len` lets the CSS shrink a long number (30,000,000) to the width of its box.
+      return <span className={`pk-opt-number digi${long ? ' long' : ''}`} style={long ? { '--len': o.label.length } as CSSProperties : undefined} dir="ltr"><MathText text={o.label} /></span>
+    }
     case 'objects': return <Objects group={o.group} size={30} />
     case 'art': return <ArtView art={o.art} size={96} />
     case 'letter': return <span className={`${o.lang === 'en' ? 'en-letter' : 'he-letter'} pk-opt-letter`} dir={o.lang === 'en' ? 'ltr' : undefined}>{o.label}</span>

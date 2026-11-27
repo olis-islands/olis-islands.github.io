@@ -84,7 +84,7 @@ function Settings({ child }: { child: Profile }) {
       </label>
       <label className="pr-check">
         <input type="checkbox" checked={child.autoSpeak} onChange={e => save({ autoSpeak: e.target.checked })} />
-        השמעה אוטומטית של הוראות (מומלץ לילדים שעוד לא קוראים)
+        השמעה אוטומטית של הוראות (מומלץ; אפשר לכבות לילדים שקוראים לבד)
       </label>
       <p className="pr-hint">אין קול? בדקו שמצב שקט של הטלפון כבוי ושהעוצמה למעלה.</p>
       <p className="pr-done" role="status">{done}</p>

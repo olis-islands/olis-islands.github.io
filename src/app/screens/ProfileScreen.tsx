@@ -60,7 +60,7 @@ function NewProfile({ onSave, onCancel }: NewProfileProps) {
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
-    if (name.trim()) onSave({ name: name.trim(), avatar, grade, autoSpeak: grade <= 2 })
+    if (name.trim()) onSave({ name: name.trim(), avatar, grade, autoSpeak: true })
   }
 
   return (

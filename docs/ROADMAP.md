@@ -118,6 +118,32 @@ references as permitted by D26. One PR per game or per two related games.
 T0 ✅ · T1d delivery (grade 1) ✅ PR #28 · T2 packets (grade 3) + retry (grade 4) ✅ PR #29 · T3 firewall (grade 4) + Oli's help ✅ PR #30 ·
 T4 name lookup + web (grade 5) ✅ PR #32 · T5 route (grade 3) ✅ PR #33 · T6 privacy (grade 6) ✅ PR #34 · T7 detective (grade 6) ✅ built · content review of T1d–T3 ✅ (fixes applied) · user play-test ⏳.
 
+## Future – Suggest another game after five rounds ⬜
+
+After a child has played the same game five times in a row, a pop-up asks whether to switch to another game.
+It appears only after the stars of the round are shown. Two big buttons: one goes back to the island, one stays
+and plays again. Needs a short spec: where the count lives (per session, not stored), what "in a row" means,
+and the spoken phrases (with phrase IDs, so Oli can say it).
+
+## Future – Parent feedback at the end of a session ⬜
+
+Needs design before any building. Questions to settle: when a session ends (leaving a game, closing the app, or a
+timeout), where the parent answers (behind the parents' gate, D18), what is asked (a few quick taps, optional), where
+the answer is stored (per profile; synced once accounts exist, D27) and how it appears in the usage statistics.
+See the stage 9 plan in `docs/specs/accounts-sync.md`.
+
+## Future – Measurement and free quality tools ⬜
+
+Decision needed first: **Google Analytics is not planned** (CLAUDE.md forbids third-party analytics for children, and
+its terms bar use on services aimed at children under 13). Usage numbers come from our own events (stage 9, D27).
+Free tools to consider, one small task each:
+- Accessibility: axe-core inside the Playwright tests (contrast, labels, keyboard); Lighthouse CI on every PR (accessibility, performance, PWA).
+- Size and speed: `size-limit` (fails a PR when the bundle grows too much); Web Vitals measured in tests, not sent anywhere.
+- Safety: Dependabot (dependency updates) and CodeQL (code scanning), both free on GitHub.
+- Look: Playwright screenshot comparison for the first screen and one game per island (light, dark, 390px).
+- Errors: a local error log shown on the parents' page; a hosted error service only if it can run without personal data.
+- Optional later, self-hosted only: Umami or GoatCounter for page counts, if we ever want numbers from guests (needs the owner's opt-in decision).
+
 ## Future – Light/dark theme toggle ⬜
 
 Add a user-facing toggle to choose the light or dark color theme. Both themes already exist and currently follow the device's color-scheme preference; placement and preference behavior need planning before implementation.
